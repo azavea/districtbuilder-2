@@ -1,0 +1,142 @@
+[
+    {
+        "id": 0,
+        "assignedDistrict": 3,
+        "population": 1238,
+        "white": 1238,
+        "black": 1238,
+        "asian": 1238,
+        "native": 1238,
+        "other": 1238
+    },
+    {
+        "id": 1,
+        "assignedDistrict": 3,
+        "population": 809,
+        "white": 809,
+        "black": 809,
+        "asian": 809,
+        "native": 809,
+        "other": 809
+    },
+    {
+        "id": 2,
+        "assignedDistrict": 7,
+        "population": 75,
+        "white": 14,
+        "black": 56,
+        "asian": 2,
+        "native": 13,
+        "other": 6
+    },
+    {
+        "id": 3,
+        "assignedDistrict": 1,
+        "population": 678,
+        "white": 278,
+        "black": 178,
+        "asian": 178,
+        "native": 98,
+        "other": 4
+    },
+    {
+        "id": 4,
+        "assignedDistrict": 1,
+        "population": 543,
+        "white": 143,
+        "black": 63,
+        "asian": 43,
+        "native": 43,
+        "other": 63
+    },
+    {
+        "id": 5,
+        "assignedDistrict": 3,
+        "population": 1457,
+        "white": 255,
+        "black": 62,
+        "asian": 311,
+        "native": 241,
+        "other": 102
+    },
+    {
+        "id": 6,
+        "assignedDistrict": 1,
+        "population": 402,
+        "white": 102,
+        "black": 122,
+        "asian": 92,
+        "native": 62,
+        "other": 2
+    },
+    {
+        "id": 7,
+        "assignedDistrict": 5,
+        "population": 975,
+        "white": 275,
+        "black": 175,
+        "asian": 145,
+        "native": 105,
+        "other": 98
+    },
+    {
+        "id": 8,
+        "assignedDistrict": 1,
+        "population": 575,
+        "white": 175,
+        "black": 175,
+        "asian": 75,
+        "native": 75,
+        "other": 75
+    },
+    {
+        "id": 9,
+        "assignedDistrict": 2,
+        "population": 385,
+        "white": 53,
+        "black": 185,
+        "asian": 25,
+        "native": 105,
+        "other": 102
+    },
+    {
+        "id": 10,
+        "assignedDistrict": 4,
+        "population": 671,
+        "white": 171,
+        "black": 271,
+        "asian": 171,
+        "native": 71,
+        "other": 91
+    },
+    {
+        "id": 11,
+        "assignedDistrict": 2,
+        "population": 559,
+        "white": 102,
+        "black": 92,
+        "asian": 95,
+        "native": 141,
+        "other": 124
+    },
+    {
+        "id": 12,
+        "assignedDistrict": 2,
+        "population": 501,
+        "white": 101,
+        "black": 121,
+        "asian": 81,
+        "native": 111,
+        "other": 125
+    },
+    {
+        "id": 13,
+        "assignedDistrict": 2,
+        "population": 680,
+        "white": 268,
+        "black": 68,
+        "asian": 68,
+        "native": 128,
+        "other": 48
+    }
+]

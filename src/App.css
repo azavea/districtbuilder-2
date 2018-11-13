@@ -1,0 +1,149 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 14px;
+  background: #283741;
+  color: #fff;
+}
+
+.App {
+  text-align: left;
+}
+
+button {
+  font-size: inherit;
+}
+
+.map {
+  position: absolute !important;
+  text-align: left;
+  top: 0;
+  left: 250px;
+  right: 0;
+  bottom: 0;
+  background: #283741;
+  outline: none;
+}
+
+.mapboxgl-canvas {
+  outline: none;
+}
+
+.button-accept {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  background: #2786c1;
+  border: none;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+.demographic {
+  height: 9px;
+  display: inline-block;
+}
+
+.demographic-0 {
+  background: #f5b470;
+}
+
+.demographic-1 {
+  background: #6ac59b;
+}
+
+.demographic-2 {
+  background: #f094c4;
+}
+
+.demographic-3 {
+  background: #c8bef2;
+}
+
+.demographic-4 {
+  background: #999999;
+}
+
+.demographics {
+  position: relative;
+  top: -4px;
+  left: 4px;
+  display: inline-block;
+  width: 40px;
+  height: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar {
+  position: absolute !important;
+  text-align: left;
+  top: 0;
+  left: 0;
+  width: 250px;
+  bottom: 0;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.item {
+  padding: 3px 15px;
+  cursor: pointer;
+  margin-left: 0px;
+  margin-right: 0;
+  border-radius: 100px;
+}
+
+.item.selected {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.item:first-child .district-color-symbol {
+  border: 1px solid #fff;
+}
+
+.district-color-symbol {
+  height: 14px;
+  width: 14px;
+  background: #ccc;
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  margin-right: 2px;
+  border-radius: 100px;
+}
+
+.district-name {
+  display: inline-block;
+  padding: 4px;
+  font-weight: 600;
+}
+
+.district-population {
+  display: inline-block;
+  padding: 4px;
+  width: 100px;
+}
+
+.unit {
+  padding: 6px 10px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
