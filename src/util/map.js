@@ -45,10 +45,14 @@ export const drawMapLayers = map => {
 	// 	type: 'raster',
 	// 	source: {
 	// 		type: 'raster',
-	// 		tiles: ['https://stamen-tiles-d.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}.png'],
-	// 		tileSize: 256
+	// 		tiles: [
+	// 			'https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
+	// 		],
+	// 		tileSize: 256,
+	// 		minzoom: 1,
+	// 		maxzoom: 13,
 	// 	},
-	// 	paint: {}
+	// 	paint: {},
 	// });
 
 	[...Array(bucketNum).keys()].forEach(key => {
@@ -64,7 +68,7 @@ export const drawMapLayers = map => {
 			},
 			paint: {
 				'fill-color': districtColorsDefault[key],
-				'fill-opacity': 1,
+				'fill-opacity': 0.4,
 			},
 		});
 	});
@@ -77,13 +81,25 @@ export const drawMapLayers = map => {
 	});
 
 	map.addLayer({
+		id: 'counties-outline',
+		type: 'line',
+		source: 'blockgroups',
+		'source-layer': 'uscounties',
+		paint: {
+			'line-color': '#000',
+			'line-opacity': 1,
+			'line-width': 1.5,
+		},
+	});
+
+	map.addLayer({
 		id: 'blockgroups-outline',
 		type: 'line',
 		source: 'blockgroups',
 		'source-layer': tileLayerName,
 		paint: {
 			'line-color': '#000',
-			'line-opacity': 0.2,
+			'line-opacity': 0.1,
 			'line-width': 1,
 		},
 	});
@@ -109,8 +125,8 @@ export const drawMapLayers = map => {
 			},
 		},
 		paint: {
-			'fill-color': '#444',
-			'fill-opacity': 0.8,
+			'fill-color': '#000',
+			'fill-opacity': 0.5,
 		},
 	});
 
@@ -125,9 +141,9 @@ export const drawMapLayers = map => {
 			},
 		},
 		paint: {
-			'line-color': '#444',
+			'line-color': '#000',
 			'line-opacity': 1,
-			'line-width': 3,
+			'line-width': 5,
 		},
 	});
 };

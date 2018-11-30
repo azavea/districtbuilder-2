@@ -14,6 +14,7 @@ class Map extends Component {
         this.map = new mapboxgl.Map({
             container: this.mapContainer,
             style: { version: 8, name: 'Empty', sources: {}, layers: [] },
+            // style: 'mapbox://styles/lknarf/cjp47wo3z15si2sk3f7mla7zz',
             center: [-75.037, 40.031],
             zoom: 14,
         });
@@ -49,7 +50,7 @@ class Map extends Component {
     });
 
     updateDistrictsMemomized = memoize(updateDistricts, {
-        max: 1,
+        max: 2,
         limit: 1,
         primitive: true,
     });

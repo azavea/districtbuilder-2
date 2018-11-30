@@ -1,4 +1,4 @@
-import { topoUrl, jsonUrl } from '../constants';
+import { topoUrl } from '../constants';
 
 export const DISTRICT_SELECTED = 'DISTRICT_SELECTED';
 export const FETCH_SPATIAL_INDEX = 'FETCH_SPATIAL_INDEX';
@@ -28,13 +28,6 @@ export const fetchTopoAndGenerateGeo = () => async (dispatch, getState) => {
 export const fetchTopoJSON = () => {
 	return async dispatch => {
 		const response = await fetch(topoUrl).then(res => res.json());
-		dispatch({ type: FETCH_TOPOJSON, payload: response });
-	};
-};
-
-export const fetchJSON = () => {
-	return dispatch => {
-		const response = fetch(jsonUrl).then(res => res.json());
 		dispatch({ type: FETCH_TOPOJSON, payload: response });
 	};
 };
