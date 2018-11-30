@@ -6,6 +6,8 @@ import { DemographicChart } from '../components/DemographicChart';
 import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
 import { selectDistrict, acceptChanges } from '../actions';
 
+import { diffColors } from '../constants/colors';
+
 import { numberWithCommas, calculatePopulationsOld, calculatePopulationsNew } from '../util';
 
 class DistrictsSidebar extends Component {
@@ -20,10 +22,6 @@ class DistrictsSidebar extends Component {
 		primitive: true,
 		length: 3,
 	});
-
-	// calculatePopulationsOldMemoized = calculatePopulationsOld;
-
-	// calculatePopulationsNewMemoized = calculatePopulationsNew;
 
 	renderList() {
 		if (this.props.assignedDistricts && this.props.geometries) {
@@ -43,18 +41,26 @@ class DistrictsSidebar extends Component {
 				const districtOld = districtsBaseData[index];
 				const color = this.props.districtColors[index];
 				const status = districtNew.id === this.props.selectedDistrict ? ' selected' : '';
+				const diff =
+					districtNew.population > 0
+						? diffColors.increase
+						: districtNew.population < 0
+						? diffColors.decrease
+						: diffColors.nochange;
 				return (
 					<div
 						className={'item' + status}
 						key={districtNew.id}
 						onClick={() => this.onSelectDistrict(districtNew.id)}
 					>
-						<DistrictColorSymbol color={color} />
-						<div className="district-name">{districtNew.name}</div>
-						<div className="district-population">
-							{numberWithCommas(districtOld.population + districtNew.population)}
+						<div className="item-container">
+							<DistrictColorSymbol color={color} />
+							<div className="district-name">{districtNew.name}</div>
+							<div className="district-population" style={{ color: diff }}>
+								{numberWithCommas(districtOld.population + districtNew.population)}
+							</div>
+							<DemographicChart districtNew={districtNew} districtOld={districtOld} />
 						</div>
-						<DemographicChart districtNew={districtNew} districtOld={districtOld} />
 					</div>
 				);
 			});

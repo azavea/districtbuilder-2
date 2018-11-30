@@ -9,9 +9,11 @@ html {
 }
 
 body {
+  font-weight: 500;
   font-size: 14px;
-  background: #283741;
-  color: #fff;
+  background: #ebf1f5;
+  color: #444;
+  font-feature-settings: 'tnum';
 }
 
 .App {
@@ -26,11 +28,14 @@ button {
   position: absolute !important;
   text-align: left;
   top: 0;
-  left: 250px;
+  left: 320px;
   right: 0;
   bottom: 0;
-  background: #283741;
+  background: #fff;
   outline: none;
+  margin: 8px;
+  border-radius: 4px;
+  box-shadow: 0 0 1px #a9acae;
 }
 
 .mapboxgl-canvas {
@@ -39,9 +44,9 @@ button {
 
 .button-accept {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: 800;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 700;
   color: #fff;
   background: #2786c1;
   border: none;
@@ -76,11 +81,11 @@ button {
 
 .demographics {
   position: relative;
-  top: -4px;
+  top: -2px;
   left: 4px;
   display: inline-block;
-  width: 40px;
-  height: 9px;
+  width: 45px;
+  height: 10px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -90,26 +95,35 @@ button {
   text-align: left;
   top: 0;
   left: 0;
-  width: 250px;
+  width: 320px;
   bottom: 0;
   padding: 15px;
   overflow-y: auto;
+  background: #fff;
+  box-shadow: 0 0 1px #a9acae;
 }
 
 .item {
-  padding: 3px 15px;
   cursor: pointer;
-  margin-left: 0px;
+  margin-left: 0;
   margin-right: 0;
-  border-radius: 100px;
+  border-bottom: 1px solid #ccc;
 }
 
-.item.selected {
-  background-color: rgba(0, 0, 0, 0.25);
+.item-container {
+  padding: 1px 5px;
+  margin: 1px -5px;
+  color: #666;
+}
+
+.item.selected .item-container {
+  background-color: #e8ebf2;
+  border-radius: 50px;
+  color: #222;
 }
 
 .item:first-child .district-color-symbol {
-  border: 1px solid #fff;
+  border: 1px solid #ccc;
 }
 
 .district-color-symbol {
@@ -126,13 +140,16 @@ button {
 .district-name {
   display: inline-block;
   padding: 4px;
-  font-weight: 600;
+  letter-spacing: -1px;
+  width: 32px;
 }
 
 .district-population {
   display: inline-block;
   padding: 4px;
   width: 100px;
+  letter-spacing: -1px;
+  text-align: right;
 }
 
 .unit {

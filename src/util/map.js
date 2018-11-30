@@ -64,7 +64,7 @@ export const drawMapLayers = map => {
 			},
 			paint: {
 				'fill-color': districtColorsDefault[key],
-				'fill-opacity': 0.5,
+				'fill-opacity': 1,
 			},
 		});
 	});
@@ -82,9 +82,9 @@ export const drawMapLayers = map => {
 		source: 'blockgroups',
 		'source-layer': tileLayerName,
 		paint: {
-			'line-color': '#fff',
-			'line-opacity': 1,
-			'line-width': 0.5,
+			'line-color': '#000',
+			'line-opacity': 0.2,
+			'line-width': 1,
 		},
 	});
 
@@ -109,7 +109,7 @@ export const drawMapLayers = map => {
 			},
 		},
 		paint: {
-			'fill-color': '#fff',
+			'fill-color': '#444',
 			'fill-opacity': 0.8,
 		},
 	});
@@ -125,9 +125,9 @@ export const drawMapLayers = map => {
 			},
 		},
 		paint: {
-			'line-color': '#fff',
+			'line-color': '#444',
 			'line-opacity': 1,
-			'line-width': 5,
+			'line-width': 3,
 		},
 	});
 };

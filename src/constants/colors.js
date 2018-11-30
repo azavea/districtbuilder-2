@@ -1,3 +1,9 @@
+export const diffColors = {
+	increase: '#2DBEAE',
+	decrease: '#F5677A',
+	nochange: '#666',
+};
+
 export const colorOptionsSmall = [
 	'transparent',
 	'#d17fe1',
