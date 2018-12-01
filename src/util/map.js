@@ -55,6 +55,43 @@ export const drawMapLayers = map => {
 	// 	paint: {},
 	// });
 
+	map.addSource('blockgroups', {
+		type: 'vector',
+		tiles: tileLocation,
+		minzoom: 0,
+		maxzoom: 14,
+	});
+
+	map.addLayer({
+		id: 'cities',
+		type: 'symbol',
+		source: 'blockgroups',
+		'source-layer': 'cityl',
+		layout: {
+			'text-size': 12,
+			'symbol-spacing': 1,
+			'text-padding': 40,
+			'text-transform': 'uppercase',
+			'text-field': '{name}',
+			'text-letter-spacing': 0.1,
+			'text-max-width': 7,
+			'text-font': ['GR'],
+		},
+		paint: {
+			'text-color': '#fff',
+			'text-opacity': 0.9,
+			'text-halo-color': {
+				base: 1,
+				stops: [[8, 'hsl(0, 1%, 10%)'], [16, 'hsl(0, 2%, 16%)']],
+			},
+			'text-halo-width': {
+				base: 1,
+				stops: [[14, 1.25], [15, 1.5]],
+			},
+			'text-halo-blur': 0,
+		},
+	});
+
 	[...Array(bucketNum).keys()].forEach(key => {
 		map.addLayer({
 			id: `district-${key}`,
@@ -71,13 +108,6 @@ export const drawMapLayers = map => {
 				'fill-opacity': 0.4,
 			},
 		});
-	});
-
-	map.addSource('blockgroups', {
-		type: 'vector',
-		tiles: tileLocation,
-		minzoom: 1,
-		maxzoom: 12,
 	});
 
 	map.addLayer({

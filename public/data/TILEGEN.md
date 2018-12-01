@@ -14,9 +14,9 @@ tippecanoe -f -o mbtiles/counties.mbtiles --detect-shared-borders --maximum-zoom
 tippecanoe -f -o mbtiles/city-l.mbtiles -zg --feature-filter='{ "*": [ "==", "statefp", "42" ] }' city-l.geojson
 tippecanoe -f -o mbtiles/city-m.mbtiles -zg --feature-filter='{ "*": [ "==", "statefp", "42" ] }' city-m.geojson
 tippecanoe -f -o mbtiles/city-s.mbtiles -zg --feature-filter='{ "*": [ "==", "statefp", "42" ] }' city-s.geojson
-tippecanoe -f -o mbtiles/town-l.mbtiles --minimum-zoom=11 --drop-densest-as-needed --feature-filter='{ "*": [ "==", "statefp", "42" ] }' town-l.geojson
-tippecanoe -f -o mbtiles/town-m.mbtiles --minimum-zoom=11 --drop-densest-as-needed --feature-filter='{ "*": [ "==", "statefp", "42" ] }' town-m.geojson
-tippecanoe -f -o mbtiles/town-s.mbtiles --minimum-zoom=12 --drop-densest-as-needed --feature-filter='{ "*": [ "==", "statefp", 42 ] }' town-s.geojson
+tippecanoe -f -o mbtiles/town-l.mbtiles -zg --drop-densest-as-needed --feature-filter='{ "*": [ "==", "statefp", "42" ] }' town-l.geojson
+tippecanoe -f -o mbtiles/town-m.mbtiles -zg --drop-densest-as-needed --feature-filter='{ "*": [ "==", "statefp", "42" ] }' town-m.geojson
+tippecanoe -f -o mbtiles/town-s.mbtiles -zg --drop-densest-as-needed --feature-filter='{ "*": [ "==", "statefp", 42 ] }' town-s.geojson
 
 tile-join -o mbtiles/combined.mbtiles mbtiles/bg.mbtiles mbtiles/counties.mbtiles mbtiles/city-l.mbtiles mbtiles/city-m.mbtiles mbtiles/city-s.mbtiles mbtiles/town-l.mbtiles mbtiles/town-m.mbtiles mbtiles/town-s.mbtiles
 

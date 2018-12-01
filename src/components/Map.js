@@ -13,10 +13,19 @@ class Map extends Component {
     componentDidMount() {
         this.map = new mapboxgl.Map({
             container: this.mapContainer,
-            style: { version: 8, name: 'Empty', sources: {}, layers: [] },
+            style: {
+                version: 8,
+                name: 'Empty',
+                sources: {},
+                layers: [],
+                glyphs:
+                    window.location.origin +
+                    window.location.pathname +
+                    '/data/fonts/{fontstack}/{range}.pbf',
+            },
             // style: 'mapbox://styles/lknarf/cjp47wo3z15si2sk3f7mla7zz',
-            center: [-75.037, 40.031],
-            zoom: 14,
+            center: [-78.037, 40.031],
+            zoom: 6,
         });
 
         this.map.doubleClickZoom.disable();
