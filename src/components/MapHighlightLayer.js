@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import mapboxgl from 'mapbox-gl';
 import { connect } from 'react-redux';
 import memoize from 'memoizee';
 import './mapbox-gl.css';
 
 import { updateHighlight } from '../util';
-
-mapboxgl.accessToken = 'pk.eyJ1IjoibGtuYXJmIiwiYSI6IjhjbGg4RUkifQ.-lS6mAkmR3SVh-W4XwQElg';
 
 class MapHighlightLayer extends Component {
   updateHighlightMemoized = memoize(updateHighlight, {
