@@ -23,7 +23,7 @@ export const bucketNum = districtNum + 1;
 
 export const districts = [...Array(bucketNum).keys()];
 
-export const districtColorsDefault = [...Array(bucketNum).keys()].map(key => {
+export const districtColors = [...Array(bucketNum).keys()].map(key => {
 	return colorOptionsSmall[key];
 });
 

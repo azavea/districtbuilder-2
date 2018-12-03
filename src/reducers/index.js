@@ -15,7 +15,7 @@ import {
 
 import { generateSpatialIndex } from '../util';
 
-import { topoObjectName, districtsTemplate, districtColorsDefault } from '../constants';
+import { topoObjectName, districtsTemplate, districtColors } from '../constants';
 
 const selectedDistrictReducer = (selectedDistrict = 1, action) => {
 	switch (action.type) {
@@ -35,7 +35,7 @@ const regionTopoJSONReducer = (topoJSON = null, action) => {
 	}
 };
 
-const districtColorsReducer = (colors = districtColorsDefault, action) => {
+const districtColorsReducer = (colors = districtColors, action) => {
 	switch (action.type) {
 		case 'LOAD_COLORS':
 			return colors;

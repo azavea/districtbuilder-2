@@ -18,17 +18,24 @@ class MapDrawHandler extends Component {
     });
 
     this.props.map.addControl(this.Draw);
+
+    this.props.map.on('draw.update', function(e) {
+      console.log('update', e);
+    });
+    this.props.map.on('draw.create', function(e) {
+      console.log('create', e);
+    });
   }
   render() {
-    console.log('rendddder');
-    console.log('MapDrawHandler Render');
     if (this.props.drawMode === 'Pointer') {
       this.props.map.on('click', 'blockgroups-fill', this.props.onClickGeounit);
+      this.props.map.getCanvas().style.cursor = 'pointer';
     } else {
       this.props.map.off('click', 'blockgroups-fill', this.props.onClickGeounit);
     }
     if (this.props.drawMode === 'Rectangle') {
       this.Draw.changeMode('draw_rectangle');
+      this.props.map.getCanvas().style.cursor = 'crosshair';
     } else {
       this.Draw.changeMode('simple_select');
     }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import MapboxGL from 'mapbox-gl';
-import { connect } from 'react-redux';
 import './mapbox-gl.css';
 
 import MapDistrictLayer from './MapDistrictLayer';
@@ -20,14 +19,6 @@ class Map extends Component {
     });
 
     this.map.doubleClickZoom.disable();
-
-    this.map.on('mousemove', 'blockgroups-fill', e => {
-      this.map.getCanvas().style.cursor = 'pointer';
-    });
-
-    this.map.on('mouseleave', 'blockgroups-fill', e => {
-      this.map.getCanvas().style.cursor = '';
-    });
 
     // TODO: Find a better way to handle this forceUpdate. Right now I am using this to render the component
     // after the map has loaded. Otherwise, the this.map is not passed into the other components.
