@@ -24,7 +24,7 @@ button {
   font-size: inherit;
 }
 
-.map {
+.map-container {
   position: absolute !important;
   text-align: left;
   top: 0;
@@ -36,6 +36,38 @@ button {
   margin: 8px;
   border-radius: 4px;
   box-shadow: 0 0 1px #a9acae;
+}
+
+.map {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.map-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 50px;
+}
+
+.map-action {
+  background: none;
+}
+
+.map-action.selected {
+  background-color: #ccc;
+}
+
+.mapboxgl-map {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .mapboxgl-canvas {

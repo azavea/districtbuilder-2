@@ -15,8 +15,8 @@ export const calculatePopulationsNew = (
 	selectedIds,
 	selectedDistrict,
 	assignedDistricts,
-	oldDistricts,
-	geometries
+	geometries,
+	oldDistricts
 ) => {
 	console.log('Calculate Population Change');
 	const newDistricts = JSON.parse(JSON.stringify(oldDistricts));

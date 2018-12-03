@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './App.css';
 import Map from './components/Map';
 import DistrictsSidebar from './components/DistrictsSidebar';
+import MapActions from './components/MapActions';
 import { fetchTopoAndGenerateGeo } from './actions';
 
 class App extends Component {
@@ -16,7 +17,10 @@ class App extends Component {
             <div className="App">
                 <header className="App-header">
                     <DistrictsSidebar />
-                    <Map />
+                    <div className="map-container">
+                        <MapActions />
+                        <Map />
+                    </div>
                 </header>
             </div>
         );

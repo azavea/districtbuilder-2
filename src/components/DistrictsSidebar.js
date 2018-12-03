@@ -8,6 +8,8 @@ import { selectDistrict, acceptChanges } from '../actions';
 
 import { diffColors } from '../constants/colors';
 
+import { districtsTemplate } from '../constants';
+
 import { numberWithCommas, calculatePopulationsOld, calculatePopulationsNew } from '../util';
 
 class DistrictsSidebar extends Component {
@@ -28,14 +30,14 @@ class DistrictsSidebar extends Component {
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
 				this.props.assignedDistricts,
 				this.props.geometries,
-				this.props.districts
+				districtsTemplate
 			);
 			const districtsChangeData = this.calculatePopulationsNewMemoized(
 				this.props.selectedIds,
 				this.props.selectedDistrict,
 				this.props.assignedDistricts,
-				this.props.districts,
-				this.props.geometries
+				this.props.geometries,
+				districtsTemplate
 			);
 			return districtsChangeData.map((districtNew, index) => {
 				const districtOld = districtsBaseData[index];
@@ -87,10 +89,8 @@ class DistrictsSidebar extends Component {
 	}
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
 	return {
-		districts: state.districts,
-		topoJSON: state.topoJSON,
 		geometries: state.geometries,
 		selectedDistrict: state.selectedDistrict,
 		selectedIds: state.selectedIds,

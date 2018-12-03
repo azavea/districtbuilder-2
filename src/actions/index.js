@@ -12,6 +12,7 @@ export const SELECT_GEOUNIT = 'SELECT_GEOUNIT';
 export const GENERATE_HIGHLIGHT = 'GENERATE_HIGHLIGHT';
 export const LOAD_COLORS = 'LOAD_COLORS';
 export const ACCEPT_CHANGES = 'ACCEPT_CHANGES';
+export const CHANGE_DRAWMODE = 'CHANGE_DRAWMODE';
 
 export const selectDistrict = district => {
 	return {
@@ -67,6 +68,12 @@ export const generateSpatialIndex = geoJSON => {
 export const clickGeounit = e => async dispatch => {
 	const id = e.features[0].properties.id;
 	await dispatch({ type: SELECT_GEOUNIT, payload: id });
+};
+
+export const clickDrawMode = mode => {
+	return dispatch => {
+		dispatch({ type: CHANGE_DRAWMODE, payload: mode });
+	};
 };
 
 export const generateHighlight = topoJSON => {

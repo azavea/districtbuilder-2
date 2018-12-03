@@ -10,15 +10,12 @@ import {
 	GENERATE_ASSIGNED_DISTRICTS,
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
+	CHANGE_DRAWMODE,
 } from '../actions';
 
 import { generateSpatialIndex } from '../util';
 
 import { topoObjectName, districtsTemplate, districtColorsDefault } from '../constants';
-
-const districtsReducer = () => {
-	return districtsTemplate;
-};
 
 const selectedDistrictReducer = (selectedDistrict = 1, action) => {
 	switch (action.type) {
@@ -111,8 +108,16 @@ const generateSpatialIndexReducer = (geoJSON = null, action) => {
 	}
 };
 
+const drawModeReducer = (mode = 'Pointer', action) => {
+	switch (action.type) {
+		case CHANGE_DRAWMODE:
+			return action.payload;
+		default:
+			return mode;
+	}
+};
+
 export default combineReducers({
-	districts: districtsReducer,
 	selectedDistrict: selectedDistrictReducer,
 	spatialIndex: generateSpatialIndexReducer,
 	topoJSON: regionTopoJSONReducer,
@@ -121,4 +126,5 @@ export default combineReducers({
 	selectedIds: selectedIdsReducer,
 	geometries: geometriesReducer,
 	districtColors: districtColorsReducer,
+	drawMode: drawModeReducer,
 });

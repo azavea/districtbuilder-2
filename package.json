@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mapbox/mapbox-gl-draw": "^1.1.1",
+    "@turf/flatten": "^5.1.5",
     "add": "^2.0.6",
     "flatbush": "^3.1.0",
     "mapbox-gl": "^0.51.0",
+    "mapbox-gl-draw-rectangle-mode": "^1.0.3",
     "memoizee": "^0.4.14",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
