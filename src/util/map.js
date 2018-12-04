@@ -6,12 +6,16 @@ import { districts, topoObjectName, districtSourceName } from '../constants';
 
 export const updateHighlight = (selectedIds, topoJSON, map) => {
 	console.log('updateHighlight');
+
 	const allGeometries = topoJSON.objects[topoObjectName].geometries;
 	const selectedGeometries = selectedIds.map(id => allGeometries[id]);
 	const highlightGeoJSON = merge(topoJSON, selectedGeometries);
-
-	if (typeof map.getSource('highlight') !== 'undefined') {
+	if (selectedIds.length > 0) {
 		map.getSource('highlight').setData(highlightGeoJSON);
+	} else {
+		setTimeout(function() {
+			map.getSource('highlight').setData(highlightGeoJSON);
+		}, 200);
 	}
 };
 
