@@ -13,6 +13,7 @@ export const GENERATE_HIGHLIGHT = 'GENERATE_HIGHLIGHT';
 export const LOAD_COLORS = 'LOAD_COLORS';
 export const ACCEPT_CHANGES = 'ACCEPT_CHANGES';
 export const CHANGE_DRAWMODE = 'CHANGE_DRAWMODE';
+export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 
 export const selectDistrict = district => {
 	return {
@@ -65,9 +66,21 @@ export const generateSpatialIndex = geoJSON => {
 	};
 };
 
-export const clickGeounit = e => async dispatch => {
+export const clickGeounit = e => dispatch => {
 	const id = e.features[0].properties.id;
-	await dispatch({ type: SELECT_GEOUNIT, payload: id });
+	dispatch({ type: SELECT_GEOUNIT, payload: id });
+};
+
+export const rectangleSelect = rectangle => {
+	return (dispatch, getState) => {
+		const topoJSON = getState().topoJSON;
+		const geoJSON = getState().geoJSON;
+		const spatialIndex = getState().spatialIndex;
+		dispatch({
+			type: RECTANGLE_SELECT,
+			payload: { queryType: 'rectangle', rectangle, spatialIndex, topoJSON, geoJSON },
+		});
+	};
 };
 
 export const clickDrawMode = mode => {

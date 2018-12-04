@@ -13,7 +13,7 @@ export const updateHighlight = (selectedIds, topoJSON, map) => {
 	if (selectedIds.length > 0) {
 		map.getSource('highlight').setData(highlightGeoJSON);
 	} else {
-		setTimeout(function() {
+		setTimeout(() => {
 			map.getSource('highlight').setData(highlightGeoJSON);
 		}, 200);
 	}

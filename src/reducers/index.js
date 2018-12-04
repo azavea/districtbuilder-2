@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { feature } from 'topojson';
+import { bbox as turfBbox, booleanDisjoint } from '@turf/turf';
 
 import {
 	DISTRICT_SELECTED,
@@ -11,32 +12,33 @@ import {
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
 	CHANGE_DRAWMODE,
+	RECTANGLE_SELECT,
 } from '../actions';
 
 import { generateSpatialIndex } from '../util';
 
-import { topoObjectName, districtsTemplate, districtColors } from '../constants';
+import { topoObjectName, districtColors } from '../constants';
 
-const selectedDistrictReducer = (selectedDistrict = 1, action) => {
-	switch (action.type) {
+const selectedDistrictReducer = (selectedDistrict = 1, { type, payload }) => {
+	switch (type) {
 		case DISTRICT_SELECTED:
-			return action.payload;
+			return payload;
 		default:
 			return selectedDistrict;
 	}
 };
 
-const regionTopoJSONReducer = (topoJSON = null, action) => {
-	switch (action.type) {
+const regionTopoJSONReducer = (topoJSON = null, { type, payload }) => {
+	switch (type) {
 		case FETCH_TOPOJSON:
-			return action.payload;
+			return payload;
 		default:
 			return topoJSON;
 	}
 };
 
-const districtColorsReducer = (colors = districtColors, action) => {
-	switch (action.type) {
+const districtColorsReducer = (colors = districtColors, { type, payload }) => {
+	switch (type) {
 		case 'LOAD_COLORS':
 			return colors;
 		default:
@@ -44,24 +46,24 @@ const districtColorsReducer = (colors = districtColors, action) => {
 	}
 };
 
-const geoJSONReducer = (geoJSON = null, action) => {
-	switch (action.type) {
+const geoJSONReducer = (geoJSON = null, { type, payload }) => {
+	switch (type) {
 		case GENERATE_GEOJSON:
-			return feature(action.payload, action.payload.objects[topoObjectName]);
+			return feature(payload, payload.objects[topoObjectName]);
 		default:
 			return geoJSON;
 	}
 };
 
-const assignedDistrictsReducer = (assignedDistricts = null, action) => {
-	switch (action.type) {
+const assignedDistrictsReducer = (assignedDistricts = null, { type, payload }) => {
+	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
-			return action.payload.objects[topoObjectName].geometries.map(geometry => {
+			return payload.objects[topoObjectName].geometries.map(geometry => {
 				return 0;
 			});
 		case ACCEPT_CHANGES:
-			action.payload.selectedIds.forEach(id => {
-				assignedDistricts[id] = action.payload.selectedDistrict;
+			payload.selectedIds.forEach(id => {
+				assignedDistricts[id] = payload.selectedDistrict;
 			});
 			// TODO: Find better way to do immutable than JSON.parse/stringify
 			return JSON.parse(JSON.stringify(assignedDistricts));
@@ -70,10 +72,10 @@ const assignedDistrictsReducer = (assignedDistricts = null, action) => {
 	}
 };
 
-const geometriesReducer = (geometries = null, action) => {
-	switch (action.type) {
+const geometriesReducer = (geometries = null, { type, payload }) => {
+	switch (type) {
 		case GENERATE_GEOMETRIES:
-			return action.payload.objects[topoObjectName].geometries.map(geometry => {
+			return payload.objects[topoObjectName].geometries.map(geometry => {
 				return Object.assign({ assignedDistrict: 0 }, geometry.properties);
 			});
 		default:
@@ -81,15 +83,30 @@ const geometriesReducer = (geometries = null, action) => {
 	}
 };
 
-const selectedIdsReducer = (selectedIds = [], action) => {
-	switch (action.type) {
+const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
+	switch (type) {
 		case SELECT_GEOUNIT:
-			const idIndex = selectedIds.indexOf(action.payload);
+			console.log(selectedIds);
+			const idIndex = selectedIds.indexOf(payload);
 			if (idIndex < 0) {
-				return [...selectedIds, action.payload]; // Add to list
+				return [...selectedIds, payload]; // Add to list
 			} else {
 				return [...selectedIds.slice(0, idIndex), ...selectedIds.slice(idIndex + 1)]; // Remove from list
 			}
+		case RECTANGLE_SELECT:
+			const bbox = turfBbox(payload.rectangle);
+
+			const features = payload.spatialIndex
+				.search(bbox[0], bbox[1], bbox[2], bbox[3])
+				.map(i => payload.geoJSON.features[i])
+				.filter(feature => !booleanDisjoint(payload.rectangle, feature));
+
+			const collected = [
+				...new Set([...selectedIds, ...features.map(feature => feature.properties.id)]),
+			];
+
+			return collected;
+
 		case ACCEPT_CHANGES:
 			return [];
 		case DISTRICT_SELECTED:
@@ -99,19 +116,19 @@ const selectedIdsReducer = (selectedIds = [], action) => {
 	}
 };
 
-const generateSpatialIndexReducer = (geoJSON = null, action) => {
-	switch (action.type) {
+const generateSpatialIndexReducer = (geoJSON = null, { type, payload }) => {
+	switch (type) {
 		case GENERATE_SPATIAL_INDEX:
-			return generateSpatialIndex(action.payload);
+			return generateSpatialIndex(payload);
 		default:
 			return geoJSON;
 	}
 };
 
-const drawModeReducer = (mode = 'Pointer', action) => {
-	switch (action.type) {
+const drawModeReducer = (mode = 'Rectangle', { type, payload }) => {
+	switch (type) {
 		case CHANGE_DRAWMODE:
-			return action.payload;
+			return payload;
 		default:
 			return mode;
 	}

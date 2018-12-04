@@ -4,7 +4,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import DrawRectangle from 'mapbox-gl-draw-rectangle-mode';
 import './mapbox-gl.css';
 
-import { clickGeounit } from '../actions';
+import { clickGeounit, rectangleSelect } from '../actions';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
@@ -19,11 +19,21 @@ class MapDrawHandler extends Component {
 
     this.props.map.addControl(this.Draw);
 
-    this.props.map.on('draw.update', function(e) {
-      console.log('update', e);
+    this.props.map.on('draw.create', e => {
+      console.log('draw.create');
+      this.drawData = this.Draw.getAll();
+      this.props.onRectangleSelect(this.drawData.features[0]);
+      this.Draw.delete(
+        this.drawData.features.map(function(feature) {
+          return feature.id;
+        })
+      );
+      setTimeout(() => {
+        this.Draw.changeMode('draw_rectangle');
+      }, 0);
     });
-    this.props.map.on('draw.create', function(e) {
-      console.log('create', e);
+    this.props.map.on('draw.update', function(e) {
+      console.log('create');
     });
   }
   render() {
@@ -45,6 +55,7 @@ class MapDrawHandler extends Component {
 
 const mapActionsToProps = {
   onClickGeounit: clickGeounit,
+  onRectangleSelect: rectangleSelect,
 };
 
 const mapStateToProps = state => {

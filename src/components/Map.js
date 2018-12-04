@@ -31,7 +31,6 @@ class Map extends Component {
         <div ref={el => (this.mapContainer = el)} />
         {this.map && <MapDistrictLayer map={this.map} />}
         {this.map && <MapHighlightLayer map={this.map} />}
-        {this.map && <MapHighlightLayer map={this.map} />}
         {this.map && <MapDrawHandler map={this.map} />}
       </div>
     );
