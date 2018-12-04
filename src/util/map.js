@@ -10,13 +10,13 @@ export const updateHighlight = (selectedIds, topoJSON, map) => {
 	const allGeometries = topoJSON.objects[topoObjectName].geometries;
 	const selectedGeometries = selectedIds.map(id => allGeometries[id]);
 	const highlightGeoJSON = merge(topoJSON, selectedGeometries);
-	if (selectedIds.length > 0) {
-		map.getSource('highlight').setData(highlightGeoJSON);
-	} else {
-		setTimeout(() => {
+
+	setTimeout(
+		() => {
 			map.getSource('highlight').setData(highlightGeoJSON);
-		}, 200);
-	}
+		},
+		selectedIds.length === 0 ? 200 : 0
+	);
 };
 
 export const updateDistricts = (assignedDistricts, topoJSON, map) => {

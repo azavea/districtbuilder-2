@@ -22,7 +22,9 @@ class Map extends Component {
 
     // TODO: Find a better way to handle this forceUpdate. Right now I am using this to render the component
     // after the map has loaded. Otherwise, the this.map is not passed into the other components.
-    this.forceUpdate();
+    this.map.on('load', () => {
+      this.forceUpdate();
+    });
   }
 
   render() {

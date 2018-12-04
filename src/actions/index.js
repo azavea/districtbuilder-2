@@ -1,3 +1,5 @@
+import { bbox as turfBbox } from '@turf/turf';
+
 import { topoUrl } from '../constants';
 
 export const DISTRICT_SELECTED = 'DISTRICT_SELECTED';
@@ -73,12 +75,11 @@ export const clickGeounit = e => dispatch => {
 
 export const rectangleSelect = rectangle => {
 	return (dispatch, getState) => {
-		const topoJSON = getState().topoJSON;
 		const geoJSON = getState().geoJSON;
 		const spatialIndex = getState().spatialIndex;
 		dispatch({
 			type: RECTANGLE_SELECT,
-			payload: { queryType: 'rectangle', rectangle, spatialIndex, topoJSON, geoJSON },
+			payload: { queryType: 'rectangle', rectangle, spatialIndex, geoJSON },
 		});
 	};
 };

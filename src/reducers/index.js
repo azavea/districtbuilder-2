@@ -65,7 +65,6 @@ const assignedDistrictsReducer = (assignedDistricts = null, { type, payload }) =
 			payload.selectedIds.forEach(id => {
 				assignedDistricts[id] = payload.selectedDistrict;
 			});
-			// TODO: Find better way to do immutable than JSON.parse/stringify
 			return JSON.parse(JSON.stringify(assignedDistricts));
 		default:
 			return assignedDistricts;
@@ -104,13 +103,12 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 			const collected = [
 				...new Set([...selectedIds, ...features.map(feature => feature.properties.id)]),
 			];
-
 			return collected;
 
 		case ACCEPT_CHANGES:
 			return [];
-		case DISTRICT_SELECTED:
-			return [];
+		// case DISTRICT_SELECTED:
+		// 	return [];
 		default:
 			return selectedIds;
 	}
