@@ -11,7 +11,7 @@ class MapDrawHandler extends Component {
   componentWillMount() {
     this.modes = MapboxDraw.modes;
     this.modes.draw_rectangle = DrawRectangle;
-    this.onRectangleActivateThrottled = throttle(this.props.onRectangleActivate, 300);
+    this.onRectangleActivateThrottled = throttle(this.props.onRectangleActivate, 250);
 
     this.Draw = new MapboxDraw({
       modes: this.modes,

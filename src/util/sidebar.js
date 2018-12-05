@@ -13,6 +13,7 @@ export const calculatePopulationsOld = (assignedDistricts, geometries, oldDistri
 
 export const calculatePopulationsNew = (
 	selectedIds,
+	activatedIds,
 	selectedDistrict,
 	assignedDistricts,
 	geometries,
@@ -20,7 +21,8 @@ export const calculatePopulationsNew = (
 ) => {
 	console.log('Calculate Population Change');
 	const newDistricts = JSON.parse(JSON.stringify(oldDistricts));
-	selectedIds.forEach(id => {
+	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
+	allHighlightedIds.forEach(id => {
 		const unit = geometries[id];
 		populationTypes.forEach(type => {
 			newDistricts[selectedDistrict][type] += unit[type];

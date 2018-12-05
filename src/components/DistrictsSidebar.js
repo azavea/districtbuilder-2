@@ -22,7 +22,7 @@ class DistrictsSidebar extends Component {
 	calculatePopulationsNewMemoized = memoize(calculatePopulationsNew, {
 		max: 5,
 		primitive: true,
-		length: 3,
+		length: 2,
 	});
 
 	renderList() {
@@ -34,6 +34,7 @@ class DistrictsSidebar extends Component {
 			);
 			const districtsChangeData = this.calculatePopulationsNewMemoized(
 				this.props.selectedIds,
+				this.props.activatedIds,
 				this.props.selectedDistrict,
 				this.props.assignedDistricts,
 				this.props.geometries,
@@ -93,6 +94,7 @@ const mapStateToProps = state => {
 	return {
 		geometries: state.geometries,
 		selectedDistrict: state.selectedDistrict,
+		activatedIds: state.activatedIds,
 		selectedIds: state.selectedIds,
 		districtColors: state.districtColors,
 		assignedDistricts: state.assignedDistricts,
