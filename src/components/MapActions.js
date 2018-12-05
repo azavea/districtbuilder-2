@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { clickDrawMode } from '../actions';
+import { changeDrawMode } from '../actions';
 
 class MapActions extends Component {
   componentDidMount() {}
@@ -13,7 +13,7 @@ class MapActions extends Component {
         <button
           className={'map-action' + status}
           key={index}
-          onClick={() => this.props.onClickDrawMode(mode)}
+          onClick={() => this.props.onChangeDrawMode(mode)}
         >
           {mode}
         </button>
@@ -36,7 +36,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapActionsToProps = {
-  onClickDrawMode: clickDrawMode,
+  onChangeDrawMode: changeDrawMode,
 };
 
 export default connect(

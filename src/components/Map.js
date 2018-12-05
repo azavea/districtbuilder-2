@@ -14,8 +14,8 @@ class Map extends Component {
     this.map = new MapboxGL.Map({
       container: this.mapContainer,
       style: mapboxStyle,
-      center: [-78.037, 40.031],
-      zoom: 6,
+      center: [-77.63, 40.83],
+      zoom: 6.5,
     });
 
     this.map.doubleClickZoom.disable();

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import memoize from 'memoizee';
 
 import { updateDistricts } from '../util';
-import { clickGeounit } from '../actions';
+import { pointerSelect } from '../actions';
 
 class MapDistrictLayer extends Component {
   updateDistrictsMemomized = memoize(updateDistricts, {
@@ -33,7 +33,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapActionsToProps = {
-  onClickGeounit: clickGeounit,
+  onPointerSelect: pointerSelect,
 };
 
 export default connect(

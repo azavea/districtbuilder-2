@@ -4,7 +4,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { throttle } from 'lodash';
 import './mapbox-gl.css';
 
-import { clickGeounit, rectangleSelect, rectangleActivate } from '../actions';
+import { pointerSelect, rectangleSelect, rectangleActivate } from '../actions';
 import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 
 class MapDrawHandler extends Component {
@@ -36,10 +36,10 @@ class MapDrawHandler extends Component {
   }
   render() {
     if (this.props.drawMode === 'Pointer') {
-      this.props.map.on('click', 'blockgroups-fill', this.props.onClickGeounit);
+      this.props.map.on('click', 'blockgroups-fill', this.props.onPointerSelect);
       this.props.map.getCanvas().style.cursor = 'pointer';
     } else {
-      this.props.map.off('click', 'blockgroups-fill', this.props.onClickGeounit);
+      this.props.map.off('click', 'blockgroups-fill', this.props.onPointerSelect);
     }
     if (this.props.drawMode === 'Rectangle') {
       this.Draw.changeMode('draw_rectangle');
@@ -52,7 +52,7 @@ class MapDrawHandler extends Component {
 }
 
 const mapActionsToProps = {
-  onClickGeounit: clickGeounit,
+  onPointerSelect: pointerSelect,
   onRectangleSelect: rectangleSelect,
   onRectangleActivate: rectangleActivate,
 };

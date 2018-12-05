@@ -1,7 +1,7 @@
 export const diffColors = {
 	increase: '#2DBEAE',
 	decrease: '#F5677A',
-	nochange: '#666',
+	nochange: 'inherit',
 };
 
 export const colorOptionsSmall = [

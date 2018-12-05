@@ -22,7 +22,7 @@ class DistrictsSidebar extends Component {
 	calculatePopulationsNewMemoized = memoize(calculatePopulationsNew, {
 		max: 5,
 		primitive: true,
-		length: 2,
+		length: 4,
 	});
 
 	renderList() {

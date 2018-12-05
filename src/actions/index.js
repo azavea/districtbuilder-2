@@ -15,6 +15,7 @@ export const ACCEPT_CHANGES = 'ACCEPT_CHANGES';
 export const CHANGE_DRAWMODE = 'CHANGE_DRAWMODE';
 export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
+export const RECTANGLE_START = 'RECTANGLE_START';
 
 export const selectDistrict = district => {
 	return {
@@ -67,9 +68,16 @@ export const generateSpatialIndex = geoJSON => {
 	};
 };
 
-export const clickGeounit = e => dispatch => {
+export const pointerSelect = e => dispatch => {
+	console.log('pointerSelect');
 	const id = e.features[0].properties.id;
 	dispatch({ type: SELECT_GEOUNIT, payload: id });
+};
+
+export const rectangleStart = e => dispatch => {
+	console.log('rectangleStart');
+	const countyfp = e.features[0].properties.countyfp;
+	dispatch({ type: RECTANGLE_START, payload: countyfp });
 };
 
 export const rectangleSelect = rectangle => {
@@ -94,7 +102,7 @@ export const rectangleActivate = rectangle => {
 	};
 };
 
-export const clickDrawMode = mode => {
+export const changeDrawMode = mode => {
 	return dispatch => {
 		dispatch({ type: CHANGE_DRAWMODE, payload: mode });
 	};

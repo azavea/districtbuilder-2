@@ -14,6 +14,7 @@ import {
 	CHANGE_DRAWMODE,
 	RECTANGLE_SELECT,
 	RECTANGLE_ACTIVATE,
+	RECTANGLE_START,
 } from '../actions';
 
 import { generateSpatialIndex } from '../util';
@@ -83,19 +84,36 @@ const geometriesReducer = (geometries = null, { type, payload }) => {
 	}
 };
 
+const rectangleStartReducer = (countyfp = null, { type, payload }) => {
+	switch (type) {
+		case RECTANGLE_START:
+			return payload;
+		default:
+			return countyfp;
+	}
+};
+
 const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case RECTANGLE_ACTIVATE:
 			const bbox = turfBbox(payload.rectangle);
 
-			const features = payload.spatialIndex
+			// console.log('Start');
+			const activatedIds = payload.spatialIndex
 				.search(bbox[0], bbox[1], bbox[2], bbox[3])
-				.map(i => payload.geoJSON.features[i])
-				.filter(feature => !booleanDisjoint(payload.rectangle, feature));
-
-			const collected = features.map(feature => feature.properties.id);
-			return collected;
+				.map(index => {
+					// console.log(payload.geoJSON.features[index].properties.countyfp);
+					if (!booleanDisjoint(payload.rectangle, payload.geoJSON.features[index])) {
+						return index;
+					}
+				})
+				.filter(index => {
+					return index;
+				});
+			return activatedIds;
 		case RECTANGLE_SELECT:
+			return [];
+		case ACCEPT_CHANGES:
 			return [];
 		default:
 			return selectedIds;
@@ -117,7 +135,10 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 
 			const features = payload.spatialIndex
 				.search(bbox[0], bbox[1], bbox[2], bbox[3])
-				.map(i => payload.geoJSON.features[i])
+				.map(i => {
+					// console.log(payload.geoJSON.features[i]);
+					return payload.geoJSON.features[i];
+				})
 				.filter(feature => !booleanDisjoint(payload.rectangle, feature));
 
 			const collected = [
@@ -161,4 +182,5 @@ export default combineReducers({
 	geometries: geometriesReducer,
 	districtColors: districtColorsReducer,
 	drawMode: drawModeReducer,
+	rectangleStart: rectangleStartReducer,
 });
