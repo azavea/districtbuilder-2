@@ -8,7 +8,7 @@ import { clickGeounit } from '../actions';
 class MapDistrictLayer extends Component {
   updateDistrictsMemomized = memoize(updateDistricts, {
     max: 2,
-    limit: 1,
+    length: 1,
     primitive: true,
   });
 

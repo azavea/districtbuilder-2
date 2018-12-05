@@ -4,12 +4,13 @@ import flatten from '@turf/flatten';
 
 import { districts, topoObjectName, districtSourceName } from '../constants';
 
-export const updateHighlight = (selectedIds, topoJSON, map) => {
+export const updateHighlight = (selectedIds, activatedIds, topoJSON, map) => {
 	console.log('updateHighlight');
 
 	const allGeometries = topoJSON.objects[topoObjectName].geometries;
-	const selectedGeometries = selectedIds.map(id => allGeometries[id]);
-	const highlightGeoJSON = merge(topoJSON, selectedGeometries);
+	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
+	const allHighlightedGeometries = allHighlightedIds.map(id => allGeometries[id]);
+	const highlightGeoJSON = merge(topoJSON, allHighlightedGeometries);
 
 	setTimeout(
 		() => {

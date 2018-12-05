@@ -13,6 +13,7 @@ import {
 	ACCEPT_CHANGES,
 	CHANGE_DRAWMODE,
 	RECTANGLE_SELECT,
+	RECTANGLE_ACTIVATE,
 } from '../actions';
 
 import { generateSpatialIndex } from '../util';
@@ -82,6 +83,25 @@ const geometriesReducer = (geometries = null, { type, payload }) => {
 	}
 };
 
+const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
+	switch (type) {
+		case RECTANGLE_ACTIVATE:
+			const bbox = turfBbox(payload.rectangle);
+
+			const features = payload.spatialIndex
+				.search(bbox[0], bbox[1], bbox[2], bbox[3])
+				.map(i => payload.geoJSON.features[i])
+				.filter(feature => !booleanDisjoint(payload.rectangle, feature));
+
+			const collected = features.map(feature => feature.properties.id);
+			return collected;
+		case RECTANGLE_SELECT:
+			return [];
+		default:
+			return selectedIds;
+	}
+};
+
 const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case SELECT_GEOUNIT:
@@ -107,8 +127,6 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 
 		case ACCEPT_CHANGES:
 			return [];
-		// case DISTRICT_SELECTED:
-		// 	return [];
 		default:
 			return selectedIds;
 	}
@@ -139,6 +157,7 @@ export default combineReducers({
 	geoJSON: geoJSONReducer,
 	assignedDistricts: assignedDistrictsReducer,
 	selectedIds: selectedIdsReducer,
+	activatedIds: activatedIdsReducer,
 	geometries: geometriesReducer,
 	districtColors: districtColorsReducer,
 	drawMode: drawModeReducer,

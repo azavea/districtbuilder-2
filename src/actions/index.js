@@ -14,6 +14,7 @@ export const LOAD_COLORS = 'LOAD_COLORS';
 export const ACCEPT_CHANGES = 'ACCEPT_CHANGES';
 export const CHANGE_DRAWMODE = 'CHANGE_DRAWMODE';
 export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
+export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
 
 export const selectDistrict = district => {
 	return {
@@ -77,6 +78,17 @@ export const rectangleSelect = rectangle => {
 		const spatialIndex = getState().spatialIndex;
 		dispatch({
 			type: RECTANGLE_SELECT,
+			payload: { queryType: 'rectangle', rectangle, spatialIndex, geoJSON },
+		});
+	};
+};
+
+export const rectangleActivate = rectangle => {
+	return (dispatch, getState) => {
+		const geoJSON = getState().geoJSON;
+		const spatialIndex = getState().spatialIndex;
+		dispatch({
+			type: RECTANGLE_ACTIVATE,
 			payload: { queryType: 'rectangle', rectangle, spatialIndex, geoJSON },
 		});
 	};

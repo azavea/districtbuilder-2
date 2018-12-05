@@ -4,14 +4,14 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { throttle } from 'lodash';
 import './mapbox-gl.css';
 
-import { clickGeounit, rectangleSelect } from '../actions';
+import { clickGeounit, rectangleSelect, rectangleActivate } from '../actions';
 import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
     this.modes = MapboxDraw.modes;
     this.modes.draw_rectangle = DrawRectangle;
-    this.throttled = throttle(this.props.onRectangleSelect, 500);
+    this.onRectangleActivateThrottled = throttle(this.props.onRectangleActivate, 300);
 
     this.Draw = new MapboxDraw({
       modes: this.modes,
@@ -31,7 +31,7 @@ class MapDrawHandler extends Component {
     });
 
     this.props.map.on('draw.move', e => {
-      this.throttled(e.features[0]);
+      this.onRectangleActivateThrottled(e.features[0]);
     });
   }
   render() {
@@ -54,6 +54,7 @@ class MapDrawHandler extends Component {
 const mapActionsToProps = {
   onClickGeounit: clickGeounit,
   onRectangleSelect: rectangleSelect,
+  onRectangleActivate: rectangleActivate,
 };
 
 const mapStateToProps = state => {
