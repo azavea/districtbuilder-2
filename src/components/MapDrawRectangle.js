@@ -1,52 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { throttle } from 'lodash';
+import './mapbox-gl.css';
 
-import { rectangleSelect, rectangleActivate } from '../actions';
+import { pointerSelect, rectangleSelect, rectangleActivate } from '../actions';
+import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 
-class MapDrawRectangle extends Component {
+class MapDrawHandler extends Component {
   componentWillMount() {
-    this.props.map.addControl(this.Draw);
-
     this.onRectangleActivateThrottled = throttle(this.props.onRectangleActivate, 250);
 
     this.props.map.on('draw.create', e => {
+      console.log('draw.create');
       this.props.onRectangleSelect(e.features[0]);
-      this.Draw.deleteAll();
+      this.props.draw.deleteAll();
       setTimeout(() => {
-        this.Draw.changeMode('draw_rectangle');
+        this.props.draw.changeMode('draw_rectangle');
       }, 0);
     });
 
     this.props.map.on('draw.move', e => {
-      // if (this.props.rectangleStart) {
-      console.log(this.props.rectangleStart);
       this.onRectangleActivateThrottled(e.features[0]);
-      // this.onRectangleActivateThrottled({
-      //   feature: e.features[0],
-      //   countyfp: this.props.rectangleStart,
-      // });
-      // }
     });
   }
-
   render() {
-    return <div className="map-draw-handler"> {this.props.rectangleStart} </div>;
+    return <div className="map-draw-rectangle" />;
   }
 }
 
 const mapActionsToProps = {
+  onPointerSelect: pointerSelect,
   onRectangleSelect: rectangleSelect,
   onRectangleActivate: rectangleActivate,
 };
 
 const mapStateToProps = state => {
   return {
-    rectangleStart: state.rectangleStart,
+    drawMode: state.drawMode,
   };
 };
 
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(MapDrawRectangle);
+)(MapDrawHandler);

@@ -4,37 +4,24 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { throttle } from 'lodash';
 import './mapbox-gl.css';
 
+import MapDrawRectangle from './MapDrawRectangle';
 import { pointerSelect, rectangleSelect, rectangleActivate } from '../actions';
 import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
+    console.log('MapDrawHandler: componentWillMount');
     this.modes = MapboxDraw.modes;
     this.modes.draw_rectangle = DrawRectangle;
-    this.onRectangleActivateThrottled = throttle(this.props.onRectangleActivate, 250);
-
-    this.Draw = new MapboxDraw({
+    this.draw = new MapboxDraw({
       modes: this.modes,
       boxSelect: false,
       displayControlsDefault: false,
     });
-
-    this.props.map.addControl(this.Draw);
-
-    this.props.map.on('draw.create', e => {
-      console.log('draw.create');
-      this.props.onRectangleSelect(e.features[0]);
-      this.Draw.deleteAll();
-      setTimeout(() => {
-        this.Draw.changeMode('draw_rectangle');
-      }, 0);
-    });
-
-    this.props.map.on('draw.move', e => {
-      this.onRectangleActivateThrottled(e.features[0]);
-    });
+    this.props.map.addControl(this.draw);
   }
   render() {
+    console.log('MapDrawHandler: render');
     if (this.props.drawMode === 'Pointer') {
       this.props.map.on('click', 'blockgroups-fill', this.props.onPointerSelect);
       this.props.map.getCanvas().style.cursor = 'pointer';
@@ -42,19 +29,23 @@ class MapDrawHandler extends Component {
       this.props.map.off('click', 'blockgroups-fill', this.props.onPointerSelect);
     }
     if (this.props.drawMode === 'Rectangle') {
-      this.Draw.changeMode('draw_rectangle');
+      this.draw.changeMode('draw_rectangle');
       this.props.map.getCanvas().style.cursor = 'crosshair';
     } else {
-      this.Draw.changeMode('simple_select');
+      this.draw.changeMode('simple_select');
     }
-    return <div className="map-draw-handler" />;
+    return (
+      <div className="map-draw-handler">
+        <MapDrawRectangle map={this.props.map} draw={this.draw} />
+      </div>
+    );
   }
 }
 
 const mapActionsToProps = {
   onPointerSelect: pointerSelect,
-  onRectangleSelect: rectangleSelect,
-  onRectangleActivate: rectangleActivate,
+  // onRectangleSelect: rectangleSelect,
+  // onRectangleActivate: rectangleActivate,
 };
 
 const mapStateToProps = state => {
