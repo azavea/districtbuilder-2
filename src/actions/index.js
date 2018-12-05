@@ -1,5 +1,3 @@
-import { bbox as turfBbox } from '@turf/turf';
-
 import { topoUrl } from '../constants';
 
 export const DISTRICT_SELECTED = 'DISTRICT_SELECTED';

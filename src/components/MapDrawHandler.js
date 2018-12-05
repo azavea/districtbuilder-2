@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import DrawRectangle from 'mapbox-gl-draw-rectangle-mode';
+import { throttle } from 'lodash';
 import './mapbox-gl.css';
 
 import { clickGeounit, rectangleSelect } from '../actions';
+import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
     this.modes = MapboxDraw.modes;
     this.modes.draw_rectangle = DrawRectangle;
+    this.throttled = throttle(this.props.onRectangleSelect, 500);
 
     this.Draw = new MapboxDraw({
       modes: this.modes,
@@ -21,19 +23,15 @@ class MapDrawHandler extends Component {
 
     this.props.map.on('draw.create', e => {
       console.log('draw.create');
-      this.drawData = this.Draw.getAll();
-      this.props.onRectangleSelect(this.drawData.features[0]);
-      this.Draw.delete(
-        this.drawData.features.map(function(feature) {
-          return feature.id;
-        })
-      );
+      this.props.onRectangleSelect(e.features[0]);
+      this.Draw.deleteAll();
       setTimeout(() => {
         this.Draw.changeMode('draw_rectangle');
       }, 0);
     });
-    this.props.map.on('draw.update', function(e) {
-      console.log('create');
+
+    this.props.map.on('draw.move', e => {
+      this.throttled(e.features[0]);
     });
   }
   render() {

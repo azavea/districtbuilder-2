@@ -1,6 +1,6 @@
 import { tileLocation, tileLayerName } from '../constants';
 
-import { districtColors, bucketNum, districts } from '../constants';
+import { districtColors, districts } from '../constants';
 
 // TODO: Is there a better way to write this? Maybe without using .flat()?
 const districtColorDefinition = [
