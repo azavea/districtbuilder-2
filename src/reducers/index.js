@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { feature } from 'topojson';
-import { bbox as turfBbox, booleanDisjoint } from '@turf/turf';
 
 import {
 	DISTRICT_SELECTED,
@@ -15,11 +14,12 @@ import {
 	RECTANGLE_SELECT,
 	RECTANGLE_ACTIVATE,
 	RECTANGLE_START,
+	LOCK_DISTRICT,
 } from '../actions';
 
-import { generateSpatialIndex } from '../util';
+import { generateSpatialIndex, spatialSearch } from '../util';
 
-import { topoObjectName, districtColors } from '../constants';
+import { topoObjectName, districtColors, lockedIdsTemplate } from '../constants';
 
 const selectedDistrictReducer = (selectedDistrict = 1, { type, payload }) => {
 	switch (type) {
@@ -84,7 +84,7 @@ const geometriesReducer = (geometries = null, { type, payload }) => {
 	}
 };
 
-const rectangleStartReducer = (countyfp = null, { type, payload }) => {
+const rectangleStartIdReducer = (countyfp = null, { type, payload }) => {
 	switch (type) {
 		case RECTANGLE_START:
 			return payload;
@@ -96,20 +96,16 @@ const rectangleStartReducer = (countyfp = null, { type, payload }) => {
 const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case RECTANGLE_ACTIVATE:
-			const bbox = turfBbox(payload.rectangle);
-
-			// console.log('Start');
-			const activatedIds = payload.spatialIndex
-				.search(bbox[0], bbox[1], bbox[2], bbox[3])
-				.map(index => {
-					// console.log(payload.geoJSON.features[index].properties.countyfp);
-					if (!booleanDisjoint(payload.rectangle, payload.geoJSON.features[index])) {
-						return index;
-					}
-				})
-				.filter(index => {
-					return index;
-				});
+			const activatedIds = spatialSearch(
+				payload.spatialIndex,
+				payload.geoJSON,
+				payload.lockedIds,
+				payload.assignedDistricts,
+				{
+					rectangle: payload.rectangle,
+					rectangleStartId: payload.rectangleStartId,
+				}
+			);
 			return activatedIds;
 		case RECTANGLE_SELECT:
 			return [];
@@ -123,29 +119,27 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case SELECT_GEOUNIT:
-			console.log(selectedIds);
-			const idIndex = selectedIds.indexOf(payload);
-			if (idIndex < 0) {
-				return [...selectedIds, payload]; // Add to list
-			} else {
+			const idIndex = selectedIds.indexOf(payload.id);
+			// console.log(payload.lockedIds, payload.assignedDistricts)
+			if (!payload.lockedIds[payload.assignedDistricts[payload.id]]) {
+				if (idIndex < 0) {
+					return [...selectedIds, payload.id]; // Add to list
+				}
 				return [...selectedIds.slice(0, idIndex), ...selectedIds.slice(idIndex + 1)]; // Remove from list
 			}
+			return selectedIds;
 		case RECTANGLE_SELECT:
-			const bbox = turfBbox(payload.rectangle);
-
-			const features = payload.spatialIndex
-				.search(bbox[0], bbox[1], bbox[2], bbox[3])
-				.map(i => {
-					// console.log(payload.geoJSON.features[i]);
-					return payload.geoJSON.features[i];
-				})
-				.filter(feature => !booleanDisjoint(payload.rectangle, feature));
-
-			const collected = [
-				...new Set([...selectedIds, ...features.map(feature => feature.properties.id)]),
-			];
-			return collected;
-
+			const newSelectedIds = spatialSearch(
+				payload.spatialIndex,
+				payload.geoJSON,
+				payload.lockedIds,
+				payload.assignedDistricts,
+				{
+					rectangle: payload.rectangle,
+					rectangleStartId: payload.rectangleStartId,
+				}
+			);
+			return [...new Set([...selectedIds, ...newSelectedIds])];
 		case ACCEPT_CHANGES:
 			return [];
 		default:
@@ -171,6 +165,16 @@ const drawModeReducer = (mode = 'Rectangle', { type, payload }) => {
 	}
 };
 
+const lockedIdsReducer = (lockedIds = lockedIdsTemplate, { type, payload }) => {
+	switch (type) {
+		case LOCK_DISTRICT:
+			console.log(Object.assign([...lockedIds], { [payload]: !lockedIds[payload] }));
+			return Object.assign([...lockedIds], { [payload]: !lockedIds[payload] });
+		default:
+			return lockedIds;
+	}
+};
+
 export default combineReducers({
 	selectedDistrict: selectedDistrictReducer,
 	spatialIndex: generateSpatialIndexReducer,
@@ -182,5 +186,6 @@ export default combineReducers({
 	geometries: geometriesReducer,
 	districtColors: districtColorsReducer,
 	drawMode: drawModeReducer,
-	rectangleStart: rectangleStartReducer,
+	rectangleStartId: rectangleStartIdReducer,
+	lockedIds: lockedIdsReducer,
 });

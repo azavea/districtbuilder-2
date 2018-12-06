@@ -8,7 +8,7 @@ import { updateHighlight } from '../util';
 class MapHighlightLayer extends Component {
   updateHighlightMemoized = memoize(updateHighlight, {
     max: 1,
-    length: 2,
+    length: 3,
     primitive: true,
   });
 
@@ -17,6 +17,7 @@ class MapHighlightLayer extends Component {
       this.updateHighlightMemoized(
         this.props.selectedIds,
         this.props.activatedIds,
+        this.props.lockedDistricts,
         this.props.topoJSON,
         this.props.map
       );
@@ -31,6 +32,7 @@ const mapStateToProps = (state, props) => {
     selectedIds: state.selectedIds,
     activatedIds: state.activatedIds,
     topoJSON: state.topoJSON,
+    lockedDistricts: state.lockedDistricts,
   };
 };
 

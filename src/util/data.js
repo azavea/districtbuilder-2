@@ -1,5 +1,6 @@
 import Flatbush from 'flatbush';
 import { bbox } from 'turf';
+import { bbox as turfBbox, booleanDisjoint } from '@turf/turf';
 
 import { topoObjectName } from '../constants';
 
@@ -25,4 +26,46 @@ export const generateSpatialIndex = geojson => {
 
 export const numberWithCommas = number => {
 	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+const spatialFilter = (rectangle, feature) => {
+	// Select when geounit intersects with initial rectangle AoI
+	return !booleanDisjoint(rectangle, feature);
+};
+
+const countyLimitFilter = (startCounty, currentCounty) => {
+	// Select when geounit is in same county as initial geounit clicked when creating rectangle;
+	if (startCounty) {
+		return currentCounty === startCounty;
+	} else {
+		return true;
+	}
+};
+
+const lockFilter = (assignedDistrict, lockedIds) => {
+	// Is the geounit's assigned district currently locked?
+	return !lockedIds[assignedDistrict];
+};
+
+export const spatialSearch = (spatialIndex, geoJSON, lockedIds, assignedDistricts, filters) => {
+	const bbox = turfBbox(filters.rectangle);
+	return spatialIndex
+		.search(bbox[0], bbox[1], bbox[2], bbox[3])
+		.map(index => {
+			const feature = geoJSON.features[index];
+			const id = feature.properties.id;
+			const countyfp = feature.properties.countyfp;
+			const assignedDistrict = assignedDistricts[id];
+			if (
+				countyLimitFilter(filters.rectangleStartId, countyfp) &&
+				lockFilter(assignedDistrict, lockedIds) &&
+				spatialFilter(filters.rectangle, feature)
+			) {
+				return index;
+			}
+			return undefined;
+		})
+		.filter(index => {
+			return index;
+		});
 };

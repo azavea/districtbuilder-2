@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import { throttle } from 'lodash';
 import './mapbox-gl.css';
 
 import MapDrawRectangle from './MapDrawRectangle';
-import { pointerSelect, rectangleSelect, rectangleActivate } from '../actions';
+import { pointerSelect, rectangleStart } from '../actions';
 import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 
 class MapDrawHandler extends Component {
@@ -30,8 +29,10 @@ class MapDrawHandler extends Component {
     }
     if (this.props.drawMode === 'Rectangle') {
       this.draw.changeMode('draw_rectangle');
+      this.props.map.on('click', 'blockgroups-fill', this.props.onRectangleStart);
       this.props.map.getCanvas().style.cursor = 'crosshair';
     } else {
+      this.props.map.off('click', 'blockgroups-fill', this.props.onRectangleStart);
       this.draw.changeMode('simple_select');
     }
     return (
@@ -44,8 +45,7 @@ class MapDrawHandler extends Component {
 
 const mapActionsToProps = {
   onPointerSelect: pointerSelect,
-  // onRectangleSelect: rectangleSelect,
-  // onRectangleActivate: rectangleActivate,
+  onRectangleStart: rectangleStart,
 };
 
 const mapStateToProps = state => {

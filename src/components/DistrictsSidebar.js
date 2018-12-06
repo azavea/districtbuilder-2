@@ -4,7 +4,7 @@ import memoize from 'memoizee';
 
 import { DemographicChart } from '../components/DemographicChart';
 import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
-import { selectDistrict, acceptChanges } from '../actions';
+import { selectDistrict, acceptChanges, lockDistrict } from '../actions';
 
 import { diffColors } from '../constants/colors';
 
@@ -43,7 +43,8 @@ class DistrictsSidebar extends Component {
 			return districtsChangeData.map((districtNew, index) => {
 				const districtOld = districtsBaseData[index];
 				const color = this.props.districtColors[index];
-				const status = districtNew.id === this.props.selectedDistrict ? ' selected' : '';
+				const districtStatus = index === this.props.selectedDistrict ? ' selected' : '';
+				const lockedStatus = this.props.lockedIds[index] ? '-locked' : '-unlocked';
 				const diff =
 					districtNew.population > 0
 						? diffColors.increase
@@ -52,9 +53,9 @@ class DistrictsSidebar extends Component {
 						: diffColors.nochange;
 				return (
 					<div
-						className={'item' + status}
-						key={districtNew.id}
-						onClick={() => this.onSelectDistrict(districtNew.id)}
+						className={'item' + districtStatus}
+						key={index}
+						onClick={() => this.onSelectDistrict(index)}
 					>
 						<div className="item-container">
 							<DistrictColorSymbol color={color} />
@@ -63,12 +64,23 @@ class DistrictsSidebar extends Component {
 								{numberWithCommas(districtOld.population + districtNew.population)}
 							</div>
 							<DemographicChart districtNew={districtNew} districtOld={districtOld} />
+							<button
+								className={'button-lock .' + lockedStatus}
+								onClick={e => this.onLockDistrict(e, index)}
+							>
+								<i className={'icon-lock' + lockedStatus} />
+							</button>
 						</div>
 					</div>
 				);
 			});
 		}
 	}
+
+	onLockDistrict = (e, index) => {
+		e.stopPropagation();
+		this.props.onLockDistrict(index);
+	};
 
 	onAcceptChanges = () => {
 		this.props.onAcceptChanges();
@@ -98,12 +110,14 @@ const mapStateToProps = state => {
 		selectedIds: state.selectedIds,
 		districtColors: state.districtColors,
 		assignedDistricts: state.assignedDistricts,
+		lockedIds: state.lockedIds,
 	};
 };
 
 const mapActionsToProps = {
 	onSelectDistrict: selectDistrict,
 	onAcceptChanges: acceptChanges,
+	onLockDistrict: lockDistrict,
 };
 
 export default connect(

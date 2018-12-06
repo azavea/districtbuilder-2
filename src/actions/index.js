@@ -16,6 +16,7 @@ export const CHANGE_DRAWMODE = 'CHANGE_DRAWMODE';
 export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
 export const RECTANGLE_START = 'RECTANGLE_START';
+export const LOCK_DISTRICT = 'LOCK_DISTRICT';
 
 export const selectDistrict = district => {
 	return {
@@ -68,10 +69,11 @@ export const generateSpatialIndex = geoJSON => {
 	};
 };
 
-export const pointerSelect = e => dispatch => {
-	console.log('pointerSelect');
+export const pointerSelect = e => (dispatch, getState) => {
 	const id = e.features[0].properties.id;
-	dispatch({ type: SELECT_GEOUNIT, payload: id });
+	const lockedIds = getState().lockedIds;
+	const assignedDistricts = getState().assignedDistricts;
+	dispatch({ type: SELECT_GEOUNIT, payload: { id, lockedIds, assignedDistricts } });
 };
 
 export const rectangleStart = e => dispatch => {
@@ -80,24 +82,45 @@ export const rectangleStart = e => dispatch => {
 	dispatch({ type: RECTANGLE_START, payload: countyfp });
 };
 
-export const rectangleSelect = rectangle => {
+export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 	return (dispatch, getState) => {
 		const geoJSON = getState().geoJSON;
 		const spatialIndex = getState().spatialIndex;
+		const lockedIds = getState().lockedIds;
+		console.log(lockedIds);
+		const assignedDistricts = getState().assignedDistricts;
 		dispatch({
 			type: RECTANGLE_SELECT,
-			payload: { queryType: 'rectangle', rectangle, spatialIndex, geoJSON },
+			payload: {
+				queryType: 'rectangle',
+				rectangle,
+				rectangleStartId,
+				lockedIds,
+				spatialIndex,
+				geoJSON,
+				assignedDistricts,
+			},
 		});
 	};
 };
 
-export const rectangleActivate = rectangle => {
+export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 	return (dispatch, getState) => {
 		const geoJSON = getState().geoJSON;
 		const spatialIndex = getState().spatialIndex;
+		const lockedIds = getState().lockedIds;
+		const assignedDistricts = getState().assignedDistricts;
 		dispatch({
 			type: RECTANGLE_ACTIVATE,
-			payload: { queryType: 'rectangle', rectangle, spatialIndex, geoJSON },
+			payload: {
+				queryType: 'rectangle',
+				rectangle,
+				rectangleStartId,
+				lockedIds,
+				spatialIndex,
+				geoJSON,
+				assignedDistricts,
+			},
 		});
 	};
 };
@@ -105,6 +128,12 @@ export const rectangleActivate = rectangle => {
 export const changeDrawMode = mode => {
 	return dispatch => {
 		dispatch({ type: CHANGE_DRAWMODE, payload: mode });
+	};
+};
+
+export const lockDistrict = districtId => {
+	return dispatch => {
+		dispatch({ type: LOCK_DISTRICT, payload: districtId });
 	};
 };
 

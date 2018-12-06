@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { throttle } from 'lodash';
 import './mapbox-gl.css';
 
-import { pointerSelect, rectangleSelect, rectangleActivate } from '../actions';
-import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
+import { pointerSelect, rectangleSelect, rectangleActivate, rectangleStart } from '../actions';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
@@ -13,7 +11,10 @@ class MapDrawHandler extends Component {
 
     this.props.map.on('draw.create', e => {
       console.log('draw.create');
-      this.props.onRectangleSelect(e.features[0]);
+      this.props.onRectangleSelect({
+        rectangle: e.features[0],
+        rectangleStartId: this.props.rectangleStartId,
+      });
       this.props.draw.deleteAll();
       setTimeout(() => {
         this.props.draw.changeMode('draw_rectangle');
@@ -21,7 +22,10 @@ class MapDrawHandler extends Component {
     });
 
     this.props.map.on('draw.move', e => {
-      this.onRectangleActivateThrottled(e.features[0]);
+      this.onRectangleActivateThrottled({
+        rectangle: e.features[0],
+        rectangleStartId: this.props.rectangleStartId,
+      });
     });
   }
   render() {
@@ -33,11 +37,13 @@ const mapActionsToProps = {
   onPointerSelect: pointerSelect,
   onRectangleSelect: rectangleSelect,
   onRectangleActivate: rectangleActivate,
+  onRectangleStart: rectangleStart,
 };
 
 const mapStateToProps = state => {
   return {
     drawMode: state.drawMode,
+    rectangleStartId: state.rectangleStartId,
   };
 };
 
