@@ -6,7 +6,7 @@ import { updateDistricts } from '../util';
 import { pointerSelect } from '../actions';
 
 class MapDistrictLayer extends Component {
-  updateDistrictsMemomized = memoize(updateDistricts, {
+  updateDistrictsMemoized = memoize(updateDistricts, {
     max: 2,
     length: 2,
     primitive: true,
@@ -14,7 +14,7 @@ class MapDistrictLayer extends Component {
 
   render() {
     if (this.props.topoJSON && this.props.assignedDistricts) {
-      this.updateDistrictsMemomized(
+      this.updateDistrictsMemoized(
         this.props.assignedDistricts,
         this.props.lockedDistricts,
         this.props.topoJSON,
