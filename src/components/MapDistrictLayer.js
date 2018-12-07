@@ -14,12 +14,14 @@ class MapDistrictLayer extends Component {
 
   render() {
     if (this.props.topoJSON && this.props.assignedDistricts) {
+      console.time('mergeTopoAndCalculateCompactness');
       this.updateDistrictsMemoized(
         this.props.assignedDistricts,
         this.props.lockedDistricts,
         this.props.topoJSON,
         this.props.map
       );
+      console.timeEnd('mergeTopoAndCalculateCompactness');
     }
     return <div className="map-district-layer" />;
   }
