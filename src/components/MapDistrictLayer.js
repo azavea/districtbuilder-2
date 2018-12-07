@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import memoize from 'memoizee';
 
 import { updateDistricts } from '../util';
-import { pointerSelect } from '../actions';
+import { pointerSelect, updatedDistricts } from '../actions';
 
 class MapDistrictLayer extends Component {
   updateDistrictsMemoized = memoize(updateDistricts, {
@@ -14,12 +14,12 @@ class MapDistrictLayer extends Component {
 
   render() {
     if (this.props.topoJSON && this.props.assignedDistricts) {
-      console.time('mergeTopoAndCalculateCompactness');
       this.updateDistrictsMemoized(
         this.props.assignedDistricts,
         this.props.lockedDistricts,
         this.props.topoJSON,
-        this.props.map
+        this.props.map,
+        this.props.onUpdatedDistricts
       );
       console.timeEnd('mergeTopoAndCalculateCompactness');
     }
@@ -38,6 +38,7 @@ const mapStateToProps = (state, props) => {
 
 const mapActionsToProps = {
   onPointerSelect: pointerSelect,
+  onUpdatedDistricts: updatedDistricts,
 };
 
 export default connect(

@@ -17,6 +17,7 @@ export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
 export const RECTANGLE_START = 'RECTANGLE_START';
 export const LOCK_DISTRICT = 'LOCK_DISTRICT';
+export const UPDATED_DISTRICTS = 'UPDATED_DISTRICTS';
 
 export const selectDistrict = district => {
 	return {
@@ -140,6 +141,12 @@ export const lockDistrict = districtId => {
 export const generateHighlight = topoJSON => {
 	return dispatch => {
 		dispatch({ type: GENERATE_HIGHLIGHT, payload: topoJSON });
+	};
+};
+
+export const updatedDistricts = compactness => {
+	return dispatch => {
+		dispatch({ type: UPDATED_DISTRICTS, payload: compactness });
 	};
 };
 

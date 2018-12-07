@@ -15,6 +15,7 @@ import {
 	RECTANGLE_ACTIVATE,
 	RECTANGLE_START,
 	LOCK_DISTRICT,
+	UPDATED_DISTRICTS,
 } from '../actions';
 
 import { generateSpatialIndex, spatialSearch } from '../util';
@@ -120,7 +121,6 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case SELECT_GEOUNIT:
 			const idIndex = selectedIds.indexOf(payload.id);
-			// console.log(payload.lockedIds, payload.assignedDistricts)
 			if (!payload.lockedIds[payload.assignedDistricts[payload.id]]) {
 				if (idIndex < 0) {
 					return [...selectedIds, payload.id]; // Add to list
@@ -168,10 +168,18 @@ const drawModeReducer = (mode = 'Rectangle', { type, payload }) => {
 const lockedIdsReducer = (lockedIds = lockedIdsTemplate, { type, payload }) => {
 	switch (type) {
 		case LOCK_DISTRICT:
-			console.log(Object.assign([...lockedIds], { [payload]: !lockedIds[payload] }));
 			return Object.assign([...lockedIds], { [payload]: !lockedIds[payload] });
 		default:
 			return lockedIds;
+	}
+};
+
+const compactnessDistrictsReducer = (compactnessDistricts = null, { type, payload }) => {
+	switch (type) {
+		case UPDATED_DISTRICTS:
+			return payload;
+		default:
+			return compactnessDistricts;
 	}
 };
 
@@ -188,4 +196,5 @@ export default combineReducers({
 	drawMode: drawModeReducer,
 	rectangleStartId: rectangleStartIdReducer,
 	lockedIds: lockedIdsReducer,
+	compactnessDistricts: compactnessDistrictsReducer,
 });

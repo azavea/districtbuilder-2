@@ -30,8 +30,13 @@ const calculateCompactnessAndContiguity = geoJSON => {
 	}
 };
 
-export const updateDistricts = (assignedDistricts, lockedDistricts, topoJSON, map) => {
-	// TODO: refactor this code
+export const updateDistricts = (
+	assignedDistricts,
+	lockedDistricts,
+	topoJSON,
+	map,
+	onUpdatedDistricts
+) => {
 	console.log('updateDistricts');
 	const allGeometries = topoJSON.objects[topoObjectName].geometries;
 	let geometriesByDistrict = districts.map(() => []);
@@ -55,5 +60,5 @@ export const updateDistricts = (assignedDistricts, lockedDistricts, topoJSON, ma
 	if (typeof map.getSource(districtSourceName) !== 'undefined') {
 		map.getSource(districtSourceName).setData(geoJSON);
 	}
-	return collections.compactness;
+	onUpdatedDistricts(collections.map(collection => collection.compactness));
 };
