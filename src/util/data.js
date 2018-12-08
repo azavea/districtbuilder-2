@@ -57,7 +57,7 @@ export const spatialSearch = (spatialIndex, geoJSON, lockedIds, assignedDistrict
 			const countyfp = feature.properties.countyfp;
 			const assignedDistrict = assignedDistricts[id];
 			if (
-				countyLimitFilter(filters.rectangleStartId, countyfp) &&
+				// countyLimitFilter(filters.rectangleStartId, countyfp) &&
 				lockFilter(assignedDistrict, lockedIds) &&
 				spatialFilter(filters.rectangle, feature)
 			) {

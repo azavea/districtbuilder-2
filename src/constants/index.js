@@ -7,7 +7,7 @@ export const topoObjectName = 'pa-bg';
 export const topoUrl = 'data/pa-bg.topojson';
 
 // export const tileLocation = [
-//  window.location.origin + window.location.pathname + '/data/tiles/{z}/{x}/{y}.pbf'
+//   window.location.origin + window.location.pathname + '/data/tiles/{z}/{x}/{y}.pbf',
 // ];
 // export const tileLayerName = 'bg';
 export const tileLocation = [

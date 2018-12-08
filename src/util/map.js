@@ -2,10 +2,9 @@ import { merge } from 'topojson';
 import { featureCollection, area, length as turfLength } from '@turf/turf';
 import flatten from '@turf/flatten';
 
-import { districts, topoObjectName, districtSourceName } from '../constants';
+import { topoObjectName } from '../constants';
 
 export const updateHighlight = (selectedIds, activatedIds, lockedDistricts, topoJSON, map) => {
-	console.log('updateHighlight');
 	const allGeometries = topoJSON.objects[topoObjectName].geometries;
 	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
 	const allHighlightedGeometries = allHighlightedIds.map(id => allGeometries[id]);
@@ -19,6 +18,24 @@ export const updateHighlight = (selectedIds, activatedIds, lockedDistricts, topo
 	);
 };
 
+const getGeometries = topoJSON => topoJSON.objects[topoObjectName].geometries;
+
+const mapGeometriesToDistricts = (geometries, assignedDistricts) => {
+	let geometriesByDistrict = assignedDistricts.map(() => []);
+	assignedDistricts.forEach((assignedDistrict, index) => {
+		geometriesByDistrict[assignedDistrict].push(geometries[index]);
+	});
+	return geometriesByDistrict;
+};
+
+const getGeoJSONForEachDistrict = (assignedDistricts, topoJSON) => {
+	const geometriesByDistrict = mapGeometriesToDistricts(
+		getGeometries(topoJSON),
+		assignedDistricts
+	);
+	return geometriesByDistrict.map(geometries => flatten(merge(topoJSON, geometries)));
+};
+
 const calculateCompactnessAndContiguity = geoJSON => {
 	if (geoJSON.features.length === 1) {
 		var a = area(geoJSON);
@@ -30,35 +47,23 @@ const calculateCompactnessAndContiguity = geoJSON => {
 	}
 };
 
-export const updateDistricts = (
-	assignedDistricts,
-	lockedDistricts,
-	topoJSON,
-	map,
-	onUpdatedDistricts
-) => {
-	console.log('updateDistricts');
-	const allGeometries = topoJSON.objects[topoObjectName].geometries;
-	let geometriesByDistrict = districts.map(() => []);
-	assignedDistricts.forEach((assignedDistrict, index) => {
-		geometriesByDistrict[assignedDistrict].push(allGeometries[index]);
-	});
-	const collections = geometriesByDistrict.map(geometries => {
-		const geoJSON = flatten(merge(topoJSON, geometries));
-		const compactness = calculateCompactnessAndContiguity(geoJSON);
-		return { geoJSON, compactness };
-	});
-	const geoJSON = featureCollection(
-		collections
-			.map((collection, index) => {
-				return collection.geoJSON.features.map(feature => {
+const mergeGeoJSONs = geoJSONs => {
+	return featureCollection(
+		geoJSONs
+			.map((geoJSON, index) => {
+				return geoJSON.features.map(feature => {
 					return Object.assign(feature, { properties: { district: index } });
 				});
 			})
 			.flat()
 	);
-	if (typeof map.getSource(districtSourceName) !== 'undefined') {
-		map.getSource(districtSourceName).setData(geoJSON);
-	}
-	onUpdatedDistricts(collections.map(collection => collection.compactness));
+};
+
+export const getDistricts = (assignedDistricts, lockedDistricts, topoJSON) => {
+	const districtGeoJSONs = getGeoJSONForEachDistrict(assignedDistricts, topoJSON);
+	const districtCompactnessScores = districtGeoJSONs.map(geoJSON =>
+		calculateCompactnessAndContiguity(geoJSON)
+	);
+	const mergedGeoJSON = mergeGeoJSONs(districtGeoJSONs);
+	return { districtGeoJSONs, districtCompactnessScores, mergedGeoJSON };
 };

@@ -43,7 +43,7 @@ export const mapboxStyle = {
       source: 'districts',
       paint: {
         'fill-color': districtColorDefinition,
-        'fill-opacity': 0.5,
+        'fill-opacity': 1,
       },
     },
     {

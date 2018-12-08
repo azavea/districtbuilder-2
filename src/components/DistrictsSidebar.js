@@ -28,7 +28,7 @@ class DistrictsSidebar extends Component {
 	renderList() {
 		if (this.props.assignedDistricts && this.props.geometries) {
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
-				this.props.assignedDistricts,
+				this.props.assignedDistricts.assigned,
 				this.props.geometries,
 				districtsTemplate
 			);
@@ -36,7 +36,7 @@ class DistrictsSidebar extends Component {
 				this.props.selectedIds,
 				this.props.activatedIds,
 				this.props.selectedDistrict,
-				this.props.assignedDistricts,
+				this.props.assignedDistricts.assigned,
 				this.props.geometries,
 				districtsTemplate
 			);
@@ -111,6 +111,7 @@ const mapStateToProps = state => {
 		districtColors: state.districtColors,
 		assignedDistricts: state.assignedDistricts,
 		lockedIds: state.lockedIds,
+		compactnessDistricts: state.compactnessDistricts,
 	};
 };
 

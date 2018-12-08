@@ -18,7 +18,7 @@ import {
 	UPDATED_DISTRICTS,
 } from '../actions';
 
-import { generateSpatialIndex, spatialSearch } from '../util';
+import { generateSpatialIndex, spatialSearch, getDistricts } from '../util';
 
 import { topoObjectName, districtColors, lockedIdsTemplate } from '../constants';
 
@@ -58,19 +58,34 @@ const geoJSONReducer = (geoJSON = null, { type, payload }) => {
 	}
 };
 
-const assignedDistrictsReducer = (assignedDistricts = null, { type, payload }) => {
+const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, selectedDistrict) => {
+	selectedIds.forEach(id => {
+		assignedDistricts[id] = selectedDistrict;
+	});
+	return JSON.parse(JSON.stringify(assignedDistricts));
+};
+
+const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
-			return payload.objects[topoObjectName].geometries.map(geometry => {
-				return 0;
-			});
+			return {
+				assigned: payload.objects[topoObjectName].geometries.map(geometry => {
+					return 0;
+				}),
+			};
 		case ACCEPT_CHANGES:
-			payload.selectedIds.forEach(id => {
-				assignedDistricts[id] = payload.selectedDistrict;
-			});
-			return JSON.parse(JSON.stringify(assignedDistricts));
+			const assigned = addSelectedDistrictsToAssignedList(
+				districts.assigned,
+				payload.selectedIds,
+				payload.selectedDistrict
+			);
+			const geometry = getDistricts(assigned, payload.lockedDistricts, payload.topoJSON);
+			return {
+				assigned,
+				geometry,
+			};
 		default:
-			return assignedDistricts;
+			return districts;
 	}
 };
 
@@ -156,7 +171,7 @@ const generateSpatialIndexReducer = (geoJSON = null, { type, payload }) => {
 	}
 };
 
-const drawModeReducer = (mode = 'Rectangle', { type, payload }) => {
+const drawModeReducer = (mode = 'Pointer', { type, payload }) => {
 	switch (type) {
 		case CHANGE_DRAWMODE:
 			return payload;
