@@ -2,9 +2,6 @@ import { populationTypes } from '../constants';
 
 export const calculatePopulationsOld = (assignedDistricts, geometries, oldDistricts) => {
 	const newDistricts = JSON.parse(JSON.stringify(oldDistricts));
-	// console.log('Calculate Population Base');
-	// console.log('calcPopOld', assignedDistricts);
-	console.log(55, assignedDistricts);
 	assignedDistricts.forEach((assignedDistrict, index) => {
 		populationTypes.forEach(type => {
 			newDistricts[assignedDistrict][type] += geometries[index][type];
@@ -28,14 +25,6 @@ export const calculatePopulationsNew = (
 	allHighlightedIds.forEach(id => {
 		const geounit = geometries[id];
 		populationTypes.forEach(type => {
-			// console.log('here');
-			// console.log(
-			// 	newDistricts,
-			// 	selectedDistrict,
-			// 	assignedDistricts,
-			// 	geounit.id,
-			// 	newDistricts[assignedDistricts[geounit.id]]
-			// );
 			newDistricts[selectedDistrict][type] += geounit[type];
 			newDistricts[assignedDistricts[geounit.id]][type] -= geounit[type];
 		});

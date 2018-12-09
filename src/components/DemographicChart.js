@@ -1,22 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { populationTypes } from '../constants';
 
-export class DemographicChart extends Component {
-	renderList() {
-		const totalPopulation =
-			this.props.districtNew.population + this.props.districtOld.population;
-		return populationTypes.slice(1).map((type, index) => {
-			const typePopulation = this.props.districtNew[type] + this.props.districtOld[type];
-			const percent = (typePopulation / totalPopulation) * 100 + '%';
-			const myStyle = { width: percent };
-			return (
-				<div className={`demographic demographic-${index}`} style={myStyle} key={index} />
-			);
-		});
-	}
+const renderList = (districtNew, districtOld) => {
+	const totalPopulation = districtNew.population + districtOld.population;
+	return populationTypes.slice(1).map((type, index) => {
+		const typePopulation = districtNew[type] + districtOld[type];
+		const percent = (typePopulation / totalPopulation) * 100 + '%';
+		const myStyle = { width: percent };
+		return <div className={`demographic demographic-${index}`} style={myStyle} key={index} />;
+	});
+};
 
-	render() {
-		return <div className="demographics">{this.renderList()}</div>;
-	}
+export function DemographicChart(props) {
+	return <div className="demographics">{renderList(props.districtNew, props.districtOld)}</div>;
 }

@@ -216,6 +216,10 @@ button {
   opacity: 0.8;
 }
 
+.district-compactness-score {
+  display: inline-block;
+}
+
 .district-population {
   display: inline-block;
   padding: 4px;

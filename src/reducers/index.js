@@ -15,7 +15,6 @@ import {
 	RECTANGLE_ACTIVATE,
 	RECTANGLE_START,
 	LOCK_DISTRICT,
-	UPDATED_DISTRICTS,
 } from '../actions';
 
 import { generateSpatialIndex, spatialSearch, getDistricts } from '../util';
@@ -68,10 +67,19 @@ const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, sele
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
-			return {
-				assigned: payload.objects[topoObjectName].geometries.map(geometry => {
+			const assignedInitial = payload.topoJSON.objects[topoObjectName].geometries.map(
+				geometry => {
 					return 0;
-				}),
+				}
+			);
+			const geometryInitial = getDistricts(
+				assignedInitial,
+				payload.lockedDistricts,
+				payload.topoJSON
+			);
+			return {
+				assigned: assignedInitial,
+				geometry: geometryInitial,
 			};
 		case ACCEPT_CHANGES:
 			const assigned = addSelectedDistrictsToAssignedList(
@@ -171,7 +179,7 @@ const generateSpatialIndexReducer = (geoJSON = null, { type, payload }) => {
 	}
 };
 
-const drawModeReducer = (mode = 'Pointer', { type, payload }) => {
+const drawModeReducer = (mode = 'Rectangle', { type, payload }) => {
 	switch (type) {
 		case CHANGE_DRAWMODE:
 			return payload;
@@ -189,21 +197,12 @@ const lockedIdsReducer = (lockedIds = lockedIdsTemplate, { type, payload }) => {
 	}
 };
 
-const compactnessDistrictsReducer = (compactnessDistricts = null, { type, payload }) => {
-	switch (type) {
-		case UPDATED_DISTRICTS:
-			return payload;
-		default:
-			return compactnessDistricts;
-	}
-};
-
 export default combineReducers({
 	selectedDistrict: selectedDistrictReducer,
 	spatialIndex: generateSpatialIndexReducer,
 	topoJSON: regionTopoJSONReducer,
 	geoJSON: geoJSONReducer,
-	assignedDistricts: assignedDistrictsReducer,
+	districts: assignedDistrictsReducer,
 	selectedIds: selectedIdsReducer,
 	activatedIds: activatedIdsReducer,
 	geometries: geometriesReducer,
@@ -211,5 +210,4 @@ export default combineReducers({
 	drawMode: drawModeReducer,
 	rectangleStartId: rectangleStartIdReducer,
 	lockedIds: lockedIdsReducer,
-	compactnessDistricts: compactnessDistrictsReducer,
 });

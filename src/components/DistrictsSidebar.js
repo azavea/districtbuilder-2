@@ -4,6 +4,7 @@ import memoize from 'memoizee';
 
 import { DemographicChart } from '../components/DemographicChart';
 import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
+import { DistrictCompactnessScore } from '../components/DistrictCompactnessScore';
 import { selectDistrict, acceptChanges, lockDistrict } from '../actions';
 
 import { diffColors } from '../constants/colors';
@@ -26,9 +27,9 @@ class DistrictsSidebar extends Component {
 	});
 
 	renderList() {
-		if (this.props.assignedDistricts && this.props.geometries) {
+		if (this.props.districts && this.props.geometries) {
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
-				this.props.assignedDistricts.assigned,
+				this.props.districts.assigned,
 				this.props.geometries,
 				districtsTemplate
 			);
@@ -36,7 +37,7 @@ class DistrictsSidebar extends Component {
 				this.props.selectedIds,
 				this.props.activatedIds,
 				this.props.selectedDistrict,
-				this.props.assignedDistricts.assigned,
+				this.props.districts.assigned,
 				this.props.geometries,
 				districtsTemplate
 			);
@@ -45,6 +46,7 @@ class DistrictsSidebar extends Component {
 				const color = this.props.districtColors[index];
 				const districtStatus = index === this.props.selectedDistrict ? ' selected' : '';
 				const lockedStatus = this.props.lockedIds[index] ? '-locked' : '-unlocked';
+				const compactnessScores = this.props.districts.geometry.districtCompactnessScores;
 				const diff =
 					districtNew.population > 0
 						? diffColors.increase
@@ -70,6 +72,7 @@ class DistrictsSidebar extends Component {
 							>
 								<i className={'icon-lock' + lockedStatus} />
 							</button>
+							<DistrictCompactnessScore score={compactnessScores[index]} />
 						</div>
 					</div>
 				);
@@ -109,7 +112,7 @@ const mapStateToProps = state => {
 		activatedIds: state.activatedIds,
 		selectedIds: state.selectedIds,
 		districtColors: state.districtColors,
-		assignedDistricts: state.assignedDistricts,
+		districts: state.districts,
 		lockedIds: state.lockedIds,
 		compactnessDistricts: state.compactnessDistricts,
 	};

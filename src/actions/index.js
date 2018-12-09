@@ -53,8 +53,9 @@ export const generateGeoJSON = topoJSON => {
 };
 
 export const generateAssignedDistricts = topoJSON => {
-	return dispatch => {
-		dispatch({ type: GENERATE_ASSIGNED_DISTRICTS, payload: topoJSON });
+	return (dispatch, getState) => {
+		const lockedDistricts = getState().lockedDistricts;
+		dispatch({ type: GENERATE_ASSIGNED_DISTRICTS, payload: { topoJSON, lockedDistricts } });
 	};
 };
 
@@ -73,7 +74,7 @@ export const generateSpatialIndex = geoJSON => {
 export const pointerSelect = e => (dispatch, getState) => {
 	const id = e.features[0].properties.id;
 	const lockedIds = getState().lockedIds;
-	const assignedDistricts = getState().assignedDistricts.assigned;
+	const assignedDistricts = getState().districts.assigned;
 	dispatch({ type: SELECT_GEOUNIT, payload: { id, lockedIds, assignedDistricts } });
 };
 
@@ -87,7 +88,7 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 		const geoJSON = getState().geoJSON;
 		const spatialIndex = getState().spatialIndex;
 		const lockedIds = getState().lockedIds;
-		const assignedDistricts = getState().assignedDistricts.assigned;
+		const assignedDistricts = getState().districts.assigned;
 		dispatch({
 			type: RECTANGLE_SELECT,
 			payload: {
@@ -108,7 +109,7 @@ export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 		const geoJSON = getState().geoJSON;
 		const spatialIndex = getState().spatialIndex;
 		const lockedIds = getState().lockedIds;
-		const assignedDistricts = getState().assignedDistricts.assigned;
+		const assignedDistricts = getState().districts.assigned;
 		dispatch({
 			type: RECTANGLE_ACTIVATE,
 			payload: {

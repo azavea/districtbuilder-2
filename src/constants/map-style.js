@@ -1,11 +1,11 @@
 import { tileLocation, tileLayerName } from '../constants';
 
-import { districtColors, districts } from '../constants';
+import { districtColors, districtIds } from '../constants';
 
 // TODO: Is there a better way to write this? Maybe without using .flat()?
 const districtColorDefinition = [
   ['match', ['get', 'district']],
-  ...districts.map(id => {
+  ...districtIds.map(id => {
     return [id, districtColors[id]];
   }),
   ...['transparent'],

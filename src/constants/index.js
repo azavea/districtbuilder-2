@@ -21,7 +21,7 @@ export const districtNum = 18;
 
 export const bucketNum = districtNum + 1;
 
-export const districts = [...Array(bucketNum).keys()];
+export const districtIds = [...Array(bucketNum).keys()];
 
 export const lockedIdsTemplate = [...Array(bucketNum)];
 

@@ -49,23 +49,19 @@ const lockFilter = (assignedDistrict, lockedIds) => {
 
 export const spatialSearch = (spatialIndex, geoJSON, lockedIds, assignedDistricts, filters) => {
 	const bbox = turfBbox(filters.rectangle);
-	return spatialIndex
-		.search(bbox[0], bbox[1], bbox[2], bbox[3])
-		.map(index => {
-			const feature = geoJSON.features[index];
-			const id = feature.properties.id;
-			const countyfp = feature.properties.countyfp;
-			const assignedDistrict = assignedDistricts[id];
-			if (
-				// countyLimitFilter(filters.rectangleStartId, countyfp) &&
-				lockFilter(assignedDistrict, lockedIds) &&
-				spatialFilter(filters.rectangle, feature)
-			) {
-				return index;
-			}
-			return undefined;
-		})
-		.filter(index => {
+	const results = spatialIndex.search(bbox[0], bbox[1], bbox[2], bbox[3]).map(index => {
+		const feature = geoJSON.features[index];
+		const id = feature.properties.id;
+		const countyfp = feature.properties.countyfp;
+		const assignedDistrict = assignedDistricts[id];
+		if (
+			// countyLimitFilter(filters.rectangleStartId, countyfp) &&
+			lockFilter(assignedDistrict, lockedIds) &&
+			spatialFilter(filters.rectangle, feature)
+		) {
 			return index;
-		});
+		}
+		return undefined;
+	});
+	return results.filter(index => index !== undefined);
 };
