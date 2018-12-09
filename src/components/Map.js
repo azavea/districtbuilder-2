@@ -4,6 +4,7 @@ import './mapbox-gl.css';
 
 import MapDistrictLayer from './MapDistrictLayer';
 import MapHighlightLayer from './MapHighlightLayer';
+import MapOptions from './MapOptions';
 import MapDrawHandler from './MapDrawHandler';
 import { mapboxStyle } from '../constants/map-style';
 
@@ -34,6 +35,7 @@ class Map extends Component {
         {this.map && <MapDistrictLayer map={this.map} />}
         {this.map && <MapHighlightLayer map={this.map} />}
         {this.map && <MapDrawHandler map={this.map} />}
+        {this.map && <MapOptions />}
       </div>
     );
   }

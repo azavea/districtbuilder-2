@@ -2,7 +2,7 @@ import { tileLocation, tileLayerName } from '../constants';
 
 import { districtColors, districtIds } from '../constants';
 
-// TODO: Is there a better way to write this? Maybe without using .flat()?
+// TODO: Is there a more clear way to write this?
 const districtColorDefinition = [
   ['match', ['get', 'district']],
   ...districtIds.map(id => {
@@ -10,6 +10,8 @@ const districtColorDefinition = [
   }),
   ...['transparent'],
 ].flat();
+
+console.log(districtColorDefinition);
 
 export const mapboxStyle = {
   version: 8,

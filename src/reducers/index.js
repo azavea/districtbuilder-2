@@ -179,13 +179,15 @@ const generateSpatialIndexReducer = (geoJSON = null, { type, payload }) => {
 	}
 };
 
-const drawModeReducer = (mode = 'Rectangle', { type, payload }) => {
-	switch (type) {
-		case CHANGE_DRAWMODE:
-			return payload;
-		default:
-			return mode;
-	}
+const createOptionReducer = (defaultOption, reducerName) => {
+	return (mode = defaultOption, { type, payload }) => {
+		switch (type) {
+			case `CHANGE_DRAWMODE_${reducerName}`:
+				return payload;
+			default:
+				return mode;
+		}
+	};
 };
 
 const lockedIdsReducer = (lockedIds = lockedIdsTemplate, { type, payload }) => {
@@ -207,7 +209,13 @@ export default combineReducers({
 	activatedIds: activatedIdsReducer,
 	geometries: geometriesReducer,
 	districtColors: districtColorsReducer,
-	drawMode: drawModeReducer,
 	rectangleStartId: rectangleStartIdReducer,
 	lockedIds: lockedIdsReducer,
+	drawMode: createOptionReducer('Rectangle', 'DRAW_MODE'),
+	mapChoropleth: createOptionReducer('Off'),
+	mapNumber: createOptionReducer('Off'),
+	selectionLevel: createOptionReducer('County'),
+	drawLimitToCounty: createOptionReducer(true),
+	sidebarRaceDisplay: createOptionReducer('Chart'),
+	sidebarPoliticsDisplay: createOptionReducer('Off'),
 });

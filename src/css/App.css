@@ -218,6 +218,7 @@ button {
 
 .district-compactness-score {
   display: inline-block;
+  margin-left: 4px;
 }
 
 .district-population {
