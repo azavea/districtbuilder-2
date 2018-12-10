@@ -14,6 +14,13 @@ import {
 	RECTANGLE_ACTIVATE,
 	RECTANGLE_START,
 	LOCK_DISTRICT,
+	CHANGE_OPTION_DRAW_MODE,
+	CHANGE_OPTION_MAP_CHOROPLETH,
+	CHANGE_OPTION_MAP_NUMBER,
+	CHANGE_OPTION_SELECTION_LEVEL,
+	CHANGE_OPTION_DRAW_LIMIT,
+	CHANGE_OPTION_SIDEBAR_RACE,
+	CHANGE_OPTION_SIDEBAR_POLITICS,
 } from '../actions';
 
 import { generateSpatialIndex, spatialSearch, getDistricts } from '../util';
@@ -180,17 +187,6 @@ const generateSpatialIndexReducer = (geoJSON = null, { type, payload }) => {
 	}
 };
 
-const createOptionReducer = (defaultOption, reducerName) => {
-	return (mode = defaultOption, { type, payload }) => {
-		switch (type) {
-			case `CHANGE_OPTION_${reducerName}`:
-				return payload;
-			default:
-				return mode;
-		}
-	};
-};
-
 const lockedIdsReducer = (lockedIds = lockedIdsTemplate, { type, payload }) => {
 	switch (type) {
 		case LOCK_DISTRICT:
@@ -198,6 +194,17 @@ const lockedIdsReducer = (lockedIds = lockedIdsTemplate, { type, payload }) => {
 		default:
 			return lockedIds;
 	}
+};
+
+const createOptionReducer = (defaultOption, reducerName) => {
+	return (mode = defaultOption, { type, payload }) => {
+		switch (type) {
+			case reducerName:
+				return payload;
+			default:
+				return mode;
+		}
+	};
 };
 
 export default combineReducers({
@@ -212,11 +219,11 @@ export default combineReducers({
 	districtColors: districtColorsReducer,
 	rectangleStartId: rectangleStartIdReducer,
 	lockedIds: lockedIdsReducer,
-	drawMode: createOptionReducer('Rectangle', 'DRAW_MODE'),
-	mapChoropleth: createOptionReducer('Off'),
-	mapNumber: createOptionReducer('Off'),
-	selectionLevel: createOptionReducer('County'),
-	drawLimitToCounty: createOptionReducer(true),
-	sidebarRaceDisplay: createOptionReducer('Chart'),
-	sidebarPoliticsDisplay: createOptionReducer('Off'),
+	drawMode: createOptionReducer('Rectangle', CHANGE_OPTION_DRAW_MODE),
+	mapChoropleth: createOptionReducer('Off', CHANGE_OPTION_MAP_CHOROPLETH),
+	mapNumber: createOptionReducer('Off', CHANGE_OPTION_MAP_NUMBER),
+	selectionLevel: createOptionReducer('County', CHANGE_OPTION_SELECTION_LEVEL),
+	drawLimitToCounty: createOptionReducer(true, CHANGE_OPTION_DRAW_LIMIT),
+	sidebarRaceDisplay: createOptionReducer('Chart', CHANGE_OPTION_SIDEBAR_RACE),
+	sidebarPoliticsDisplay: createOptionReducer('Off', CHANGE_OPTION_SIDEBAR_POLITICS),
 });

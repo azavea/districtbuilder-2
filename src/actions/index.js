@@ -12,12 +12,18 @@ export const SELECT_GEOUNIT = 'SELECT_GEOUNIT';
 export const GENERATE_HIGHLIGHT = 'GENERATE_HIGHLIGHT';
 export const LOAD_COLORS = 'LOAD_COLORS';
 export const ACCEPT_CHANGES = 'ACCEPT_CHANGES';
-export const CHANGE_OPTION_DRAW_MODE = 'CHANGE_OPTION_DRAW_MODE';
 export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
 export const RECTANGLE_START = 'RECTANGLE_START';
 export const LOCK_DISTRICT = 'LOCK_DISTRICT';
 export const UPDATED_DISTRICTS = 'UPDATED_DISTRICTS';
+export const CHANGE_OPTION_DRAW_MODE = 'CHANGE_OPTION_DRAW_MODE';
+export const CHANGE_OPTION_MAP_CHOROPLETH = 'CHANGE_OPTION_MAP_CHOROPLETH';
+export const CHANGE_OPTION_MAP_NUMBER = 'CHANGE_OPTION_MAP_NUMBER';
+export const CHANGE_OPTION_SELECTION_LEVEL = 'CHANGE_OPTION_SELECTION_LEVEL';
+export const CHANGE_OPTION_DRAW_LIMIT = 'CHANGE_OPTION_DRAW_LIMIT';
+export const CHANGE_OPTION_SIDEBAR_RACE = 'CHANGE_OPTION_SIDEBAR_RACE';
+export const CHANGE_OPTION_SIDEBAR_POLITICS = 'CHANGE_OPTION_SIDEBAR_POLITICS';
 
 export const selectDistrict = district => {
 	return {
@@ -156,14 +162,18 @@ export const acceptChanges = () => {
 	};
 };
 
-export const changeOptionDrawMode = selectedOption => {
-	return dispatch => {
-		dispatch({ type: CHANGE_OPTION_DRAW_MODE, payload: selectedOption });
+const createOptionAction = type => {
+	return selectedOption => {
+		return dispatch => {
+			dispatch({ type: type, payload: selectedOption });
+		};
 	};
 };
 
-// export const changeOptionMapChoropleth = selectedOption => {
-// 	return dispatch => {
-// 		dispatch({ type: CHANGE_OPTION_DRAW_MODE, payload: selectedOption });
-// 	};
-// };
+export const changeOptionDrawMode = createOptionAction(CHANGE_OPTION_DRAW_MODE);
+export const changeOptionMapChoropleth = createOptionAction(CHANGE_OPTION_MAP_CHOROPLETH);
+export const changeOptionMapNumber = createOptionAction(CHANGE_OPTION_MAP_NUMBER);
+export const changeOptionSelectionLevel = createOptionAction(CHANGE_OPTION_SELECTION_LEVEL);
+export const changeOptionDrawLimit = createOptionAction(CHANGE_OPTION_DRAW_LIMIT);
+export const changeOptionSidebarRace = createOptionAction(CHANGE_OPTION_SIDEBAR_RACE);
+export const changeOptionSidebarPolitics = createOptionAction(CHANGE_OPTION_SIDEBAR_POLITICS);
