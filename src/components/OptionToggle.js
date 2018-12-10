@@ -1,15 +1,10 @@
 import React from 'react';
 
-function renderOptions(action, options) {
-	return options.map((option, index) => {
-		return <option key={index}>{option}</option>;
-	});
-}
-
-export function OptionSelect(props) {
-	return (
-		<select defaultValue={props.selectedOption} onChange={e => props.action(e.target.value)}>
-			{renderOptions(props.action, props.options, props.selectedOption)}
-		</select>
-	);
+export function OptionToggle(props) {
+    const status = props.selectedOption ? '-check-square' : '-square';
+    return (
+        <button onClick={() => props.action(!props.selectedOption)}>
+            <i className={'icon' + status} /> {props.options}
+        </button>
+    );
 }

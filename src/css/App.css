@@ -93,6 +93,10 @@ button {
   background-color: #ccc;
 }
 
+.toggle.hidden {
+  display: none;
+}
+
 .mapboxgl-map {
   position: absolute !important;
   top: 0;

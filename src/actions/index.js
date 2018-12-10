@@ -6,7 +6,7 @@ export const FETCH_TOPOJSON = 'FETCH_TOPOJSON';
 export const GENERATE_GEOMETRIES = 'GENERATE_GEOMETRIES';
 export const GENERATE_GEOJSON = 'GENERATE_GEOJSON';
 export const GENERATE_ASSIGNED_DISTRICTS = 'GENERATE_ASSIGNED_DISTRICTS';
-export const GENERATE_ID_INDEX = 'GENERATE_ID_INDEX';
+export const GENERATE_COUNTY_INDEX = 'GENERATE_COUNTY_INDEX';
 export const GENERATE_SPATIAL_INDEX = 'GENERATE_SPATIAL_INDEX';
 export const SELECT_GEOUNIT = 'SELECT_GEOUNIT';
 export const GENERATE_HIGHLIGHT = 'GENERATE_HIGHLIGHT';
@@ -47,9 +47,11 @@ export const fetchTopoJSON = () => {
 export const generateGeoJSONAndSpatialIndex = () => async (dispatch, getState) => {
 	const topoJSON = getState().topoJSON;
 	await dispatch(generateGeoJSON(topoJSON));
+	const geoJSON = getState().geoJSON;
 	dispatch(generateGeometries(topoJSON));
 	dispatch(generateAssignedDistricts(topoJSON));
-	dispatch(generateSpatialIndex(getState().geoJSON));
+	dispatch(generateSpatialIndex(geoJSON));
+	dispatch(generateCountyIndex(geoJSON));
 };
 
 export const generateGeoJSON = topoJSON => {
@@ -77,11 +79,26 @@ export const generateSpatialIndex = geoJSON => {
 	};
 };
 
+export const generateCountyIndex = geoJSON => {
+	return dispatch => {
+		dispatch({ type: GENERATE_COUNTY_INDEX, payload: geoJSON });
+	};
+};
+
 export const pointerSelect = e => (dispatch, getState) => {
 	const id = e.features[0].properties.id;
+	const countyfp = e.features[0].properties.countyfp;
 	const lockedIds = getState().lockedIds;
 	const assignedDistricts = getState().districts.assigned;
-	dispatch({ type: SELECT_GEOUNIT, payload: { id, lockedIds, assignedDistricts } });
+	const countyIds =
+		getState().selectionLevel === 'county' ? getState().countyIndex[countyfp] : [id];
+	const unlocked = !lockedIds[assignedDistricts[id]];
+	if (unlocked) {
+		dispatch({
+			type: SELECT_GEOUNIT,
+			payload: { id, countyIds },
+		});
+	}
 };
 
 export const rectangleStart = e => dispatch => {

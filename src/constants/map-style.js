@@ -86,6 +86,9 @@ export const mapboxStyle = {
         'line-opacity': 0.1,
         'line-width': 1,
       },
+      layout: {
+        visibility: 'none',
+      },
     },
     {
       id: 'blockgroups-fill',

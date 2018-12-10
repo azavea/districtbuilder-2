@@ -6,6 +6,7 @@ import MapDistrictLayer from './MapDistrictLayer';
 import MapHighlightLayer from './MapHighlightLayer';
 import MapOptions from './MapOptions';
 import MapDrawHandler from './MapDrawHandler';
+import MapLayerHandler from './MapLayerHandler';
 import { mapboxStyle } from '../constants/map-style';
 
 MapboxGL.accessToken = 'pk.eyJ1IjoibGtuYXJmIiwiYSI6IjhjbGg4RUkifQ.-lS6mAkmR3SVh-W4XwQElg';
@@ -35,6 +36,7 @@ class Map extends Component {
         {this.map && <MapDistrictLayer map={this.map} />}
         {this.map && <MapHighlightLayer map={this.map} />}
         {this.map && <MapDrawHandler map={this.map} />}
+        {this.map && <MapLayerHandler map={this.map} />}
         {this.map && <MapOptions />}
       </div>
     );

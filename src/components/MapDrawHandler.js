@@ -19,13 +19,13 @@ class MapDrawHandler extends Component {
     this.props.map.addControl(this.draw);
   }
   render() {
-    if (this.props.drawMode === 'Pointer') {
+    if (this.props.drawMode === 'pointer') {
       this.props.map.on('click', 'blockgroups-fill', this.props.onPointerSelect);
       this.props.map.getCanvas().style.cursor = 'pointer';
     } else {
       this.props.map.off('click', 'blockgroups-fill', this.props.onPointerSelect);
     }
-    if (this.props.drawMode === 'Rectangle') {
+    if (this.props.drawMode === 'rectangle') {
       this.draw.changeMode('draw_rectangle');
       this.props.map.on('click', 'blockgroups-fill', this.props.onRectangleStart);
       this.props.map.getCanvas().style.cursor = 'crosshair';

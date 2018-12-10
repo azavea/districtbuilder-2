@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { feature } from 'topojson';
+import { difference, union } from 'lodash';
 
 import {
 	DISTRICT_SELECTED,
@@ -7,6 +8,7 @@ import {
 	GENERATE_GEOMETRIES,
 	GENERATE_GEOJSON,
 	GENERATE_SPATIAL_INDEX,
+	GENERATE_COUNTY_INDEX,
 	GENERATE_ASSIGNED_DISTRICTS,
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
@@ -24,8 +26,15 @@ import {
 } from '../actions';
 
 import { generateSpatialIndex, spatialSearch, getDistricts } from '../util';
-
 import { topoObjectName, districtColors, lockedIdsTemplate } from '../constants';
+
+import {
+	optionsDrawMode,
+	optionsSelectionLevel,
+	optionsMapChoropleth,
+	optionsMapNumber,
+	optionsDrawLimit,
+} from '../constants/options';
 
 const selectedDistrictReducer = (selectedDistrict = 1, { type, payload }) => {
 	switch (type) {
@@ -152,13 +161,24 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case SELECT_GEOUNIT:
 			const idIndex = selectedIds.indexOf(payload.id);
-			if (!payload.lockedIds[payload.assignedDistricts[payload.id]]) {
-				if (idIndex < 0) {
-					return [...selectedIds, payload.id]; // Add to list
-				}
-				return [...selectedIds.slice(0, idIndex), ...selectedIds.slice(idIndex + 1)]; // Remove from list
+			console.log(payload.lockedInfo);
+			if (idIndex === -1) {
+				console.time('ES6');
+				console.log([...new Set([...selectedIds, ...payload.countyIds])]);
+				console.timeEnd('ES6');
+				console.time('Lodash');
+				console.log(union(selectedIds, payload.countyIds));
+				console.timeEnd('Lodash');
+				return [...new Set([...selectedIds, ...payload.countyIds])];
+			} else {
+				console.time('ES6');
+				console.log(selectedIds.filter(x => !payload.countyIds.includes(x)));
+				console.timeEnd('ES6');
+				console.time('Lodash');
+				console.log(difference(selectedIds, payload.countyIds));
+				console.timeEnd('Lodash');
+				return selectedIds.filter(x => !payload.countyIds.includes(x));
 			}
-			return selectedIds;
 		case RECTANGLE_SELECT:
 			const newSelectedIds = spatialSearch(
 				payload.spatialIndex,
@@ -187,6 +207,22 @@ const generateSpatialIndexReducer = (geoJSON = null, { type, payload }) => {
 	}
 };
 
+const generateCountyIndexReducer = (geoJSON = null, { type, payload }) => {
+	switch (type) {
+		case GENERATE_COUNTY_INDEX:
+			let countyIndex = {};
+			payload.features.forEach(feature => {
+				if (countyIndex[feature.properties.countyfp] === undefined) {
+					countyIndex[feature.properties.countyfp] = [];
+				}
+				countyIndex[feature.properties.countyfp].push(feature.properties.id);
+			});
+			return countyIndex;
+		default:
+			return geoJSON;
+	}
+};
+
 const lockedIdsReducer = (lockedIds = lockedIdsTemplate, { type, payload }) => {
 	switch (type) {
 		case LOCK_DISTRICT:
@@ -207,9 +243,22 @@ const createOptionReducer = (defaultOption, reducerName) => {
 	};
 };
 
+const createToggleReducer = (defaultOption, reducerName) => {
+	return (mode = false, { type, payload }) => {
+		switch (type) {
+			case reducerName:
+				console.log(type, payload, payload);
+				return payload;
+			default:
+				return mode;
+		}
+	};
+};
+
 export default combineReducers({
 	selectedDistrict: selectedDistrictReducer,
 	spatialIndex: generateSpatialIndexReducer,
+	countyIndex: generateCountyIndexReducer,
 	topoJSON: regionTopoJSONReducer,
 	geoJSON: geoJSONReducer,
 	districts: assignedDistrictsReducer,
@@ -219,11 +268,11 @@ export default combineReducers({
 	districtColors: districtColorsReducer,
 	rectangleStartId: rectangleStartIdReducer,
 	lockedIds: lockedIdsReducer,
-	drawMode: createOptionReducer('Rectangle', CHANGE_OPTION_DRAW_MODE),
-	mapChoropleth: createOptionReducer('Off', CHANGE_OPTION_MAP_CHOROPLETH),
-	mapNumber: createOptionReducer('Off', CHANGE_OPTION_MAP_NUMBER),
-	selectionLevel: createOptionReducer('County', CHANGE_OPTION_SELECTION_LEVEL),
-	drawLimitToCounty: createOptionReducer(true, CHANGE_OPTION_DRAW_LIMIT),
-	sidebarRaceDisplay: createOptionReducer('Chart', CHANGE_OPTION_SIDEBAR_RACE),
-	sidebarPoliticsDisplay: createOptionReducer('Off', CHANGE_OPTION_SIDEBAR_POLITICS),
+	drawMode: createOptionReducer(optionsDrawMode[0].id, CHANGE_OPTION_DRAW_MODE),
+	selectionLevel: createOptionReducer(optionsSelectionLevel[0].id, CHANGE_OPTION_SELECTION_LEVEL),
+	mapChoropleth: createOptionReducer(optionsMapChoropleth[0].id, CHANGE_OPTION_MAP_CHOROPLETH),
+	mapNumber: createOptionReducer(optionsMapNumber[0].id, CHANGE_OPTION_MAP_NUMBER),
+	sidebarRaceDisplay: createOptionReducer('chart', CHANGE_OPTION_SIDEBAR_RACE),
+	sidebarPoliticsDisplay: createOptionReducer('off', CHANGE_OPTION_SIDEBAR_POLITICS),
+	drawLimit: createToggleReducer(optionsDrawLimit[0].id, CHANGE_OPTION_DRAW_LIMIT),
 });

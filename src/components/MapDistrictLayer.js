@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { pointerSelect, updatedDistricts } from '../actions';
-import { districtSourceName } from '../constants';
 
 class MapDistrictLayer extends Component {
   onUpdatedDistricts = collection => {
@@ -11,9 +10,7 @@ class MapDistrictLayer extends Component {
 
   render() {
     if (this.props.districts.geometry) {
-      this.props.map
-        .getSource(districtSourceName)
-        .setData(this.props.districts.geometry.mergedGeoJSON);
+      this.props.map.getSource('districts').setData(this.props.districts.geometry.mergedGeoJSON);
     }
     return <div className="map-district-layer" />;
   }

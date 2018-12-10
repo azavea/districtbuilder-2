@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { OptionButtons } from './OptionButtons';
 import { OptionSelect } from './OptionSelect';
+import { OptionToggle } from './OptionToggle';
+
 import {
   changeOptionDrawMode,
   changeOptionMapChoropleth,
@@ -13,30 +15,43 @@ import {
   changeOptionSidebarPolitics,
 } from '../actions';
 
+import {
+  optionsDrawMode,
+  optionsSelectionLevel,
+  optionsMapChoropleth,
+  optionsMapNumber,
+  optionsDrawLimit,
+} from '../constants/options';
+
 class MapActions extends Component {
   render() {
     return (
       <div className="map-actions">
         <OptionButtons
           action={this.props.onChangeOptionDrawMode}
-          options={['Pointer', 'Rectangle', 'Line']}
+          options={optionsDrawMode}
           selectedOption={this.props.drawMode}
         />
-        {/*        <OptionButtons
+        <OptionButtons
           action={this.props.onChangeOptionSelectionLevel}
-          options={['County', 'Block Group']}
+          options={optionsSelectionLevel}
           selectedOption={this.props.selectionLevel}
         />
         <OptionSelect
           action={this.props.onChangeOptionMapChoropleth}
-          options={['Off', 'Population', 'White', 'Black']}
+          options={optionsMapChoropleth}
           selectedOption={this.props.mapChoropleth}
         />
         <OptionSelect
           action={this.props.onChangeOptionMapNumber}
-          options={['Off', 'Population', 'White', 'Black']}
+          options={optionsMapNumber}
           selectedOption={this.props.mapNumber}
-        />*/}
+        />
+        <OptionToggle
+          action={this.props.onChangeOptionDrawLimit}
+          options={optionsDrawLimit}
+          selectedOption={this.props.drawLimit}
+        />
       </div>
     );
   }
