@@ -9,7 +9,6 @@ import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
-    console.log('MapDrawHandler: componentWillMount');
     this.modes = MapboxDraw.modes;
     this.modes.draw_rectangle = DrawRectangle;
     this.draw = new MapboxDraw({
@@ -20,7 +19,6 @@ class MapDrawHandler extends Component {
     this.props.map.addControl(this.draw);
   }
   render() {
-    console.log('MapDrawHandler: render');
     if (this.props.drawMode === 'Pointer') {
       this.props.map.on('click', 'blockgroups-fill', this.props.onPointerSelect);
       this.props.map.getCanvas().style.cursor = 'pointer';

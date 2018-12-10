@@ -12,7 +12,7 @@ export const SELECT_GEOUNIT = 'SELECT_GEOUNIT';
 export const GENERATE_HIGHLIGHT = 'GENERATE_HIGHLIGHT';
 export const LOAD_COLORS = 'LOAD_COLORS';
 export const ACCEPT_CHANGES = 'ACCEPT_CHANGES';
-export const CHANGE_DRAWMODE = 'CHANGE_DRAWMODE';
+export const CHANGE_OPTION_DRAW_MODE = 'CHANGE_OPTION_DRAW_MODE';
 export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
 export const RECTANGLE_START = 'RECTANGLE_START';
@@ -125,12 +125,6 @@ export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 	};
 };
 
-export const changeDrawMode = mode => {
-	return dispatch => {
-		dispatch({ type: CHANGE_DRAWMODE, payload: mode });
-	};
-};
-
 export const lockDistrict = districtId => {
 	return dispatch => {
 		dispatch({ type: LOCK_DISTRICT, payload: districtId });
@@ -161,3 +155,15 @@ export const acceptChanges = () => {
 		});
 	};
 };
+
+export const changeOptionDrawMode = selectedOption => {
+	return dispatch => {
+		dispatch({ type: CHANGE_OPTION_DRAW_MODE, payload: selectedOption });
+	};
+};
+
+// export const changeOptionMapChoropleth = selectedOption => {
+// 	return dispatch => {
+// 		dispatch({ type: CHANGE_OPTION_DRAW_MODE, payload: selectedOption });
+// 	};
+// };

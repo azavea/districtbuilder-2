@@ -25,7 +25,6 @@ const mapGeometriesToDistricts = (geometries, assignedDistricts) => {
 	assignedDistricts.forEach((assignedDistrict, index) => {
 		geometriesByDistrict[assignedDistrict].push(geometries[index]);
 	});
-	console.log('geometriesByDistrict', geometriesByDistrict);
 	return geometriesByDistrict;
 };
 
@@ -68,6 +67,5 @@ export const getDistricts = (assignedDistricts, lockedDistricts, topoJSON) => {
 		calculateCompactnessAndContiguity(geoJSON)
 	);
 	const mergedGeoJSON = mergeGeoJSONs(districtGeoJSONs);
-	console.log({ districtGeoJSONs, districtCompactnessScores, mergedGeoJSON });
 	return { districtGeoJSONs, districtCompactnessScores, mergedGeoJSON };
 };

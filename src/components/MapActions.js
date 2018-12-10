@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { changeDrawMode } from '../actions';
+import { OptionButtons } from './OptionButtons';
+import { OptionSelect } from './OptionSelect';
+import { changeOptionDrawMode } from '../actions';
 
 class MapActions extends Component {
-  renderDrawButtons() {
-    const options = ['Off', 'Population', 'White', 'Black', 'Asian'];
-    return options.map((mode, index) => {
-      const status = mode === this.props.drawMode ? ' selected' : '';
-      return (
-        <button
-          className={'map-action' + status}
-          key={index}
-          onClick={() => this.props.onChangeDrawMode(mode)}
-        >
-          {mode}
-        </button>
-      );
-    });
-  }
   render() {
     return (
       <div className="map-actions">
-        <div>{this.renderDrawButtons()}</div>
+        <OptionButtons
+          action={this.props.onChangeOptionDrawMode}
+          options={['Pointer', 'Rectangle', 'Line']}
+          selectedOption={this.props.drawMode}
+        />
+        <OptionSelect
+          action={this.props.onChangeOptionDrawMode}
+          options={['Off', 'Population', 'White', 'Black']}
+          selectedOption={this.props.drawMode}
+        />
       </div>
     );
   }
@@ -35,7 +31,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapActionsToProps = {
-  onChangeDrawMode: changeDrawMode,
+  onChangeOptionDrawMode: changeOptionDrawMode,
 };
 
 export default connect(

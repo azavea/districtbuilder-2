@@ -10,7 +10,6 @@ import {
 	GENERATE_ASSIGNED_DISTRICTS,
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
-	CHANGE_DRAWMODE,
 	RECTANGLE_SELECT,
 	RECTANGLE_ACTIVATE,
 	RECTANGLE_START,
@@ -82,12 +81,14 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 				geometry: geometryInitial,
 			};
 		case ACCEPT_CHANGES:
+			console.time('one');
 			const assigned = addSelectedDistrictsToAssignedList(
 				districts.assigned,
 				payload.selectedIds,
 				payload.selectedDistrict
 			);
 			const geometry = getDistricts(assigned, payload.lockedDistricts, payload.topoJSON);
+			console.timeEnd('one');
 			return {
 				assigned,
 				geometry,
@@ -182,7 +183,7 @@ const generateSpatialIndexReducer = (geoJSON = null, { type, payload }) => {
 const createOptionReducer = (defaultOption, reducerName) => {
 	return (mode = defaultOption, { type, payload }) => {
 		switch (type) {
-			case `CHANGE_DRAWMODE_${reducerName}`:
+			case `CHANGE_OPTION_${reducerName}`:
 				return payload;
 			default:
 				return mode;

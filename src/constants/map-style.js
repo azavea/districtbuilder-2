@@ -11,8 +11,6 @@ const districtColorDefinition = [
   ...['transparent'],
 ].flat();
 
-console.log(districtColorDefinition);
-
 export const mapboxStyle = {
   version: 8,
   name: 'District Builder',
