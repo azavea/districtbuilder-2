@@ -1,15 +1,9 @@
-import { tileLocation, tileLayerName } from '../constants';
+import { tileLocation, tileLayerName, districtColors, districtIds } from '../constants';
+import { generateDistrictColor } from '../util/map';
 
-import { districtColors, districtIds } from '../constants';
+const districtColorDefinition = generateDistrictColor(districtIds, districtColors);
 
-// TODO: Is there a more clear way to write this?
-const districtColorDefinition = [
-  ['match', ['get', 'district']],
-  ...districtIds.map(id => {
-    return [id, districtColors[id]];
-  }),
-  ...['transparent'],
-].flat();
+console.log(543, districtColorDefinition);
 
 export const mapboxStyle = {
   version: 8,
@@ -45,6 +39,16 @@ export const mapboxStyle = {
         'fill-color': districtColorDefinition,
         'fill-opacity': 1,
       },
+    },
+    {
+      id: 'districts-lock',
+      type: 'fill',
+      source: 'districts',
+      paint: {
+        'fill-opacity': 1,
+        'fill-pattern': 'circle-1',
+      },
+      filter: ['in', 'district', -1],
     },
     {
       id: 'highlight-fill',
@@ -262,5 +266,6 @@ export const mapboxStyle = {
       },
     },
   ],
+  sprite: window.location.origin + window.location.pathname + '/sprites/sprite',
   glyphs: window.location.origin + window.location.pathname + '/data/fonts/{fontstack}/{range}.pbf',
 };

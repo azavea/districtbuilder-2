@@ -69,3 +69,22 @@ export const getDistricts = (assignedDistricts, lockedDistricts, topoJSON) => {
 	const mergedGeoJSON = mergeGeoJSONs(districtGeoJSONs);
 	return { districtGeoJSONs, districtCompactnessScores, mergedGeoJSON };
 };
+
+// TODO: Is there a more clear way to write this?
+export const generateDistrictColor = (ids, colors) => {
+	return [
+		['match', ['get', 'district']],
+		...ids.map(id => {
+			return [id, colors[id]];
+		}),
+		...['transparent'],
+	].flat();
+};
+
+export const generateLockFilter = lockedIds => {
+	return ['in', 'district'].concat(
+		lockedIds
+			.map((status, key) => (status ? key : undefined))
+			.filter(value => value !== undefined)
+	);
+};

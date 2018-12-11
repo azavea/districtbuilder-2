@@ -10,6 +10,7 @@ class MapDistrictLayer extends Component {
 
   render() {
     if (this.props.districts.geometry) {
+      console.log(this.props.districts.geometry.mergedGeoJSON);
       this.props.map.getSource('districts').setData(this.props.districts.geometry.mergedGeoJSON);
     }
     return <div className="map-district-layer" />;
@@ -21,7 +22,6 @@ const mapStateToProps = (state, props) => {
     topoJSON: state.topoJSON,
     geometries: state.geometries,
     districts: state.districts,
-    lockedDistricts: state.lockedDistricts,
   };
 };
 
