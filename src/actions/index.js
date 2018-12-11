@@ -112,6 +112,8 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 		const spatialIndex = getState().spatialIndex;
 		const lockedIds = getState().lockedIds;
 		const assignedDistricts = getState().districts.assigned;
+		const countyIndex = getState().countyIndex;
+		const selectionLevel = getState().selectionLevel;
 		dispatch({
 			type: RECTANGLE_SELECT,
 			payload: {
@@ -122,6 +124,8 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 				spatialIndex,
 				geoJSON,
 				assignedDistricts,
+				countyIndex,
+				selectionLevel,
 			},
 		});
 	};
@@ -133,6 +137,8 @@ export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 		const spatialIndex = getState().spatialIndex;
 		const lockedIds = getState().lockedIds;
 		const assignedDistricts = getState().districts.assigned;
+		const countyIndex = getState().countyIndex;
+		const selectionLevel = getState().selectionLevel;
 		dispatch({
 			type: RECTANGLE_ACTIVATE,
 			payload: {
@@ -143,6 +149,8 @@ export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 				spatialIndex,
 				geoJSON,
 				assignedDistricts,
+				countyIndex,
+				selectionLevel,
 			},
 		});
 	};

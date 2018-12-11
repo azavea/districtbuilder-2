@@ -47,7 +47,14 @@ const lockFilter = (assignedDistrict, lockedIds) => {
 	return !lockedIds[assignedDistrict];
 };
 
-export const spatialSearch = (spatialIndex, geoJSON, lockedIds, assignedDistricts, filters) => {
+export const spatialSearch = (
+	spatialIndex,
+	geoJSON,
+	lockedIds,
+	assignedDistricts,
+	selectionLevel,
+	filters
+) => {
 	const bbox = turfBbox(filters.rectangle);
 	const results = spatialIndex.search(bbox[0], bbox[1], bbox[2], bbox[3]).map(index => {
 		const feature = geoJSON.features[index];
@@ -55,13 +62,23 @@ export const spatialSearch = (spatialIndex, geoJSON, lockedIds, assignedDistrict
 		const countyfp = feature.properties.countyfp;
 		const assignedDistrict = assignedDistricts[id];
 		if (
-			countyLimitFilter(filters.rectangleStartId, countyfp) &&
+			// countyLimitFilter(filters.rectangleStartId, countyfp) &&
 			lockFilter(assignedDistrict, lockedIds) &&
 			spatialFilter(filters.rectangle, feature)
 		) {
-			return index;
+			if (selectionLevel === 'blockgroup') {
+				return index;
+			}
+			if (selectionLevel === 'county') {
+				return geoJSON.features[index].properties.countyfp;
+			}
 		}
 		return undefined;
 	});
-	return results.filter(index => index !== undefined);
+	if (selectionLevel === 'blockgroup') {
+		return results.filter(index => index !== undefined);
+	}
+	if (selectionLevel === 'county') {
+		return [...new Set(results.filter(index => index !== undefined))];
+	}
 };

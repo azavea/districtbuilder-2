@@ -97,14 +97,12 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 				geometry: geometryInitial,
 			};
 		case ACCEPT_CHANGES:
-			console.time('one');
 			const assigned = addSelectedDistrictsToAssignedList(
 				districts.assigned,
 				payload.selectedIds,
 				payload.selectedDistrict
 			);
 			const geometry = getDistricts(assigned, payload.lockedDistricts, payload.topoJSON);
-			console.timeEnd('one');
 			return {
 				assigned,
 				geometry,
@@ -142,12 +140,20 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 				payload.geoJSON,
 				payload.lockedIds,
 				payload.assignedDistricts,
+				payload.selectionLevel,
 				{
 					rectangle: payload.rectangle,
 					rectangleStartId: payload.rectangleStartId,
 				}
 			);
-			return activatedIds;
+			switch (payload.selectionLevel) {
+				case 'blockgroup':
+					return activatedIds;
+				case 'county':
+					return activatedIds.map(id => payload.countyIndex[id]).flat();
+				default:
+					return selectedIds;
+			}
 		case RECTANGLE_SELECT:
 			return [];
 		case ACCEPT_CHANGES:
@@ -161,22 +167,9 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case SELECT_GEOUNIT:
 			const idIndex = selectedIds.indexOf(payload.id);
-			console.log(payload.lockedInfo);
 			if (idIndex === -1) {
-				console.time('ES6');
-				console.log([...new Set([...selectedIds, ...payload.countyIds])]);
-				console.timeEnd('ES6');
-				console.time('Lodash');
-				console.log(union(selectedIds, payload.countyIds));
-				console.timeEnd('Lodash');
 				return [...new Set([...selectedIds, ...payload.countyIds])];
 			} else {
-				console.time('ES6');
-				console.log(selectedIds.filter(x => !payload.countyIds.includes(x)));
-				console.timeEnd('ES6');
-				console.time('Lodash');
-				console.log(difference(selectedIds, payload.countyIds));
-				console.timeEnd('Lodash');
 				return selectedIds.filter(x => !payload.countyIds.includes(x));
 			}
 		case RECTANGLE_SELECT:
@@ -185,12 +178,25 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 				payload.geoJSON,
 				payload.lockedIds,
 				payload.assignedDistricts,
+				payload.selectionLevel,
 				{
 					rectangle: payload.rectangle,
 					rectangleStartId: payload.rectangleStartId,
 				}
 			);
-			return [...new Set([...selectedIds, ...newSelectedIds])];
+			switch (payload.selectionLevel) {
+				case 'blockgroup':
+					return [...new Set([...selectedIds, ...newSelectedIds])];
+				case 'county':
+					return [
+						...new Set([
+							...selectedIds,
+							...newSelectedIds.map(id => payload.countyIndex[id]).flat(),
+						]),
+					];
+				default:
+					return selectedIds;
+			}
 		case ACCEPT_CHANGES:
 			return [];
 		default:
@@ -247,7 +253,6 @@ const createToggleReducer = (defaultOption, reducerName) => {
 	return (mode = false, { type, payload }) => {
 		switch (type) {
 			case reducerName:
-				console.log(type, payload, payload);
 				return payload;
 			default:
 				return mode;
