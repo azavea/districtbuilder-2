@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { throttle } from 'lodash';
-import './mapbox-gl.css';
 
 import { pointerSelect, rectangleSelect, rectangleActivate, rectangleStart } from '../actions';
 

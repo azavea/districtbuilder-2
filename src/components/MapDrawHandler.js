@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import './mapbox-gl.css';
 
 import MapDrawRectangle from './MapDrawRectangle';
 import { pointerSelect, rectangleStart } from '../actions';

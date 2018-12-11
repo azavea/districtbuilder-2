@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapboxGL from 'mapbox-gl';
-import './mapbox-gl.css';
+import '../css/mapbox-gl.css';
 
 import MapDistrictLayer from './MapDistrictLayer';
 import MapHighlightLayer from './MapHighlightLayer';

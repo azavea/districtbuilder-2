@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import memoize from 'memoizee';
-import './mapbox-gl.css';
 
 import { updateHighlight } from '../util';
 
