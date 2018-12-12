@@ -1,19 +1,14 @@
 import { colorOptionsSmall, colorOptionsLarge } from './colors';
 
-// export const topoObjectName = 'units';
 export const topoObjectName = 'pa-bg';
 
-// export const topoUrl = 'data/bg.topojson';
 export const topoUrl = 'data/pa-bg.topojson';
 
-// export const tileLocation = [
-//   window.location.origin + window.location.pathname + '/data/tiles/{z}/{x}/{y}.pbf',
-// ];
-// export const tileLayerName = 'bg';
 export const tileLocation = [
-  window.location.origin + window.location.pathname + '/data/tiles-all/{z}/{x}/{y}.pbf',
+  window.location.origin + window.location.pathname + '/data/tiles/{z}/{x}/{y}.pbf',
 ];
-export const tileLayerName = 'pabg';
+
+export const tileLayerName = 'geounitlines';
 
 export const populationTypes = ['population', 'white', 'black', 'native', 'asian'];
 export const districtNum = 18;

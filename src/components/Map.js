@@ -28,6 +28,10 @@ class Map extends Component {
     this.map.on('load', () => {
       this.forceUpdate();
     });
+
+    this.map.on('zoom', e => {
+      console.log(this.map.getZoom());
+    });
   }
 
   render() {

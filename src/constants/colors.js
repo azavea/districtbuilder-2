@@ -5,7 +5,7 @@ export const diffColors = {
 };
 
 export const colorOptionsSmall = [
-	'#fff',
+	'#FFFFFF',
 	'#19CB35',
 	'#FDB402',
 	'#8C46FF',
