@@ -40,6 +40,14 @@ export const mapboxStyle = {
       },
     },
     {
+      id: 'districts-extrusion',
+      type: 'fill-extrusion',
+      source: 'districts',
+      paint: {
+        'fill-extrusion-height': ['get', 'popw'],
+      },
+    },
+    {
       id: 'blockgroups-fill',
       type: 'fill',
       source: 'blockgroups',
@@ -47,7 +55,7 @@ export const mapboxStyle = {
       paint: {
         // 'fill-color': '#000',
         'fill-color': 'transparent',
-        // 'fill-opacity': ['match', ['get', 'popw'], 0, 0, 1, 0.1, 2, 0.6, 3, 0.2, 1],
+        // 'fill-opacity': ['match', ['get', 'popw'], 3, 0.4, 2, 0.2, 1, 0, 0],
       },
     },
     {
@@ -279,6 +287,7 @@ export const mapboxStyle = {
     {
       id: 'county-labels',
       type: 'symbol',
+      minzoom: 8,
       source: 'blockgroups',
       'source-layer': 'geounitlabels',
       layout: {

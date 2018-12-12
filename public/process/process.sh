@@ -25,8 +25,8 @@ mapshaper -i input/us-counties.geojson -simplify 0.4 -filter 'statefp==="42"' -o
 tippecanoe -f -o _output/mbtiles/geounit.mbtiles --detect-shared-borders --maximum-zoom=12 --minimum-zoom=1 --simplify-only-low-zooms _output/geounit/geounit-lines.geojson
 tippecanoe -f -o _output/mbtiles/county.mbtiles --detect-shared-borders --maximum-zoom=12 --minimum-zoom=1 --simplify-only-low-zooms _output/county/county-lines.geojson
 
-tippecanoe -f -o _output/mbtiles/geounit-labels.mbtiles --maximum-zoom=12 --minimum-zoom=8 -r1 _output/geounit/geounit-labels.geojson
-tippecanoe -f -o _output/mbtiles/county-labels.mbtiles --maximum-zoom=12 --minimum-zoom=8 -r1 _output/county/county-labels.geojson
+tippecanoe -f -o _output/mbtiles/geounit-labels.mbtiles --maximum-zoom=12 --minimum-zoom=1 -r1 _output/geounit/geounit-labels.geojson
+tippecanoe -f -o _output/mbtiles/county-labels.mbtiles --maximum-zoom=12 --minimum-zoom=1 -r1 _output/county/county-labels.geojson
 
 tippecanoe -f -o _output/mbtiles/city-l.mbtiles --maximum-zoom=12 --minimum-zoom=1  _output/location/city-l.geojson
 tippecanoe -f -o _output/mbtiles/city-m.mbtiles --maximum-zoom=12 --minimum-zoom=2  _output/location/city-m.geojson
