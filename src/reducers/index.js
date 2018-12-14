@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { feature } from 'topojson';
-import { difference, union } from 'lodash';
 
 import {
 	DISTRICT_SELECTED,
@@ -147,7 +146,7 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 				}
 			);
 			switch (payload.selectionLevel) {
-				case 'blockgroup':
+				case 'geounit':
 					return activatedIds;
 				case 'county':
 					return activatedIds.map(id => payload.countyIndex[id]).flat();
@@ -185,7 +184,7 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 				}
 			);
 			switch (payload.selectionLevel) {
-				case 'blockgroup':
+				case 'geounit':
 					return [...new Set([...selectedIds, ...newSelectedIds])];
 				case 'county':
 					return [

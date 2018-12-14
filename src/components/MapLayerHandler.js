@@ -2,22 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class MapLayerHandler extends Component {
-  componentWillMount() {}
   render() {
+    console.log('What is the selection level?', this.props.selectionLevel);
     if (this.props.selectionLevel === 'county') {
       this.props.map.setLayoutProperty('blockgroups-outline', 'visibility', 'none');
     }
-    if (this.props.selectionLevel === 'blockgroup') {
+    if (this.props.selectionLevel === 'geounit') {
       this.props.map.setLayoutProperty('blockgroups-outline', 'visibility', 'visible');
     }
     return <div className="map-layer-handler" />;
   }
 }
-
-const mapActionsToProps = {
-  // onPointerSelect: pointerSelect,
-  // onRectangleStart: rectangleStart,
-};
 
 const mapStateToProps = state => {
   return {
@@ -25,7 +20,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(MapLayerHandler);
+export default connect(mapStateToProps)(MapLayerHandler);

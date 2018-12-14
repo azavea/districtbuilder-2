@@ -9,7 +9,7 @@ import { selectDistrict, acceptChanges, lockDistrict } from '../actions';
 
 import { diffColors } from '../constants/colors';
 
-import { districtsTemplate } from '../constants';
+import { districtsTemplate, idealNumber } from '../constants';
 
 import { numberWithCommas, calculatePopulationsOld, calculatePopulationsNew } from '../util';
 
@@ -64,6 +64,11 @@ class DistrictsSidebar extends Component {
 							<div className="district-name">{districtNew.name}</div>
 							<div className="district-population" style={{ color: diff }}>
 								{numberWithCommas(districtOld.population + districtNew.population)}
+							</div>
+							<div className="district-deviation" style={{ color: diff }}>
+								{numberWithCommas(
+									districtOld.population + districtNew.population - idealNumber
+								)}
 							</div>
 							<DemographicChart districtNew={districtNew} districtOld={districtOld} />
 							<button

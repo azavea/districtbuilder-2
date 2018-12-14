@@ -66,7 +66,7 @@ export const spatialSearch = (
 			lockFilter(assignedDistrict, lockedIds) &&
 			spatialFilter(filters.rectangle, feature)
 		) {
-			if (selectionLevel === 'blockgroup') {
+			if (selectionLevel === 'geounit') {
 				return index;
 			}
 			if (selectionLevel === 'county') {
@@ -75,7 +75,7 @@ export const spatialSearch = (
 		}
 		return undefined;
 	});
-	if (selectionLevel === 'blockgroup') {
+	if (selectionLevel === 'geounit') {
 		return results.filter(index => index !== undefined);
 	}
 	if (selectionLevel === 'county') {

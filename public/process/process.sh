@@ -1,3 +1,31 @@
+# Function that returns abbreviated numbers for populations
+# You need to list all of the different types of populations in the `demographicsNames` and `demographics` arrays.
+abbreviateNumbers='
+	var demographicsNames = ["population", "white", "black", "asian", "native", "other"];
+	var demographics = [population, white, black, asian, native, other];
+	demographics.forEach((demo, key) => {
+		var value = demo; var newValue = value;
+		if (value >= 1000) {
+			var suffixes = ["", "k", "m", "b", "t"];
+			var suffixNum = Math.floor(("" + value).length / 3);
+			var shortValue = "";
+			for (var precision = 2; precision >= 1; precision--) {
+				shortValue = parseFloat(
+					(suffixNum != 0 ? value / Math.pow(1000, suffixNum) : value).toPrecision(precision)
+				);
+				var dotLessShortValue = (shortValue + "").replace(/[^a-zA-Z 0-9]+/g, "");
+				if (dotLessShortValue.length <= 2) {
+					break;
+				}
+			}
+			if (shortValue % 1 != 0) shortNum = shortValue.toFixed(1);
+			newValue = shortValue + suffixes[suffixNum];
+		}
+		this.properties = Object.assign({[demographicsNames[key]+"abbr"]: newValue}, this.properties);
+	})
+'
+abbrRemoveFields=fields=dotLessShortValue,suffixes,value,precision,suffixNum,shortValue,shortNum,newValue,demographics,demo,demographicsNames
+
 rm -rf _output
 
 mkdir _output _output/county _output/geounit _output/location _output/mbtiles
@@ -16,6 +44,10 @@ mapshaper -i input/town-s.geojson -filter 'statefp==="42"' -o _output/location/t
 # Generate Labels
 geojson-polygon-labels _output/geounit/geounit-lines.geojson > _output/geounit/geounit-labels.geojson
 geojson-polygon-labels _output/county/county-lines.geojson > _output/county/county-labels.geojson
+
+# Abbreviate population numbers
+mapshaper _output/geounit/geounit-labels.geojson -each "$abbreviateNumbers" -drop $abbrRemoveFields -o force _output/geounit/geounit-labels.geojson
+mapshaper _output/county/county-labels.geojson -each "$abbreviateNumbers" -drop $abbrRemoveFields -o force _output/county/county-labels.geojson
 
 # Export to TopoJSON
 mapshaper -i input/pa-bg.geojson -simplify 0.4 -o _output/geounit/geounit-lines.topojson format=topojson

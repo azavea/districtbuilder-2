@@ -59,7 +59,7 @@ button {
   position: absolute !important;
   text-align: left;
   top: 0;
-  left: 320px;
+  left: 420px;
   right: 0;
   bottom: 0;
   background: #fff;
@@ -71,7 +71,7 @@ button {
 
 .map {
   position: absolute;
-  top: 50px;
+  top: 30px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -82,7 +82,7 @@ button {
   top: 0;
   right: 0;
   left: 0;
-  height: 50px;
+  height: 30px;
 }
 
 .map-action {
@@ -161,7 +161,7 @@ button {
   text-align: left;
   top: 0;
   left: 0;
-  width: 320px;
+  width: 420px;
   bottom: 0;
   padding: 15px;
   overflow-y: auto;
@@ -225,7 +225,8 @@ button {
   margin-left: 4px;
 }
 
-.district-population {
+.district-population,
+.district-deviation {
   display: inline-block;
   padding: 4px;
   width: 100px;
@@ -234,7 +235,8 @@ button {
 }
 
 .item.selected .district-name,
-.item.selected .district-population {
+.item.selected .district-population,
+.item.selected .district-deviation {
   opacity: 1;
 }
 

@@ -1,6 +1,5 @@
 import { tileLocation, tileLayerName, districtColors, districtIds } from '../constants';
 import { generateDistrictColor } from '../util/map';
-import { numberWithCommas } from '../util/data';
 
 const districtColorDefinition = generateDistrictColor(districtIds, districtColors);
 
@@ -39,23 +38,21 @@ export const mapboxStyle = {
         'fill-opacity': 1,
       },
     },
-    {
-      id: 'districts-extrusion',
-      type: 'fill-extrusion',
-      source: 'districts',
-      paint: {
-        'fill-extrusion-height': ['get', 'popw'],
-      },
-    },
+    // {
+    //   id: 'districts-extrusion',
+    //   type: 'fill-extrusion',
+    //   source: 'districts',
+    //   paint: {
+    //     'fill-extrusion-height': ['get', 'popw'],
+    //   },
+    // },
     {
       id: 'blockgroups-fill',
       type: 'fill',
       source: 'blockgroups',
       'source-layer': tileLayerName,
       paint: {
-        // 'fill-color': '#000',
         'fill-color': 'transparent',
-        // 'fill-opacity': ['match', ['get', 'popw'], 3, 0.4, 2, 0.2, 1, 0, 0],
       },
     },
     {
@@ -65,7 +62,6 @@ export const mapboxStyle = {
       'source-layer': 'countylines',
       paint: {
         'fill-color': 'transparent',
-        // 'fill-opacity': ['match', ['get', 'popw'], 3, 0.4, 2, 0.2, 1, 0, 0],
       },
     },
     {
@@ -80,13 +76,103 @@ export const mapboxStyle = {
       },
     },
     {
+      id: 'geounit-circles',
+      type: 'circle',
+      source: 'blockgroups',
+      'source-layer': 'geounitlabels',
+      layout: {
+        visibility: 'none',
+      },
+      paint: {
+        'circle-color': '#03034f',
+        'circle-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.1, 12, 0.6, 22, 0.6],
+        'circle-radius': 0,
+      },
+    },
+    {
+      id: 'county-circles',
+      type: 'circle',
+      source: 'blockgroups',
+      'source-layer': 'countylabels',
+      layout: {
+        visibility: 'none',
+      },
+      paint: {
+        'circle-color': '#03034f',
+        'circle-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.1, 12, 0.6, 22, 0.6],
+        'circle-radius': 0,
+      },
+    },
+    // {
+    //   id: 'geounit-circles',
+    //   type: 'heatmap',
+    //   source: 'blockgroups',
+    //   'source-layer': 'geounitlabels',
+    //   layout: {
+    //     visibility: 'none',
+    //   },
+    //   paint: {
+    //     'heatmap-color': [
+    //       'interpolate',
+    //       ['linear'],
+    //       ['heatmap-density'],
+    //       0,
+    //       'hsla(240, 100%, 50%, 0)',
+    //       1,
+    //       'hsla(195, 83%, 16%, 1)',
+    //     ],
+    //     'heatmap-opacity': 0.6,
+    //     'heatmap-intensity': 0.5,
+    //     'heatmap-radius': [
+    //       'interpolate',
+    //       ['linear'],
+    //       ['zoom'],
+    //       5,
+    //       ['interpolate', ['linear'], ['get', 'black'], 0, 1, 5390, 10],
+    //       11,
+    //       ['interpolate', ['linear'], ['get', 'black'], 0, 5, 5390, 50],
+    //     ],
+    //   },
+    // },
+    // {
+    //   id: 'county-circles',
+    //   type: 'heatmap',
+    //   source: 'blockgroups',
+    //   'source-layer': 'countylabels',
+    //   layout: {
+    //     visibility: 'none',
+    //   },
+    //   paint: {
+    //     'heatmap-color': [
+    //       'interpolate',
+    //       ['linear'],
+    //       ['heatmap-density'],
+    //       0,
+    //       'hsla(240, 100%, 50%, 0)',
+    //       1,
+    //       'hsla(195, 83%, 16%, 1)',
+    //     ],
+    //     'heatmap-opacity': 0.6,
+    //     'heatmap-intensity': 0.5,
+    //     'heatmap-radius': [
+    //       'interpolate',
+    //       ['linear'],
+    //       ['zoom'],
+    //       5,
+    //       ['interpolate', ['linear'], ['get', 'black'], 5000, 1, 530090, 50],
+    //       11,
+    //       ['interpolate', ['linear'], ['get', 'black'], 0, 5, 530090, 200],
+    //     ],
+    //   },
+    // },
+    {
       id: 'blockgroups-outline',
       type: 'line',
       source: 'blockgroups',
       'source-layer': tileLayerName,
       paint: {
         'line-color': '#000',
-        'line-opacity': 0.2,
+        'line-opacity': 0.1,
         'line-width': 1,
       },
       layout: {
@@ -98,8 +184,8 @@ export const mapboxStyle = {
       type: 'fill',
       source: 'districts',
       paint: {
-        'fill-opacity': 1,
-        'fill-pattern': 'circle-1',
+        'fill-opacity': 0.2,
+        'fill-pattern': 'crosshatch',
       },
       filter: ['in', 'district', -1],
     },
@@ -136,12 +222,9 @@ export const mapboxStyle = {
         'text-font': ['GR'],
       },
       paint: {
-        'text-color': '#fff',
+        'text-color': '#000',
         'text-opacity': 0.9,
-        'text-halo-color': {
-          base: 1,
-          stops: [[8, 'hsl(0, 1%, 10%)'], [16, 'hsl(0, 2%, 16%)']],
-        },
+        'text-halo-color': '#fff',
         'text-halo-width': {
           base: 1,
           stops: [[14, 1.25], [15, 1.5]],
@@ -163,12 +246,9 @@ export const mapboxStyle = {
         'text-font': ['GR'],
       },
       paint: {
-        'text-color': '#fff',
+        'text-color': '#000',
         'text-opacity': 0.9,
-        'text-halo-color': {
-          base: 1,
-          stops: [[8, 'hsl(0, 1%, 10%)'], [16, 'hsl(0, 2%, 16%)']],
-        },
+        'text-halo-color': '#fff',
         'text-halo-width': {
           base: 1,
           stops: [[14, 1.25], [15, 1.5]],
@@ -190,12 +270,9 @@ export const mapboxStyle = {
         'text-font': ['GR'],
       },
       paint: {
-        'text-color': '#fff',
+        'text-color': '#000',
         'text-opacity': 0.9,
-        'text-halo-color': {
-          base: 1,
-          stops: [[8, 'hsl(0, 1%, 10%)'], [16, 'hsl(0, 2%, 16%)']],
-        },
+        'text-halo-color': '#fff',
         'text-halo-width': {
           base: 1,
           stops: [[14, 1.25], [15, 1.5]],
@@ -217,12 +294,9 @@ export const mapboxStyle = {
         'text-font': ['GR'],
       },
       paint: {
-        'text-color': '#fff',
+        'text-color': '#000',
         'text-opacity': 0.9,
-        'text-halo-color': {
-          base: 1,
-          stops: [[8, 'hsl(0, 1%, 10%)'], [16, 'hsl(0, 2%, 16%)']],
-        },
+        'text-halo-color': '#fff',
         'text-halo-width': {
           base: 1,
           stops: [[14, 1.25], [15, 1.5]],
@@ -244,12 +318,9 @@ export const mapboxStyle = {
         'text-font': ['GR'],
       },
       paint: {
-        'text-color': '#fff',
+        'text-color': '#000',
         'text-opacity': 0.9,
-        'text-halo-color': {
-          base: 1,
-          stops: [[8, 'hsl(0, 1%, 10%)'], [16, 'hsl(0, 2%, 16%)']],
-        },
+        'text-halo-color': '#fff',
         'text-halo-width': {
           base: 1,
           stops: [[14, 1.25], [15, 1.5]],
@@ -271,12 +342,35 @@ export const mapboxStyle = {
         'text-font': ['GR'],
       },
       paint: {
-        'text-color': '#fff',
+        'text-color': '#000',
         'text-opacity': 0.9,
-        'text-halo-color': {
+        'text-halo-color': '#fff',
+        'text-halo-width': {
           base: 1,
-          stops: [[8, 'hsl(0, 1%, 10%)'], [16, 'hsl(0, 2%, 16%)']],
+          stops: [[14, 1.25], [15, 1.5]],
         },
+        'text-halo-blur': 0,
+      },
+    },
+    {
+      id: 'geounit-labels',
+      type: 'symbol',
+      minzoom: 9,
+      source: 'blockgroups',
+      'source-layer': 'geounitlabels',
+      layout: {
+        'text-size': 12,
+        'symbol-spacing': 1,
+        'text-padding': 10,
+        'text-field': '{native}',
+        'text-max-width': 7,
+        'text-font': ['GR'],
+        visibility: 'none',
+      },
+      paint: {
+        'text-color': '#000',
+        'text-opacity': 0.9,
+        'text-halo-color': '#fff',
         'text-halo-width': {
           base: 1,
           stops: [[14, 1.25], [15, 1.5]],
@@ -287,24 +381,21 @@ export const mapboxStyle = {
     {
       id: 'county-labels',
       type: 'symbol',
-      minzoom: 8,
       source: 'blockgroups',
-      'source-layer': 'geounitlabels',
+      'source-layer': 'countylabels',
       layout: {
-        'text-size': 12,
+        'text-size': 14,
         'symbol-spacing': 1,
         'text-padding': 10,
         'text-field': '{population}',
         'text-max-width': 7,
         'text-font': ['GR'],
+        visibility: 'none',
       },
       paint: {
-        'text-color': '#fff',
+        'text-color': '#000',
         'text-opacity': 0.9,
-        'text-halo-color': {
-          base: 1,
-          stops: [[8, 'hsl(0, 1%, 10%)'], [16, 'hsl(0, 2%, 16%)']],
-        },
+        'text-halo-color': '#fff',
         'text-halo-width': {
           base: 1,
           stops: [[14, 1.25], [15, 1.5]],
