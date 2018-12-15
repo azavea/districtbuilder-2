@@ -33,9 +33,9 @@ const spatialFilter = (rectangle, feature) => {
 	return !booleanDisjoint(rectangle, feature);
 };
 
-const countyLimitFilter = (startCounty, currentCounty) => {
+const countyLimitFilter = (startCounty, currentCounty, drawLimit) => {
 	// Select when geounit is in same county as initial geounit clicked when creating rectangle;
-	if (startCounty) {
+	if (startCounty && drawLimit) {
 		return currentCounty === startCounty;
 	} else {
 		return true;
@@ -53,6 +53,7 @@ export const spatialSearch = (
 	lockedIds,
 	assignedDistricts,
 	selectionLevel,
+	drawLimit,
 	filters
 ) => {
 	const bbox = turfBbox(filters.rectangle);
@@ -62,7 +63,7 @@ export const spatialSearch = (
 		const countyfp = feature.properties.countyfp;
 		const assignedDistrict = assignedDistricts[id];
 		if (
-			// countyLimitFilter(filters.rectangleStartId, countyfp) &&
+			countyLimitFilter(filters.rectangleStartId, countyfp, drawLimit) &&
 			lockFilter(assignedDistrict, lockedIds) &&
 			spatialFilter(filters.rectangle, feature)
 		) {

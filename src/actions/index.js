@@ -118,6 +118,7 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 		const assignedDistricts = getState().districts.assigned;
 		const countyIndex = getState().countyIndex;
 		const selectionLevel = getState().selectionLevel;
+		const drawLimit = getState().drawLimit;
 		dispatch({
 			type: RECTANGLE_SELECT,
 			payload: {
@@ -130,6 +131,7 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 				assignedDistricts,
 				countyIndex,
 				selectionLevel,
+				drawLimit,
 			},
 		});
 	};
@@ -143,6 +145,7 @@ export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 		const assignedDistricts = getState().districts.assigned;
 		const countyIndex = getState().countyIndex;
 		const selectionLevel = getState().selectionLevel;
+		const drawLimit = getState().drawLimit;
 		dispatch({
 			type: RECTANGLE_ACTIVATE,
 			payload: {
@@ -155,6 +158,7 @@ export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 				assignedDistricts,
 				countyIndex,
 				selectionLevel,
+				drawLimit,
 			},
 		});
 	};

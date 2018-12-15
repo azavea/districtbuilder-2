@@ -140,6 +140,7 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 				payload.lockedIds,
 				payload.assignedDistricts,
 				payload.selectionLevel,
+				payload.drawLimit,
 				{
 					rectangle: payload.rectangle,
 					rectangleStartId: payload.rectangleStartId,
@@ -181,6 +182,7 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 				payload.lockedIds,
 				payload.assignedDistricts,
 				payload.selectionLevel,
+				payload.drawLimit,
 				{
 					rectangle: payload.rectangle,
 					rectangleStartId: payload.rectangleStartId,
