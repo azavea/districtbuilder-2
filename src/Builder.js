@@ -8,21 +8,19 @@ import DistrictsSidebar from './components/DistrictsSidebar';
 import MapActions from './components/MapActions';
 import { fetchTopoAndGenerateGeo } from './actions';
 
-class App extends Component {
+class Builder extends Component {
     componentDidMount() {
         this.props.onFetchTopoAndGenerateGeo();
     }
 
     render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <DistrictsSidebar />
-                    <div className="map-container">
-                        <MapActions />
-                        <Map />
-                    </div>
-                </header>
+            <div className="builder">
+                <DistrictsSidebar />
+                <MapActions />
+                <div className="map-container">
+                    <Map />
+                </div>
             </div>
         );
     }
@@ -35,4 +33,4 @@ const mapActionsToProps = {
 export default connect(
     null,
     mapActionsToProps
-)(App);
+)(Builder);

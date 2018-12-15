@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MapboxGL from 'mapbox-gl';
 import '../css/mapbox-gl.css';
+// import ReactResizeDetector from 'react-resize-detector';
 
 import MapDistrictLayer from './MapDistrictLayer';
 import MapHighlightLayer from './MapHighlightLayer';
@@ -35,6 +36,7 @@ class Map extends Component {
   render() {
     return (
       <div className="map">
+        {/*<ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />*/}
         <div ref={el => (this.mapContainer = el)} />
         {this.map && <MapDistrictLayer map={this.map} />}
         {this.map && <MapHighlightLayer map={this.map} />}

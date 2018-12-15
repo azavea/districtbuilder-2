@@ -184,8 +184,8 @@ export const mapboxStyle = {
       type: 'fill',
       source: 'districts',
       paint: {
-        'fill-opacity': 0.2,
-        'fill-pattern': 'crosshatch',
+        'fill-opacity': 1,
+        'fill-pattern': 'circle-1',
       },
       filter: ['in', 'district', -1],
     },

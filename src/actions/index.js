@@ -91,7 +91,11 @@ export const pointerSelect = e => (dispatch, getState) => {
 	const lockedIds = getState().lockedIds;
 	const assignedDistricts = getState().districts.assigned;
 	const countyIds =
-		getState().selectionLevel === 'county' ? getState().countyIndex[countyfp] : [id];
+		getState().selectionLevel === 'county'
+			? getState().countyIndex[countyfp].filter(id => {
+					return !lockedIds[assignedDistricts[id]];
+			  })
+			: [id];
 	const unlocked = !lockedIds[assignedDistricts[id]];
 	if (unlocked) {
 		dispatch({

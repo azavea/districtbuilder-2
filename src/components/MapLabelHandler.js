@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 class MapLabelHandler extends Component {
   componentWillMount() {}
   render() {
-    console.log(this.props.mapNumber, this.props.selectionLevel);
     if (this.props.mapNumber !== 'off' && this.props.selectionLevel === 'geounit') {
       this.props.map.setLayoutProperty('geounit-labels', 'visibility', 'visible');
       this.props.map.setLayoutProperty(

@@ -149,7 +149,10 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 				case 'geounit':
 					return activatedIds;
 				case 'county':
-					return activatedIds.map(id => payload.countyIndex[id]).flat();
+					return activatedIds
+						.map(id => payload.countyIndex[id])
+						.flat()
+						.filter(id => !payload.lockedIds[payload.assignedDistricts[id]]);
 				default:
 					return selectedIds;
 			}
@@ -187,12 +190,13 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 				case 'geounit':
 					return [...new Set([...selectedIds, ...newSelectedIds])];
 				case 'county':
-					return [
+					const foo = [
 						...new Set([
 							...selectedIds,
 							...newSelectedIds.map(id => payload.countyIndex[id]).flat(),
 						]),
-					];
+					].filter(id => !payload.lockedIds[payload.assignedDistricts[id]]);
+					return foo;
 				default:
 					return selectedIds;
 			}

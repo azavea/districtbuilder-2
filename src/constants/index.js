@@ -10,13 +10,13 @@ export const tileLocation = [
 
 export const tileLayerName = 'geounitlines';
 
-export const populationTypes = ['population', 'white', 'black', 'native', 'asian'];
+export const demographicTypes = ['white', 'black', 'native', 'asian'];
+export const populationTypes = ['population', ...demographicTypes];
 export const districtNum = 18;
 export const bucketNum = districtNum + 1;
 export const districtIds = [...Array(bucketNum).keys()];
 export const lockedIdsTemplate = [...Array(bucketNum)];
 export const districtColors = districtIds.map(key => {
-  console.log(districtIds.length, colorOptionsSmall.length);
   return districtIds.length <= colorOptionsSmall.length
     ? colorOptionsSmall[key]
     : colorOptionsLarge[key];

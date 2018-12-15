@@ -12,6 +12,5 @@ function renderOptions(action, options, selectedOption) {
 }
 
 export function OptionButtons(props) {
-    console.log(props);
     return renderOptions(props.action, props.options, props.selectedOption);
 }

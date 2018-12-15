@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 class MapLayerHandler extends Component {
   render() {
-    console.log('What is the selection level?', this.props.selectionLevel);
     if (this.props.selectionLevel === 'county') {
       this.props.map.setLayoutProperty('blockgroups-outline', 'visibility', 'none');
     }

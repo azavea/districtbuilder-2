@@ -6,7 +6,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 
 import './css/index.css';
-import App from './App';
+import Builder from './Builder';
 import About from './About';
 import reducers from './reducers';
 
@@ -21,8 +21,8 @@ const store = createStore(
 const routing = (
 	<Provider store={store}>
 		<Router>
-			<div>
-				<Route exact path="/" component={App} />
+			<div className="app">
+				<Route exact path="/" component={Builder} />
 				<Route path="/about" component={About} />
 			</div>
 		</Router>

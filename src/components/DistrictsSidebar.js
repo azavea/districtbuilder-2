@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import memoize from 'memoizee';
+import { throttle } from 'lodash';
 
-import { DemographicChart } from '../components/DemographicChart';
+import { DataChart } from '../components/DataChart';
 import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
 import { DistrictCompactnessScore } from '../components/DistrictCompactnessScore';
 import { selectDistrict, acceptChanges, lockDistrict } from '../actions';
@@ -59,26 +60,35 @@ class DistrictsSidebar extends Component {
 						key={index}
 						onClick={() => this.onSelectDistrict(index)}
 					>
-						<div className="item-container">
+						<div className="district-property">
 							<DistrictColorSymbol color={color} />
 							<div className="district-name">{districtNew.name}</div>
+						</div>
+						<div className="district-property">
 							<div className="district-population" style={{ color: diff }}>
 								{numberWithCommas(districtOld.population + districtNew.population)}
 							</div>
+						</div>
+						<div className="district-property">
 							<div className="district-deviation" style={{ color: diff }}>
 								{numberWithCommas(
 									districtOld.population + districtNew.population - idealNumber
 								)}
 							</div>
-							<DemographicChart districtNew={districtNew} districtOld={districtOld} />
+						</div>
+						<div className="district-property">
+							<DataChart districtNew={districtNew} districtOld={districtOld} />
 							<button
 								className={'button-lock .' + lockedStatus}
 								onClick={e => this.onLockDistrict(e, index)}
 							>
 								<i className={'icon-lock' + lockedStatus} />
 							</button>
+						</div>
+						<div className="district-property">
 							<DistrictCompactnessScore score={compactnessScores[index]} />
 						</div>
+						<div className="district-background" />
 					</div>
 				);
 			});
@@ -104,7 +114,7 @@ class DistrictsSidebar extends Component {
 				<button className="button-accept" onClick={() => this.onAcceptChanges()}>
 					Accept changes
 				</button>
-				<div>{this.renderList()}</div>
+				<div className="district-table">{this.renderList()}</div>
 			</div>
 		);
 	}

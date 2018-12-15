@@ -9,7 +9,6 @@ class MapDrawHandler extends Component {
     this.onRectangleActivateThrottled = throttle(this.props.onRectangleActivate, 300);
 
     this.props.map.on('draw.create', e => {
-      console.log('draw.create');
       this.props.onRectangleSelect({
         rectangle: e.features[0],
         rectangleStartId: this.props.rectangleStartId,

@@ -21,7 +21,7 @@ class MapActions extends Component {
     });
   }
   render() {
-    return <div className="map-actions" />;
+    return <div className="map-options" />;
   }
 }
 
