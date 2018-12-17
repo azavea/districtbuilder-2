@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import memoize from 'memoizee';
+// import memoize from 'memoizee';
 
 import { updateHighlight } from '../util';
 
 class MapHighlightLayer extends Component {
-  updateHighlightMemoized = memoize(updateHighlight, {
-    max: 1,
-    length: 3,
-    primitive: true,
-  });
+  updateHighlightMemoized = updateHighlight;
 
   render() {
     if (this.props.topoJSON && this.props.selectedIds) {

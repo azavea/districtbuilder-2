@@ -15,7 +15,6 @@ class MapDrawHandler extends Component {
       boxSelect: false,
       displayControlsDefault: false,
     });
-    this.props.map.addControl(this.draw);
   }
   render() {
     if (this.props.drawMode === 'pointer') {
@@ -25,12 +24,17 @@ class MapDrawHandler extends Component {
       this.props.map.off('click', 'blockgroups-fill', this.props.onPointerSelect);
     }
     if (this.props.drawMode === 'rectangle') {
+      this.myDrawControl = this.props.map.addControl(this.draw);
       this.draw.changeMode('draw_rectangle');
       this.props.map.on('click', 'blockgroups-fill', this.props.onRectangleStart);
       this.props.map.getCanvas().style.cursor = 'crosshair';
     } else {
+      if (this.myDrawControl) {
+        this.props.map.removeControl(this.draw);
+      } else {
+        this.myDrawControl = undefined;
+      }
       this.props.map.off('click', 'blockgroups-fill', this.props.onRectangleStart);
-      this.draw.changeMode('simple_select');
     }
     return (
       <div className="map-draw-handler">

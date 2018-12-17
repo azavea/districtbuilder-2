@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import memoize from 'memoizee';
-import { throttle } from 'lodash';
 
 import { DataChart } from '../components/DataChart';
 import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
@@ -22,7 +21,7 @@ class DistrictsSidebar extends Component {
 	});
 
 	calculatePopulationsNewMemoized = memoize(calculatePopulationsNew, {
-		max: 5,
+		max: 2,
 		primitive: true,
 		length: 4,
 	});
