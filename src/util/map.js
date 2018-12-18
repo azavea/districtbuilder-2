@@ -4,11 +4,11 @@ import flatten from '@turf/flatten';
 
 import { topoObjectName, districtIds } from '../constants';
 
-export const updateHighlight = (selectedIds, activatedIds, lockedDistricts, topoJSON, map) => {
-	const allGeometries = topoJSON.objects[topoObjectName].geometries;
+export const updateHighlight = (selectedIds, activatedIds, lockedDistricts, map) => {
+	const allGeometries = window.dataTopoJSON.objects[topoObjectName].geometries;
 	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
 	const allHighlightedGeometries = allHighlightedIds.map(id => allGeometries[id]);
-	const highlightGeoJSON = merge(topoJSON, allHighlightedGeometries);
+	const highlightGeoJSON = merge(window.dataTopoJSON, allHighlightedGeometries);
 
 	setTimeout(
 		() => {
@@ -18,7 +18,7 @@ export const updateHighlight = (selectedIds, activatedIds, lockedDistricts, topo
 	);
 };
 
-const getGeometries = topoJSON => topoJSON.objects[topoObjectName].geometries;
+const getGeometries = topoJSON => window.dataTopoJSON.objects[topoObjectName].geometries;
 
 const mapGeometriesToDistricts = (geometries, assignedDistricts) => {
 	let geometriesByDistrict = districtIds.map(() => []);
@@ -62,7 +62,7 @@ const mergeGeoJSONs = geoJSONs => {
 };
 
 export const getDistricts = (assignedDistricts, lockedDistricts, topoJSON) => {
-	const districtGeoJSONs = getGeoJSONForEachDistrict(assignedDistricts, topoJSON);
+	const districtGeoJSONs = getGeoJSONForEachDistrict(assignedDistricts, window.dataTopoJSON);
 	const districtCompactnessScores = districtGeoJSONs.map(geoJSON =>
 		calculateCompactnessAndContiguity(geoJSON)
 	);

@@ -5,15 +5,14 @@ import { connect } from 'react-redux';
 import { updateHighlight } from '../util';
 
 class MapHighlightLayer extends Component {
-  updateHighlightMemoized = updateHighlight;
-
   render() {
-    if (this.props.topoJSON && this.props.selectedIds) {
-      this.updateHighlightMemoized(
+    console.log('Running map highlight layer');
+
+    if (window.dataTopoJSON && this.props.selectedIds) {
+      updateHighlight(
         this.props.selectedIds,
         this.props.activatedIds,
         this.props.lockedDistricts,
-        this.props.topoJSON,
         this.props.map
       );
     }
@@ -26,7 +25,6 @@ const mapStateToProps = (state, props) => {
   return {
     selectedIds: state.selectedIds,
     activatedIds: state.activatedIds,
-    topoJSON: state.topoJSON,
     lockedDistricts: state.lockedDistricts,
   };
 };

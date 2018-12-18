@@ -1,8 +1,9 @@
-import { topoUrl } from '../constants';
+import { topoUrl, geoUrl } from '../constants';
 
 export const DISTRICT_SELECTED = 'DISTRICT_SELECTED';
 export const FETCH_SPATIAL_INDEX = 'FETCH_SPATIAL_INDEX';
 export const FETCH_TOPOJSON = 'FETCH_TOPOJSON';
+export const FETCH_GEOJSON = 'FETCH_GEOJSON';
 export const GENERATE_GEOMETRIES = 'GENERATE_GEOMETRIES';
 export const GENERATE_GEOJSON = 'GENERATE_GEOJSON';
 export const GENERATE_ASSIGNED_DISTRICTS = 'GENERATE_ASSIGNED_DISTRICTS';
@@ -33,8 +34,10 @@ export const selectDistrict = district => {
 };
 
 export const fetchTopoAndGenerateGeo = () => async (dispatch, getState) => {
-	await dispatch(fetchTopoJSON());
-	dispatch(generateGeoJSONAndSpatialIndex());
+	// dispatch(fetchTopoJSON());
+	// await dispatch(fetchGeoJSON());
+	// dispatch(generateGeoJSONAndSpatialIndex());
+	dispatch(generateAssignedDistricts(window.dataTopoJSON));
 };
 
 export const fetchTopoJSON = () => {
@@ -44,14 +47,22 @@ export const fetchTopoJSON = () => {
 	};
 };
 
+export const fetchGeoJSON = () => {
+	return async dispatch => {
+		const response = await fetch(geoUrl).then(res => res.json());
+		dispatch({ type: FETCH_GEOJSON, payload: response });
+	};
+};
+
 export const generateGeoJSONAndSpatialIndex = () => async (dispatch, getState) => {
-	const topoJSON = getState().topoJSON;
-	await dispatch(generateGeoJSON(topoJSON));
-	const geoJSON = getState().geoJSON;
-	dispatch(generateGeometries(topoJSON));
-	dispatch(generateAssignedDistricts(topoJSON));
-	dispatch(generateSpatialIndex(geoJSON));
-	dispatch(generateCountyIndex(geoJSON));
+	// const topoJSON = getState().topoJSON;
+	// await dispatch(generateGeoJSON(topoJSON));
+	// await dispatch(fetchGeoJSON(topoJSON));
+	// const geoJSON = getState().geoJSON;
+	// dispatch(generateGeometries(topoJSON));
+	// dispatch(generateAssignedDistricts(topoJSON));
+	// dispatch(generateSpatialIndex(geoJSON));
+	// dispatch(generateCountyIndex(geoJSON));
 };
 
 export const generateGeoJSON = topoJSON => {
@@ -62,7 +73,7 @@ export const generateGeoJSON = topoJSON => {
 
 export const generateAssignedDistricts = topoJSON => {
 	return (dispatch, getState) => {
-		const lockedDistricts = getState().lockedDistricts;
+		const lockedDistricts = getState().lockedIds;
 		dispatch({ type: GENERATE_ASSIGNED_DISTRICTS, payload: { topoJSON, lockedDistricts } });
 	};
 };
@@ -92,7 +103,7 @@ export const pointerSelect = e => (dispatch, getState) => {
 	const assignedDistricts = getState().districts.assigned;
 	const countyIds =
 		getState().selectionLevel === 'county'
-			? getState().countyIndex[countyfp].filter(id => {
+			? window.dataCountyIndex[countyfp].filter(id => {
 					return !lockedIds[assignedDistricts[id]];
 			  })
 			: [id];
@@ -112,11 +123,11 @@ export const rectangleStart = e => dispatch => {
 
 export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 	return (dispatch, getState) => {
-		const geoJSON = getState().geoJSON;
-		const spatialIndex = getState().spatialIndex;
+		const geoJSON = window.dataGeoJSON;
+		const spatialIndex = window.dataSpatialIndex;
+		const countyIndex = window.dataCountyIndex;
 		const lockedIds = getState().lockedIds;
 		const assignedDistricts = getState().districts.assigned;
-		const countyIndex = getState().countyIndex;
 		const selectionLevel = getState().selectionLevel;
 		const drawLimit = getState().drawLimit;
 		dispatch({
@@ -139,11 +150,11 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 
 export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 	return (dispatch, getState) => {
-		const geoJSON = getState().geoJSON;
-		const spatialIndex = getState().spatialIndex;
+		const geoJSON = window.dataGeoJSON;
+		const spatialIndex = window.dataSpatialIndex;
+		const countyIndex = window.dataCountyIndex;
 		const lockedIds = getState().lockedIds;
 		const assignedDistricts = getState().districts.assigned;
-		const countyIndex = getState().countyIndex;
 		const selectionLevel = getState().selectionLevel;
 		const drawLimit = getState().drawLimit;
 		dispatch({
@@ -187,7 +198,7 @@ export const acceptChanges = () => {
 		const selectedDistrict = getState().selectedDistrict;
 		const selectedIds = getState().selectedIds;
 		const lockedDistricts = getState().lockedDistricts;
-		const topoJSON = getState().topoJSON;
+		const topoJSON = window.dataTopoJSON;
 		dispatch({
 			type: ACCEPT_CHANGES,
 			payload: { selectedDistrict, selectedIds, lockedDistricts, topoJSON },

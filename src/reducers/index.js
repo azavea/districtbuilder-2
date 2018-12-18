@@ -4,6 +4,7 @@ import { feature } from 'topojson';
 import {
 	DISTRICT_SELECTED,
 	FETCH_TOPOJSON,
+	FETCH_GEOJSON,
 	GENERATE_GEOMETRIES,
 	GENERATE_GEOJSON,
 	GENERATE_SPATIAL_INDEX,
@@ -66,6 +67,8 @@ const geoJSONReducer = (geoJSON = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_GEOJSON:
 			return feature(payload, payload.objects[topoObjectName]);
+		case FETCH_GEOJSON:
+			return payload;
 		default:
 			return geoJSON;
 	}
@@ -267,14 +270,9 @@ const createToggleReducer = (defaultOption, reducerName) => {
 
 export default combineReducers({
 	selectedDistrict: selectedDistrictReducer,
-	spatialIndex: generateSpatialIndexReducer,
-	countyIndex: generateCountyIndexReducer,
-	topoJSON: regionTopoJSONReducer,
-	geoJSON: geoJSONReducer,
 	districts: assignedDistrictsReducer,
 	selectedIds: selectedIdsReducer,
 	activatedIds: activatedIdsReducer,
-	geometries: geometriesReducer,
 	districtColors: districtColorsReducer,
 	rectangleStartId: rectangleStartIdReducer,
 	lockedIds: lockedIdsReducer,
