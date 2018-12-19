@@ -6,15 +6,11 @@ import { updateHighlight } from '../util';
 
 class MapHighlightLayer extends Component {
   render() {
-    console.log('Running map highlight layer');
+    const { selectedIds, activatedIds, lockedDistricts, map } = this.props;
 
     if (window.dataTopoJSON && this.props.selectedIds) {
-      updateHighlight(
-        this.props.selectedIds,
-        this.props.activatedIds,
-        this.props.lockedDistricts,
-        this.props.map
-      );
+      var hi = updateHighlight(selectedIds, activatedIds, lockedDistricts);
+      map.getSource('highlight').setData(hi);
     }
 
     return <div className="map-highlight-layer" />;

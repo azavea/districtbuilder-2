@@ -97,12 +97,12 @@ export const generateCountyIndex = geoJSON => {
 };
 
 export const pointerSelect = e => (dispatch, getState) => {
-	const id = e.features[0].properties.id;
+	const id = JSON.parse(JSON.stringify(e.features[0].properties.id));
 	const countyfp = e.features[0].properties.countyfp;
-	const lockedIds = getState().lockedIds;
-	const assignedDistricts = getState().districts.assigned;
+	const { lockedIds, districts, selectionLevel } = getState();
+	const assignedDistricts = districts.assigned;
 	const countyIds =
-		getState().selectionLevel === 'county'
+		selectionLevel === 'county'
 			? window.dataCountyIndex[countyfp].filter(id => {
 					return !lockedIds[assignedDistricts[id]];
 			  })

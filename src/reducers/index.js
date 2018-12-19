@@ -63,17 +63,6 @@ const districtColorsReducer = (colors = districtColors, { type, payload }) => {
 	}
 };
 
-const geoJSONReducer = (geoJSON = null, { type, payload }) => {
-	switch (type) {
-		case GENERATE_GEOJSON:
-			return feature(payload, payload.objects[topoObjectName]);
-		case FETCH_GEOJSON:
-			return payload;
-		default:
-			return geoJSON;
-	}
-};
-
 const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, selectedDistrict) => {
 	selectedIds.forEach(id => {
 		assignedDistricts[id] = selectedDistrict;
