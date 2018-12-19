@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import memoize from 'memoizee';
+// import MyWorker from 'worker-loader!../workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
 
 import { updateHighlight } from '../util';
+let MyWorker = require('worker-loader!../workers/worker.js'); // eslint-disable-line import/no-webpack-loader-syntax
 
 class MapHighlightLayer extends Component {
+  componentWillMount() {
+    this.worker = new MyWorker();
+  }
   render() {
     console.log('Running map highlight layer');
 
-    if (window.dataTopoJSON && this.props.selectedIds) {
-      updateHighlight(
-        this.props.selectedIds,
-        this.props.activatedIds,
-        this.props.lockedDistricts,
-        this.props.map
-      );
+    this.worker.onmessage = m => this.setState({ data: m.data });
+    let data;
+    if (this.state) {
+      data = this.state.data;
     }
 
-    return <div className="map-highlight-layer" />;
+    return (
+      <div className="map-highlight-layer">
+        A: {data}
+        <button onClick={() => this.worker.postMessage(null)}> Up </button>
+      </div>
+    );
   }
 }
 
