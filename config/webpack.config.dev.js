@@ -101,6 +101,7 @@ module.exports = {
     // changing JS code would still trigger a refresh.
   ],
   output: {
+    // See https://github.com/webpack/webpack/issues/6642#issuecomment-417581675
     globalObject: `(typeof self !== 'undefined' ? self : this)`,
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import MyWorker from 'worker-loader!../workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
 
 import { updateHighlight } from '../util';
-let MyWorker = require('worker-loader!../workers/worker.js'); // eslint-disable-line import/no-webpack-loader-syntax
+import MyWorker from 'worker-loader!../workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
 
 class MapHighlightLayer extends Component {
   componentWillMount() {
