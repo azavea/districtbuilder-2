@@ -15,7 +15,7 @@ import { numberWithCommas, calculatePopulationsOld, calculatePopulationsNew } fr
 
 class DistrictsSidebar extends Component {
 	calculatePopulationsOldMemoized = memoize(calculatePopulationsOld, {
-		max: 2,
+		max: 1,
 		primitive: true,
 		length: 1,
 	});
@@ -27,18 +27,19 @@ class DistrictsSidebar extends Component {
 	});
 
 	renderList() {
-		if (this.props.districts && this.props.geometries) {
+		if (this.props.districts && window.dataGeoJSON) {
+			const geoJSON = JSON.parse(window.dataGeoJSON);
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
 				this.props.districts.assigned,
-				this.props.geometries,
+				geoJSON,
 				districtsTemplate
 			);
-			const districtsChangeData = this.calculatePopulationsNewMemoized(
+			const districtsChangeData = calculatePopulationsNew(
 				this.props.selectedIds,
 				this.props.activatedIds,
 				this.props.selectedDistrict,
 				this.props.districts.assigned,
-				this.props.geometries,
+				geoJSON,
 				districtsTemplate
 			);
 			return districtsChangeData.map((districtNew, index) => {
@@ -121,7 +122,6 @@ class DistrictsSidebar extends Component {
 
 const mapStateToProps = state => {
 	return {
-		geometries: state.geometries,
 		selectedDistrict: state.selectedDistrict,
 		activatedIds: state.activatedIds,
 		selectedIds: state.selectedIds,

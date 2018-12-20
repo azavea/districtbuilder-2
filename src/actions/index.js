@@ -37,7 +37,7 @@ export const fetchTopoAndGenerateGeo = () => async (dispatch, getState) => {
 	// dispatch(fetchTopoJSON());
 	// await dispatch(fetchGeoJSON());
 	// dispatch(generateGeoJSONAndSpatialIndex());
-	dispatch(generateAssignedDistricts(window.dataTopoJSON));
+	dispatch(generateAssignedDistricts());
 };
 
 export const fetchTopoJSON = () => {
@@ -74,7 +74,7 @@ export const generateGeoJSON = topoJSON => {
 export const generateAssignedDistricts = topoJSON => {
 	return (dispatch, getState) => {
 		const lockedDistricts = getState().lockedIds;
-		dispatch({ type: GENERATE_ASSIGNED_DISTRICTS, payload: { topoJSON, lockedDistricts } });
+		dispatch({ type: GENERATE_ASSIGNED_DISTRICTS, payload: { lockedDistricts } });
 	};
 };
 
@@ -123,9 +123,6 @@ export const rectangleStart = e => dispatch => {
 
 export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 	return (dispatch, getState) => {
-		const geoJSON = window.dataGeoJSON;
-		const spatialIndex = window.dataSpatialIndex;
-		const countyIndex = window.dataCountyIndex;
 		const lockedIds = getState().lockedIds;
 		const assignedDistricts = getState().districts.assigned;
 		const selectionLevel = getState().selectionLevel;
@@ -137,10 +134,7 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 				rectangle,
 				rectangleStartId,
 				lockedIds,
-				spatialIndex,
-				geoJSON,
 				assignedDistricts,
-				countyIndex,
 				selectionLevel,
 				drawLimit,
 			},
@@ -150,9 +144,6 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 
 export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 	return (dispatch, getState) => {
-		const geoJSON = window.dataGeoJSON;
-		const spatialIndex = window.dataSpatialIndex;
-		const countyIndex = window.dataCountyIndex;
 		const lockedIds = getState().lockedIds;
 		const assignedDistricts = getState().districts.assigned;
 		const selectionLevel = getState().selectionLevel;
@@ -164,10 +155,7 @@ export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
 				rectangle,
 				rectangleStartId,
 				lockedIds,
-				spatialIndex,
-				geoJSON,
 				assignedDistricts,
-				countyIndex,
 				selectionLevel,
 				drawLimit,
 			},
@@ -198,10 +186,9 @@ export const acceptChanges = () => {
 		const selectedDistrict = getState().selectedDistrict;
 		const selectedIds = getState().selectedIds;
 		const lockedDistricts = getState().lockedDistricts;
-		const topoJSON = window.dataTopoJSON;
 		dispatch({
 			type: ACCEPT_CHANGES,
-			payload: { selectedDistrict, selectedIds, lockedDistricts, topoJSON },
+			payload: { selectedDistrict, selectedIds, lockedDistricts },
 		});
 	};
 };

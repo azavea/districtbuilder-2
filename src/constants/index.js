@@ -5,10 +5,6 @@ export const topoObjectName = 'pa-bg';
 export const topoUrl = 'data/pa-bg.topojson';
 export const geoUrl = 'data/pa-bg.geojson';
 
-export const tileLocation = [
-  window.location.origin + window.location.pathname + '/data/tiles/{z}/{x}/{y}.pbf',
-];
-
 export const tileLayerName = 'geounitlines';
 
 export const demographicTypes = ['white', 'black', 'native', 'asian'];

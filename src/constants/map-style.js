@@ -1,4 +1,4 @@
-import { tileLocation, tileLayerName, districtColors, districtIds } from '../constants';
+import { tileLayerName, districtColors, districtIds } from '../constants';
 import { generateDistrictColor } from '../util/map';
 
 const districtColorDefinition = generateDistrictColor(districtIds, districtColors);
@@ -16,7 +16,7 @@ export const mapboxStyle = {
     },
     blockgroups: {
       type: 'vector',
-      tiles: tileLocation,
+      tiles: [window.location.origin + window.location.pathname + '/data/tiles/{z}/{x}/{y}.pbf'],
       minzoom: 0,
       maxzoom: 12,
     },

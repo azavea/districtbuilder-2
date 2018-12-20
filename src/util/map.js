@@ -4,14 +4,14 @@ import flatten from '@turf/flatten';
 
 import { topoObjectName, districtIds } from '../constants';
 
-export const updateHighlight = (selectedIds, activatedIds, lockedDistricts) => {
-	const allGeometries = window.dataTopoJSON.objects[topoObjectName].geometries;
+export const updateHighlight = (selectedIds, activatedIds, topoJSON) => {
+	const allGeometries = topoJSON.objects[topoObjectName].geometries;
 	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
 	const allHighlightedGeometries = allHighlightedIds.map(id => allGeometries[id]);
-	return merge(window.dataTopoJSON, allHighlightedGeometries);
+	return JSON.parse(JSON.stringify(merge(topoJSON, allHighlightedGeometries)));
 };
 
-const getGeometries = topoJSON => window.dataTopoJSON.objects[topoObjectName].geometries;
+const getGeometries = topoJSON => topoJSON.objects[topoObjectName].geometries;
 
 const mapGeometriesToDistricts = (geometries, assignedDistricts) => {
 	let geometriesByDistrict = districtIds.map(() => []);
@@ -55,12 +55,15 @@ const mergeGeoJSONs = geoJSONs => {
 };
 
 export const getDistricts = (assignedDistricts, lockedDistricts, topoJSON) => {
-	const districtGeoJSONs = getGeoJSONForEachDistrict(assignedDistricts, window.dataTopoJSON);
+	const districtGeoJSONs = getGeoJSONForEachDistrict(
+		assignedDistricts,
+		JSON.parse(window.dataTopoJSON)
+	);
 	const districtCompactnessScores = districtGeoJSONs.map(geoJSON =>
 		calculateCompactnessAndContiguity(geoJSON)
 	);
 	const mergedGeoJSON = mergeGeoJSONs(districtGeoJSONs);
-	return { districtGeoJSONs, districtCompactnessScores, mergedGeoJSON };
+	return { districtCompactnessScores, mergedGeoJSON };
 };
 
 // TODO: Is there a more clear way to write this?

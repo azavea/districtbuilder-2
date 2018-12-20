@@ -1,10 +1,10 @@
 import { populationTypes } from '../constants';
 
-export const calculatePopulationsOld = (assignedDistricts, geometries, oldDistricts) => {
+export const calculatePopulationsOld = (assignedDistricts, geoJSON, oldDistricts) => {
 	const newDistricts = JSON.parse(JSON.stringify(oldDistricts));
 	assignedDistricts.forEach((assignedDistrict, index) => {
 		populationTypes.forEach(type => {
-			newDistricts[assignedDistrict][type] += geometries[index][type];
+			newDistricts[assignedDistrict][type] += geoJSON.features[index].properties[type];
 		});
 	});
 	return newDistricts;
@@ -15,18 +15,17 @@ export const calculatePopulationsNew = (
 	activatedIds,
 	selectedDistrict,
 	assignedDistricts,
-	geometries,
+	geoJSON,
 	oldDistricts
 ) => {
-	// TODO: consider splitting out calculatePopulationsNew into two functions, which would allow us
-	// to separately memoize the selectedIds and the highlightedIds; not sure if this is a good idea
 	const newDistricts = JSON.parse(JSON.stringify(oldDistricts));
 	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
 	allHighlightedIds.forEach(id => {
-		const geounit = geometries[id];
+		const geounit = geoJSON.features[id];
 		populationTypes.forEach(type => {
-			newDistricts[selectedDistrict][type] += geounit[type];
-			newDistricts[assignedDistricts[geounit.id]][type] -= geounit[type];
+			newDistricts[selectedDistrict][type] += geounit.properties[type];
+			newDistricts[assignedDistricts[geounit.properties.id]][type] -=
+				geounit.properties[type];
 		});
 	});
 	return newDistricts;

@@ -6,7 +6,7 @@ import { pointerSelect, rectangleSelect, rectangleActivate, rectangleStart } fro
 
 class MapDrawHandler extends Component {
   componentWillMount() {
-    this.onRectangleActivateThrottled = throttle(this.props.onRectangleActivate, 300);
+    this.onRectangleActivateThrottled = throttle(this.props.onRectangleActivate, 400);
 
     this.props.map.on('draw.create', e => {
       this.props.onRectangleSelect({

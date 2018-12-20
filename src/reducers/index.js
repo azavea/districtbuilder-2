@@ -73,15 +73,14 @@ const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, sele
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
-			const assignedInitial = payload.topoJSON.objects[topoObjectName].geometries.map(
-				geometry => {
-					return 0;
-				}
-			);
+			const topoJSON = JSON.parse(window.dataTopoJSON);
+			const assignedInitial = topoJSON.objects[topoObjectName].geometries.map(geometry => {
+				return 0;
+			});
 			const geometryInitial = getDistricts(
 				assignedInitial,
 				payload.lockedDistricts,
-				payload.topoJSON
+				topoJSON
 			);
 			return {
 				assigned: assignedInitial,
@@ -93,7 +92,11 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 				payload.selectedIds,
 				payload.selectedDistrict
 			);
-			const geometry = getDistricts(assigned, payload.lockedDistricts, payload.topoJSON);
+			const geometry = getDistricts(
+				assigned,
+				payload.lockedDistricts,
+				JSON.parse(window.dataTopoJSON)
+			);
 			return {
 				assigned,
 				geometry,
@@ -127,8 +130,8 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case RECTANGLE_ACTIVATE:
 			const activatedIds = spatialSearch(
-				payload.spatialIndex,
-				payload.geoJSON,
+				window.dataSpatialIndex,
+				JSON.parse(window.dataGeoJSON),
 				payload.lockedIds,
 				payload.assignedDistricts,
 				payload.selectionLevel,
@@ -143,7 +146,7 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 					return activatedIds;
 				case 'county':
 					return activatedIds
-						.map(id => payload.countyIndex[id])
+						.map(id => window.dataCountyIndex[id])
 						.flat()
 						.filter(id => !payload.lockedIds[payload.assignedDistricts[id]]);
 				default:
@@ -169,8 +172,8 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 			}
 		case RECTANGLE_SELECT:
 			const newSelectedIds = spatialSearch(
-				payload.spatialIndex,
-				payload.geoJSON,
+				window.dataSpatialIndex,
+				JSON.parse(window.dataGeoJSON),
 				payload.lockedIds,
 				payload.assignedDistricts,
 				payload.selectionLevel,
@@ -187,7 +190,7 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 					const foo = [
 						...new Set([
 							...selectedIds,
-							...newSelectedIds.map(id => payload.countyIndex[id]).flat(),
+							...newSelectedIds.map(id => window.dataCountyIndex[id]).flat(),
 						]),
 					].filter(id => !payload.lockedIds[payload.assignedDistricts[id]]);
 					return foo;

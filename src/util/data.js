@@ -64,8 +64,8 @@ export const spatialSearch = (
 		const assignedDistrict = assignedDistricts[id];
 		if (
 			countyLimitFilter(filters.rectangleStartId, countyfp, drawLimit) &&
-			lockFilter(assignedDistrict, lockedIds) &&
-			spatialFilter(filters.rectangle, feature)
+			lockFilter(assignedDistrict, lockedIds)
+			// spatialFilter(filters.rectangle, feature)
 		) {
 			if (selectionLevel === 'geounit') {
 				return index;
