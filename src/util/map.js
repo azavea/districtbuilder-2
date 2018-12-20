@@ -55,10 +55,7 @@ const mergeGeoJSONs = geoJSONs => {
 };
 
 export const getDistricts = (assignedDistricts, lockedDistricts, topoJSON) => {
-	const districtGeoJSONs = getGeoJSONForEachDistrict(
-		assignedDistricts,
-		JSON.parse(window.dataTopoJSON)
-	);
+	const districtGeoJSONs = getGeoJSONForEachDistrict(assignedDistricts, window.dataTopoJSON);
 	const districtCompactnessScores = districtGeoJSONs.map(geoJSON =>
 		calculateCompactnessAndContiguity(geoJSON)
 	);

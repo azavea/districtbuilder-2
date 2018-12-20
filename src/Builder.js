@@ -14,7 +14,7 @@ class Builder extends Component {
         fetch('data/pa-bg.geojson')
             .then(res => res.json())
             .then(response => {
-                window.dataGeoJSON = JSON.stringify(response);
+                window.dataGeoJSON = response;
                 window.dataSpatialIndex = generateSpatialIndex(response);
 
                 let countyIndex = {};
@@ -31,7 +31,7 @@ class Builder extends Component {
                 fetch('data/pa-bg.topojson')
                     .then(res2 => res2.json())
                     .then(response2 => {
-                        window.dataTopoJSON = JSON.stringify(response2);
+                        window.dataTopoJSON = response2;
                         this.props.onFetchTopoAndGenerateGeo();
                         response2 = null;
                     });

@@ -73,7 +73,7 @@ const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, sele
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
-			const topoJSON = JSON.parse(window.dataTopoJSON);
+			const topoJSON = window.dataTopoJSON;
 			const assignedInitial = topoJSON.objects[topoObjectName].geometries.map(geometry => {
 				return 0;
 			});
@@ -92,11 +92,7 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 				payload.selectedIds,
 				payload.selectedDistrict
 			);
-			const geometry = getDistricts(
-				assigned,
-				payload.lockedDistricts,
-				JSON.parse(window.dataTopoJSON)
-			);
+			const geometry = getDistricts(assigned, payload.lockedDistricts, window.dataTopoJSON);
 			return {
 				assigned,
 				geometry,
@@ -131,7 +127,7 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 		case RECTANGLE_ACTIVATE:
 			const activatedIds = spatialSearch(
 				window.dataSpatialIndex,
-				JSON.parse(window.dataGeoJSON),
+				window.dataGeoJSON,
 				payload.lockedIds,
 				payload.assignedDistricts,
 				payload.selectionLevel,
@@ -173,7 +169,7 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 		case RECTANGLE_SELECT:
 			const newSelectedIds = spatialSearch(
 				window.dataSpatialIndex,
-				JSON.parse(window.dataGeoJSON),
+				window.dataGeoJSON,
 				payload.lockedIds,
 				payload.assignedDistricts,
 				payload.selectionLevel,

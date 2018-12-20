@@ -28,7 +28,7 @@ class DistrictsSidebar extends Component {
 
 	renderList() {
 		if (this.props.districts && window.dataGeoJSON) {
-			const geoJSON = JSON.parse(window.dataGeoJSON);
+			const geoJSON = window.dataGeoJSON;
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
 				this.props.districts.assigned,
 				geoJSON,

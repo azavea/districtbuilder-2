@@ -16,7 +16,7 @@ class MapHighlightLayer extends Component {
       this.worker.postMessage({
         selectedIds,
         activatedIds,
-        topoJSON: JSON.parse(window.dataTopoJSON),
+        topoJSON: window.dataTopoJSON,
       });
     }
 
