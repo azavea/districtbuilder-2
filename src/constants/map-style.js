@@ -361,7 +361,7 @@ export const mapboxStyle = {
       layout: {
         'text-size': 12,
         'symbol-spacing': 1,
-        'text-padding': 10,
+        'text-padding': 4,
         'text-field': '{native}',
         'text-max-width': 7,
         'text-font': ['GR'],
@@ -386,7 +386,7 @@ export const mapboxStyle = {
       layout: {
         'text-size': 14,
         'symbol-spacing': 1,
-        'text-padding': 10,
+        'text-padding': 4,
         'text-field': '{population}',
         'text-max-width': 7,
         'text-font': ['GR'],

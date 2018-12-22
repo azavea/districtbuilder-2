@@ -1,19 +1,14 @@
 import { combineReducers } from 'redux';
-import { feature } from 'topojson';
 
 import {
+	ACTIVATE_RESULTS,
+	SELECT_RESULTS,
 	DISTRICT_SELECTED,
-	FETCH_TOPOJSON,
-	FETCH_GEOJSON,
-	GENERATE_GEOMETRIES,
-	GENERATE_GEOJSON,
-	GENERATE_SPATIAL_INDEX,
-	GENERATE_COUNTY_INDEX,
 	GENERATE_ASSIGNED_DISTRICTS,
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
+	REJECT_CHANGES,
 	RECTANGLE_SELECT,
-	RECTANGLE_ACTIVATE,
 	RECTANGLE_START,
 	LOCK_DISTRICT,
 	CHANGE_OPTION_DRAW_MODE,
@@ -25,7 +20,7 @@ import {
 	CHANGE_OPTION_SIDEBAR_POLITICS,
 } from '../actions';
 
-import { generateSpatialIndex, spatialSearch, getDistricts } from '../util';
+import { getDistricts } from '../util';
 import { topoObjectName, districtColors, lockedIdsTemplate } from '../constants';
 
 import {
@@ -42,15 +37,6 @@ const selectedDistrictReducer = (selectedDistrict = 1, { type, payload }) => {
 			return payload;
 		default:
 			return selectedDistrict;
-	}
-};
-
-const regionTopoJSONReducer = (topoJSON = null, { type, payload }) => {
-	switch (type) {
-		case FETCH_TOPOJSON:
-			return payload;
-		default:
-			return topoJSON;
 	}
 };
 
@@ -102,17 +88,6 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	}
 };
 
-const geometriesReducer = (geometries = null, { type, payload }) => {
-	switch (type) {
-		case GENERATE_GEOMETRIES:
-			return payload.objects[topoObjectName].geometries.map(geometry => {
-				return Object.assign({ assignedDistrict: 0 }, geometry.properties);
-			});
-		default:
-			return geometries;
-	}
-};
-
 const rectangleStartIdReducer = (countyfp = null, { type, payload }) => {
 	switch (type) {
 		case RECTANGLE_START:
@@ -124,19 +99,8 @@ const rectangleStartIdReducer = (countyfp = null, { type, payload }) => {
 
 const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
-		case RECTANGLE_ACTIVATE:
-			const activatedIds = spatialSearch(
-				window.dataSpatialIndex,
-				window.dataGeoJSON,
-				payload.lockedIds,
-				payload.assignedDistricts,
-				payload.selectionLevel,
-				payload.drawLimit,
-				{
-					rectangle: payload.rectangle,
-					rectangleStartId: payload.rectangleStartId,
-				}
-			);
+		case ACTIVATE_RESULTS:
+			const activatedIds = payload.results;
 			switch (payload.selectionLevel) {
 				case 'geounit':
 					return activatedIds;
@@ -152,6 +116,8 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 			return [];
 		case ACCEPT_CHANGES:
 			return [];
+		case REJECT_CHANGES:
+			return [];
 		default:
 			return selectedIds;
 	}
@@ -166,19 +132,8 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 			} else {
 				return selectedIds.filter(x => !payload.countyIds.includes(x));
 			}
-		case RECTANGLE_SELECT:
-			const newSelectedIds = spatialSearch(
-				window.dataSpatialIndex,
-				window.dataGeoJSON,
-				payload.lockedIds,
-				payload.assignedDistricts,
-				payload.selectionLevel,
-				payload.drawLimit,
-				{
-					rectangle: payload.rectangle,
-					rectangleStartId: payload.rectangleStartId,
-				}
-			);
+		case SELECT_RESULTS:
+			const newSelectedIds = payload.results;
 			switch (payload.selectionLevel) {
 				case 'geounit':
 					return [...new Set([...selectedIds, ...newSelectedIds])];
@@ -195,33 +150,10 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 			}
 		case ACCEPT_CHANGES:
 			return [];
+		case REJECT_CHANGES:
+			return [];
 		default:
 			return selectedIds;
-	}
-};
-
-const generateSpatialIndexReducer = (geoJSON = null, { type, payload }) => {
-	switch (type) {
-		case GENERATE_SPATIAL_INDEX:
-			return generateSpatialIndex(payload);
-		default:
-			return geoJSON;
-	}
-};
-
-const generateCountyIndexReducer = (geoJSON = null, { type, payload }) => {
-	switch (type) {
-		case GENERATE_COUNTY_INDEX:
-			let countyIndex = {};
-			payload.features.forEach(feature => {
-				if (countyIndex[feature.properties.countyfp] === undefined) {
-					countyIndex[feature.properties.countyfp] = [];
-				}
-				countyIndex[feature.properties.countyfp].push(feature.properties.id);
-			});
-			return countyIndex;
-		default:
-			return geoJSON;
 	}
 };
 

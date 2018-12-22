@@ -6,36 +6,24 @@ import './css/db.css';
 import Map from './components/Map';
 import DistrictsSidebar from './components/DistrictsSidebar';
 import MapActions from './components/MapActions';
-import { fetchTopoAndGenerateGeo } from './actions';
-import { generateSpatialIndex } from './util';
+import { generateAssignedDistricts } from './actions';
 
 class Builder extends Component {
     componentDidMount() {
-        fetch('data/pa-bg.geojson')
-            .then(res => res.json())
-            .then(response => {
-                window.dataGeoJSON = response;
-                window.dataSpatialIndex = generateSpatialIndex(response);
+        const topoRequest = fetch('data/pa-bg.topojson').then(res => res.json());
+        const geoRequest = fetch('data/pa-bg.geojson').then(res => res.json());
+        const featureRequest = fetch('data/pa-bg.json').then(res => res.json());
+        const countyIndexRequest = fetch('data/pa-county-index.json').then(res => res.json());
 
-                let countyIndex = {};
-                response.features.forEach(feature => {
-                    if (countyIndex[feature.properties.countyfp] === undefined) {
-                        countyIndex[feature.properties.countyfp] = [];
-                    }
-                    countyIndex[feature.properties.countyfp].push(feature.properties.id);
-                });
-                window.dataCountyIndex = countyIndex;
-
-                response = null;
-
-                fetch('data/pa-bg.topojson')
-                    .then(res2 => res2.json())
-                    .then(response2 => {
-                        window.dataTopoJSON = response2;
-                        this.props.onFetchTopoAndGenerateGeo();
-                        response2 = null;
-                    });
-            });
+        Promise.all([topoRequest, geoRequest, featureRequest, countyIndexRequest]).then(
+            responses => {
+                window.dataTopoJSON = responses[0];
+                window.dataGeoJSON = responses[1];
+                window.dataFeatures = responses[2];
+                window.dataCountyIndex = responses[3];
+                this.props.onGenerateAssignedDistricts();
+            }
+        );
     }
 
     render() {
@@ -52,7 +40,7 @@ class Builder extends Component {
 }
 
 const mapActionsToProps = {
-    onFetchTopoAndGenerateGeo: fetchTopoAndGenerateGeo,
+    onGenerateAssignedDistricts: generateAssignedDistricts,
 };
 
 export default connect(

@@ -5,7 +5,7 @@ import memoize from 'memoizee';
 import { DataChart } from '../components/DataChart';
 import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
 import { DistrictCompactnessScore } from '../components/DistrictCompactnessScore';
-import { selectDistrict, acceptChanges, lockDistrict } from '../actions';
+import { selectDistrict, acceptChanges, rejectChanges, lockDistrict } from '../actions';
 
 import { diffColors } from '../constants/colors';
 
@@ -28,10 +28,9 @@ class DistrictsSidebar extends Component {
 
 	renderList() {
 		if (this.props.districts && window.dataGeoJSON) {
-			const geoJSON = window.dataGeoJSON;
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
 				this.props.districts.assigned,
-				geoJSON,
+				window.dataGeoJSON,
 				districtsTemplate
 			);
 			const districtsChangeData = calculatePopulationsNew(
@@ -39,13 +38,13 @@ class DistrictsSidebar extends Component {
 				this.props.activatedIds,
 				this.props.selectedDistrict,
 				this.props.districts.assigned,
-				geoJSON,
+				window.dataGeoJSON,
 				districtsTemplate
 			);
 			return districtsChangeData.map((districtNew, index) => {
 				const districtOld = districtsBaseData[index];
 				const color = this.props.districtColors[index];
-				const districtStatus = index === this.props.selectedDistrict ? ' selected' : '';
+				const districtStatus = index === this.props.selectedDistrict ? 'selected' : '';
 				const lockedStatus = this.props.lockedIds[index] ? '-locked' : '-unlocked';
 				const compactnessScores = this.props.districts.geometry.districtCompactnessScores;
 				const diff =
@@ -56,7 +55,7 @@ class DistrictsSidebar extends Component {
 						: diffColors.nochange;
 				return (
 					<div
-						className={'item' + districtStatus}
+						className={'item ' + districtStatus}
 						key={index}
 						onClick={() => this.onSelectDistrict(index)}
 					>
@@ -104,16 +103,26 @@ class DistrictsSidebar extends Component {
 		this.props.onAcceptChanges();
 	};
 
+	onRejectChanges = () => {
+		this.props.onRejectChanges();
+	};
+
 	onSelectDistrict = title => {
 		this.props.onSelectDistrict(title);
 	};
 
 	render() {
+		const hasChanged = this.props.selectedIds.length > 0 ? 'changed' : '';
 		return (
 			<div className="sidebar">
-				<button className="button-accept" onClick={() => this.onAcceptChanges()}>
-					Accept changes
-				</button>
+				<div className={'button-group ' + hasChanged}>
+					<button className="button-reject" onClick={() => this.onRejectChanges()}>
+						Reject
+					</button>
+					<button className="button-accept" onClick={() => this.onAcceptChanges()}>
+						Accept
+					</button>
+				</div>
 				<div className="district-table">{this.renderList()}</div>
 			</div>
 		);
@@ -135,6 +144,7 @@ const mapStateToProps = state => {
 const mapActionsToProps = {
 	onSelectDistrict: selectDistrict,
 	onAcceptChanges: acceptChanges,
+	onRejectChanges: rejectChanges,
 	onLockDistrict: lockDistrict,
 };
 

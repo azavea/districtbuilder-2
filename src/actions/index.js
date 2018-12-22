@@ -1,5 +1,7 @@
 import { topoUrl, geoUrl } from '../constants';
 
+export const ACTIVATE_RESULTS = 'ACTIVATE_RESULTS';
+export const SELECT_RESULTS = 'SELECT_RESULTS';
 export const DISTRICT_SELECTED = 'DISTRICT_SELECTED';
 export const FETCH_SPATIAL_INDEX = 'FETCH_SPATIAL_INDEX';
 export const FETCH_TOPOJSON = 'FETCH_TOPOJSON';
@@ -13,6 +15,7 @@ export const SELECT_GEOUNIT = 'SELECT_GEOUNIT';
 export const GENERATE_HIGHLIGHT = 'GENERATE_HIGHLIGHT';
 export const LOAD_COLORS = 'LOAD_COLORS';
 export const ACCEPT_CHANGES = 'ACCEPT_CHANGES';
+export const REJECT_CHANGES = 'REJECT_CHANGES';
 export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
 export const RECTANGLE_START = 'RECTANGLE_START';
@@ -33,13 +36,6 @@ export const selectDistrict = district => {
 	};
 };
 
-export const fetchTopoAndGenerateGeo = () => async (dispatch, getState) => {
-	// dispatch(fetchTopoJSON());
-	// await dispatch(fetchGeoJSON());
-	// dispatch(generateGeoJSONAndSpatialIndex());
-	dispatch(generateAssignedDistricts());
-};
-
 export const fetchTopoJSON = () => {
 	return async dispatch => {
 		const response = await fetch(topoUrl).then(res => res.json());
@@ -54,24 +50,13 @@ export const fetchGeoJSON = () => {
 	};
 };
 
-export const generateGeoJSONAndSpatialIndex = () => async (dispatch, getState) => {
-	// const topoJSON = getState().topoJSON;
-	// await dispatch(generateGeoJSON(topoJSON));
-	// await dispatch(fetchGeoJSON(topoJSON));
-	// const geoJSON = getState().geoJSON;
-	// dispatch(generateGeometries(topoJSON));
-	// dispatch(generateAssignedDistricts(topoJSON));
-	// dispatch(generateSpatialIndex(geoJSON));
-	// dispatch(generateCountyIndex(geoJSON));
-};
-
 export const generateGeoJSON = topoJSON => {
 	return dispatch => {
 		dispatch({ type: GENERATE_GEOJSON, payload: topoJSON });
 	};
 };
 
-export const generateAssignedDistricts = topoJSON => {
+export const generateAssignedDistricts = () => {
 	return (dispatch, getState) => {
 		const lockedDistricts = getState().lockedIds;
 		dispatch({ type: GENERATE_ASSIGNED_DISTRICTS, payload: { lockedDistricts } });
@@ -142,23 +127,22 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 	};
 };
 
-export const rectangleActivate = ({ rectangle, rectangleStartId }) => {
+export const activateResults = results => {
 	return (dispatch, getState) => {
-		const lockedIds = getState().lockedIds;
-		const assignedDistricts = getState().districts.assigned;
-		const selectionLevel = getState().selectionLevel;
-		const drawLimit = getState().drawLimit;
+		const { districts, selectionLevel, lockedIds } = getState();
 		dispatch({
-			type: RECTANGLE_ACTIVATE,
-			payload: {
-				queryType: 'rectangle',
-				rectangle,
-				rectangleStartId,
-				lockedIds,
-				assignedDistricts,
-				selectionLevel,
-				drawLimit,
-			},
+			type: ACTIVATE_RESULTS,
+			payload: { selectionLevel, results, lockedIds, assignedDistricts: districts.assigned },
+		});
+	};
+};
+
+export const selectResults = results => {
+	return (dispatch, getState) => {
+		const { districts, selectionLevel, lockedIds } = getState();
+		dispatch({
+			type: SELECT_RESULTS,
+			payload: { selectionLevel, results, lockedIds, assignedDistricts: districts.assigned },
 		});
 	};
 };
@@ -183,12 +167,19 @@ export const updatedDistricts = compactness => {
 
 export const acceptChanges = () => {
 	return (dispatch, getState) => {
-		const selectedDistrict = getState().selectedDistrict;
-		const selectedIds = getState().selectedIds;
-		const lockedDistricts = getState().lockedDistricts;
+		const { selectedDistrict, selectedIds, lockedDistricts } = getState();
 		dispatch({
 			type: ACCEPT_CHANGES,
 			payload: { selectedDistrict, selectedIds, lockedDistricts },
+		});
+	};
+};
+
+export const rejectChanges = () => {
+	return dispatch => {
+		dispatch({
+			type: REJECT_CHANGES,
+			payload: null,
 		});
 	};
 };
