@@ -1,10 +1,10 @@
 import { populationTypes } from '../constants';
 
-export const calculatePopulationsOld = (assignedDistricts, geoJSON, oldDistricts) => {
+export const calculatePopulationsOld = (assignedDistricts, features, oldDistricts) => {
 	const newDistricts = JSON.parse(JSON.stringify(oldDistricts));
 	assignedDistricts.forEach((assignedDistrict, index) => {
 		populationTypes.forEach(type => {
-			newDistricts[assignedDistrict][type] += geoJSON.features[index].properties[type];
+			newDistricts[assignedDistrict][type] += features[index][type];
 		});
 	});
 	return newDistricts;
@@ -15,17 +15,16 @@ export const calculatePopulationsNew = (
 	activatedIds,
 	selectedDistrict,
 	assignedDistricts,
-	geoJSON,
+	features,
 	oldDistricts
 ) => {
 	const newDistricts = JSON.parse(JSON.stringify(oldDistricts));
 	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
 	allHighlightedIds.forEach(id => {
-		const geounit = geoJSON.features[id];
+		const geounit = features[id];
 		populationTypes.forEach(type => {
-			newDistricts[selectedDistrict][type] += geounit.properties[type];
-			newDistricts[assignedDistricts[geounit.properties.id]][type] -=
-				geounit.properties[type];
+			newDistricts[selectedDistrict][type] += geounit[type];
+			newDistricts[assignedDistricts[geounit.id]][type] -= geounit[type];
 		});
 	});
 	return newDistricts;

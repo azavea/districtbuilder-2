@@ -16,6 +16,7 @@ export const GENERATE_HIGHLIGHT = 'GENERATE_HIGHLIGHT';
 export const LOAD_COLORS = 'LOAD_COLORS';
 export const ACCEPT_CHANGES = 'ACCEPT_CHANGES';
 export const REJECT_CHANGES = 'REJECT_CHANGES';
+export const UPDATE_GEOMETRY = 'UPDATE_GEOMETRY';
 export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
 export const RECTANGLE_START = 'RECTANGLE_START';
@@ -56,10 +57,13 @@ export const generateGeoJSON = topoJSON => {
 	};
 };
 
-export const generateAssignedDistricts = () => {
+export const generateAssignedDistricts = assignedDistricts => {
 	return (dispatch, getState) => {
 		const lockedDistricts = getState().lockedIds;
-		dispatch({ type: GENERATE_ASSIGNED_DISTRICTS, payload: { lockedDistricts } });
+		dispatch({
+			type: GENERATE_ASSIGNED_DISTRICTS,
+			payload: { lockedDistricts, assignedDistricts },
+		});
 	};
 };
 
@@ -82,10 +86,10 @@ export const generateCountyIndex = geoJSON => {
 };
 
 export const pointerSelect = e => (dispatch, getState) => {
-	const id = JSON.parse(JSON.stringify(e.features[0].properties.id));
+	const id = e.features[0].properties.id;
 	const countyfp = e.features[0].properties.countyfp;
 	const { lockedIds, districts, selectionLevel } = getState();
-	const assignedDistricts = districts.assigned;
+	const assignedDistricts = districts;
 	const countyIds =
 		selectionLevel === 'county'
 			? window.dataCountyIndex[countyfp].filter(id => {
@@ -109,7 +113,7 @@ export const rectangleStart = e => dispatch => {
 export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 	return (dispatch, getState) => {
 		const lockedIds = getState().lockedIds;
-		const assignedDistricts = getState().districts.assigned;
+		const assignedDistricts = getState().districts;
 		const selectionLevel = getState().selectionLevel;
 		const drawLimit = getState().drawLimit;
 		dispatch({
@@ -132,7 +136,7 @@ export const activateResults = results => {
 		const { districts, selectionLevel, lockedIds } = getState();
 		dispatch({
 			type: ACTIVATE_RESULTS,
-			payload: { selectionLevel, results, lockedIds, assignedDistricts: districts.assigned },
+			payload: { selectionLevel, results, lockedIds, assignedDistricts: districts },
 		});
 	};
 };
@@ -142,7 +146,7 @@ export const selectResults = results => {
 		const { districts, selectionLevel, lockedIds } = getState();
 		dispatch({
 			type: SELECT_RESULTS,
-			payload: { selectionLevel, results, lockedIds, assignedDistricts: districts.assigned },
+			payload: { selectionLevel, results, lockedIds, assignedDistricts: districts },
 		});
 	};
 };
@@ -159,18 +163,21 @@ export const generateHighlight = topoJSON => {
 	};
 };
 
-export const updatedDistricts = compactness => {
-	return dispatch => {
-		dispatch({ type: UPDATED_DISTRICTS, payload: compactness });
-	};
-};
-
 export const acceptChanges = () => {
 	return (dispatch, getState) => {
 		const { selectedDistrict, selectedIds, lockedDistricts } = getState();
 		dispatch({
 			type: ACCEPT_CHANGES,
 			payload: { selectedDistrict, selectedIds, lockedDistricts },
+		});
+	};
+};
+
+export const updateGeometry = geometry => {
+	return (dispatch, getState) => {
+		dispatch({
+			type: UPDATE_GEOMETRY,
+			payload: geometry,
 		});
 	};
 };

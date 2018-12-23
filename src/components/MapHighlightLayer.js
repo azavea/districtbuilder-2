@@ -1,28 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import updateHighlightWorker from 'worker-loader!../workers/update-highlight-worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
+import geobuf from 'geobuf';
+import Pbf from 'pbf';
 
 class MapHighlightLayer extends Component {
   componentWillMount() {
-    this.worker = new updateHighlightWorker();
+    window.updateHighlightWorker.addEventListener('message', m => {
+      switch (m.data.type) {
+        case 'HIGHLIGHT':
+          this.geo = geobuf.decode(new Pbf(m.data.results));
+          this.props.map.getSource('highlight').setData(this.geo);
+          break;
+        default:
+          break;
+      }
+      m = null;
+    });
   }
   render() {
-    const { selectedIds, activatedIds, map } = this.props;
+    const { selectedIds, activatedIds } = this.props;
 
-    if (window.dataTopoJSON && this.props.selectedIds) {
-      this.worker.postMessage({
+    if (selectedIds) {
+      window.updateHighlightWorker.postMessage({
+        type: 'HIGHLIGHT',
         selectedIds,
         activatedIds,
-        topoJSON: window.dataTopoJSON,
       });
     }
-
-    this.worker.onmessage = m => {
-      map.getSource('highlight').setData(m.data);
-      m = null;
-    };
-
     return <div className="map-highlight-layer" />;
   }
 }

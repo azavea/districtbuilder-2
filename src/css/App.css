@@ -296,7 +296,7 @@ button {
 .district-deviation {
   display: inline-block;
   padding: 4px;
-  /*width: 100%*/
+  width: 100%;
   text-align: right;
   opacity: 0.8;
 }
