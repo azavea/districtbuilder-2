@@ -18,10 +18,10 @@ import {
 	CHANGE_OPTION_DRAW_LIMIT,
 	CHANGE_OPTION_SIDEBAR_RACE,
 	CHANGE_OPTION_SIDEBAR_POLITICS,
+	UPDATE_GEOMETRY,
 } from '../actions';
 
-import { getDistricts } from '../util';
-import { topoObjectName, districtColors, lockedIdsTemplate } from '../constants';
+import { districtColors, lockedIdsTemplate } from '../constants';
 
 import {
 	optionsDrawMode,
@@ -40,6 +40,15 @@ const selectedDistrictReducer = (selectedDistrict = 1, { type, payload }) => {
 	}
 };
 
+const geometryReducer = (geometry = null, { type, payload }) => {
+	switch (type) {
+		case UPDATE_GEOMETRY:
+			return payload;
+		default:
+			return geometry;
+	}
+};
+
 const districtColorsReducer = (colors = districtColors, { type, payload }) => {
 	switch (type) {
 		case 'LOAD_COLORS':
@@ -53,36 +62,21 @@ const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, sele
 	selectedIds.forEach(id => {
 		assignedDistricts[id] = selectedDistrict;
 	});
-	return JSON.parse(JSON.stringify(assignedDistricts));
+	return new Int8Array(assignedDistricts);
 };
 
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
-			const topoJSON = window.dataTopoJSON;
-			const assignedInitial = topoJSON.objects[topoObjectName].geometries.map(geometry => {
-				return 0;
-			});
-			const geometryInitial = getDistricts(
-				assignedInitial,
-				payload.lockedDistricts,
-				topoJSON
-			);
-			return {
-				assigned: assignedInitial,
-				geometry: geometryInitial,
-			};
+			const assignedInitial = payload.assignedDistricts;
+			return new Int8Array(assignedInitial);
 		case ACCEPT_CHANGES:
 			const assigned = addSelectedDistrictsToAssignedList(
-				districts.assigned,
+				districts,
 				payload.selectedIds,
 				payload.selectedDistrict
 			);
-			const geometry = getDistricts(assigned, payload.lockedDistricts, window.dataTopoJSON);
-			return {
-				assigned,
-				geometry,
-			};
+			return new Int8Array(assigned);
 		default:
 			return districts;
 	}
@@ -191,6 +185,7 @@ const createToggleReducer = (defaultOption, reducerName) => {
 export default combineReducers({
 	selectedDistrict: selectedDistrictReducer,
 	districts: assignedDistrictsReducer,
+	geometry: geometryReducer,
 	selectedIds: selectedIdsReducer,
 	activatedIds: activatedIdsReducer,
 	districtColors: districtColorsReducer,

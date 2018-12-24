@@ -8,7 +8,7 @@ export const updateHighlight = (selectedIds, activatedIds, topoJSON) => {
 	const allGeometries = topoJSON.objects[topoObjectName].geometries;
 	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
 	const allHighlightedGeometries = allHighlightedIds.map(id => allGeometries[id]);
-	return JSON.parse(JSON.stringify(merge(topoJSON, allHighlightedGeometries)));
+	return merge(topoJSON, allHighlightedGeometries);
 };
 
 const getGeometries = topoJSON => topoJSON.objects[topoObjectName].geometries;
@@ -55,7 +55,7 @@ const mergeGeoJSONs = geoJSONs => {
 };
 
 export const getDistricts = (assignedDistricts, lockedDistricts, topoJSON) => {
-	const districtGeoJSONs = getGeoJSONForEachDistrict(assignedDistricts, window.dataTopoJSON);
+	const districtGeoJSONs = getGeoJSONForEachDistrict(assignedDistricts, topoJSON);
 	const districtCompactnessScores = districtGeoJSONs.map(geoJSON =>
 		calculateCompactnessAndContiguity(geoJSON)
 	);

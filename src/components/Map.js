@@ -6,7 +6,6 @@ import '../css/mapbox-gl.css';
 import MapDistrictLayer from './MapDistrictLayer';
 import MapHighlightLayer from './MapHighlightLayer';
 import MapLockLayer from './MapLockLayer';
-import MapOptions from './MapOptions';
 import MapDrawHandler from './MapDrawHandler';
 import MapLayerHandler from './MapLayerHandler';
 import MapLabelHandler from './MapLabelHandler';
@@ -36,8 +35,7 @@ class Map extends Component {
   render() {
     return (
       <div className="map">
-        {/*<ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />*/}
-        <div ref={el => (this.mapContainer = el)} />
+        <div ref={ref => (this.mapContainer = ref)} />
         {this.map && <MapDistrictLayer map={this.map} />}
         {this.map && <MapHighlightLayer map={this.map} />}
         {this.map && <MapDrawHandler map={this.map} />}
@@ -45,7 +43,6 @@ class Map extends Component {
         {this.map && <MapLabelHandler map={this.map} />}
         {this.map && <MapCircleHandler map={this.map} />}
         {this.map && <MapLockLayer map={this.map} />}
-        {this.map && <MapOptions />}
       </div>
     );
   }

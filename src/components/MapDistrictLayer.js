@@ -1,17 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import geobuf from 'geobuf';
+import Pbf from 'pbf';
 
-import { pointerSelect, updatedDistricts } from '../actions';
+import { pointerSelect, acceptChanges, updateGeometry } from '../actions';
 
 class MapDistrictLayer extends Component {
   onUpdatedDistricts = collection => {
     this.props.onUpdatedDistricts(collection);
   };
 
+  componentWillMount() {
+    window.updateHighlightWorker.addEventListener('message', m => {
+      switch (m.data.type) {
+        case 'DISTRICTS':
+          console.log(m.data);
+          this.props.map
+            .getSource('districts')
+            .setData(geobuf.decode(new Pbf(m.data.mergedGeoJSON)));
+          this.props.onUpdateGeometry(m.data.districtCompactnessScores);
+          break;
+        default:
+          break;
+      }
+      m = null;
+    });
+  }
+
   render() {
-    console.log('Render MapDistrictLayer');
     if (this.props.districts) {
-      this.props.map.getSource('districts').setData(this.props.districts.geometry.mergedGeoJSON);
+      window.updateHighlightWorker.postMessage({
+        type: 'DISTRICTS',
+        assignedDistricts: this.props.districts,
+        lockedDistricts: this.props.lockedDistricts,
+      });
     }
     return <div className="map-district-layer" />;
   }
@@ -19,15 +41,14 @@ class MapDistrictLayer extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    // topoJSON: state.topoJSON,
-    // geometries: state.geometries,
     districts: state.districts,
   };
 };
 
 const mapActionsToProps = {
   onPointerSelect: pointerSelect,
-  onUpdatedDistricts: updatedDistricts,
+  onAcceptChanges: acceptChanges,
+  onUpdateGeometry: updateGeometry,
 };
 
 export default connect(

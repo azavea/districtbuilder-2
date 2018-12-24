@@ -14,31 +14,32 @@ import { districtsTemplate, idealNumber } from '../constants';
 import { numberWithCommas, calculatePopulationsOld, calculatePopulationsNew } from '../util';
 
 class DistrictsSidebar extends Component {
-	calculatePopulationsOldMemoized = memoize(calculatePopulationsOld, {
-		max: 1,
-		primitive: true,
-		length: 1,
-	});
+	componentWillMount() {
+		this.calculatePopulationsOldMemoized = memoize(calculatePopulationsOld, {
+			max: 1,
+			primitive: true,
+			length: 1,
+		});
 
-	calculatePopulationsNewMemoized = memoize(calculatePopulationsNew, {
-		max: 2,
-		primitive: true,
-		length: 4,
-	});
-
+		this.calculatePopulationsNewMemoized = memoize(calculatePopulationsNew, {
+			max: 2,
+			primitive: true,
+			length: 4,
+		});
+	}
 	renderList() {
-		if (this.props.districts && window.dataGeoJSON) {
+		if (this.props.districts && window.dataFeatures) {
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
-				this.props.districts.assigned,
-				window.dataGeoJSON,
+				this.props.districts,
+				window.dataFeatures,
 				districtsTemplate
 			);
 			const districtsChangeData = calculatePopulationsNew(
 				this.props.selectedIds,
 				this.props.activatedIds,
 				this.props.selectedDistrict,
-				this.props.districts.assigned,
-				window.dataGeoJSON,
+				this.props.districts,
+				window.dataFeatures,
 				districtsTemplate
 			);
 			return districtsChangeData.map((districtNew, index) => {
@@ -46,7 +47,7 @@ class DistrictsSidebar extends Component {
 				const color = this.props.districtColors[index];
 				const districtStatus = index === this.props.selectedDistrict ? 'selected' : '';
 				const lockedStatus = this.props.lockedIds[index] ? '-locked' : '-unlocked';
-				const compactnessScores = this.props.districts.geometry.districtCompactnessScores;
+				const compactnessScores = this.props.geometry;
 				const diff =
 					districtNew.population > 0
 						? diffColors.increase
@@ -85,7 +86,9 @@ class DistrictsSidebar extends Component {
 							</button>
 						</div>
 						<div className="district-property">
-							<DistrictCompactnessScore score={compactnessScores[index]} />
+							{compactnessScores && (
+								<DistrictCompactnessScore score={compactnessScores[index]} />
+							)}
 						</div>
 						<div className="district-background" />
 					</div>
@@ -137,7 +140,7 @@ const mapStateToProps = state => {
 		districtColors: state.districtColors,
 		districts: state.districts,
 		lockedIds: state.lockedIds,
-		compactnessDistricts: state.compactnessDistricts,
+		geometry: state.geometry,
 	};
 };
 

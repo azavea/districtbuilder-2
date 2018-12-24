@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { throttle } from 'lodash';
+import { debounce } from 'lodash';
 
 import {
   pointerSelect,
@@ -9,24 +9,31 @@ import {
   activateResults,
   selectResults,
 } from '../actions';
-import spatialSearchWorker from 'worker-loader!../workers/spatial-search-worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
 
 class MapDrawHandler extends Component {
   componentWillMount() {
-    this.onRectangleActivateThrottled = throttle(data => {
-      window.spatialSearchWorker.postMessage(data);
-    }, 500);
+    this.onRectangleActivateDebounced = debounce(
+      data => {
+        window.updateHighlightWorker.postMessage(data);
+      },
+      200,
+      { maxWait: 500 }
+    );
 
     this.props.map.on('draw.create', e => {
-      window.spatialSearchWorker.postMessage({
-        type: 'SELECT',
-        lockedIds: this.props.lockedIds,
-        assignedDistricts: this.props.districts.assigned,
-        selectionLevel: this.props.selectionLevel,
-        drawLimit: this.props.drawLimit,
-        rectangle: e.features[0],
-        rectangleStartId: this.props.rectangleStartId,
-      });
+      const assignedDistricts = new Int8Array(this.props.districts).buffer;
+      window.updateHighlightWorker.postMessage(
+        {
+          type: 'SELECT',
+          lockedIds: this.props.lockedIds,
+          assignedDistricts: assignedDistricts,
+          selectionLevel: this.props.selectionLevel,
+          drawLimit: this.props.drawLimit,
+          rectangle: e.features[0],
+          rectangleStartId: this.props.rectangleStartId,
+        },
+        [assignedDistricts]
+      );
       this.props.draw.deleteAll();
       setTimeout(() => {
         this.props.draw.changeMode('draw_rectangle');
@@ -34,25 +41,22 @@ class MapDrawHandler extends Component {
     });
 
     this.props.map.on('draw.move', e => {
-      this.onRectangleActivateThrottled({
-        type: 'ACTIVATE',
-        lockedIds: this.props.lockedIds,
-        assignedDistricts: this.props.districts.assigned,
-        selectionLevel: this.props.selectionLevel,
-        drawLimit: this.props.drawLimit,
-        rectangle: e.features[0],
-        rectangleStartId: this.props.rectangleStartId,
-      });
+      const assignedDistricts = new Int8Array(this.props.districts).buffer;
+      this.onRectangleActivateDebounced(
+        {
+          type: 'ACTIVATE',
+          lockedIds: this.props.lockedIds,
+          assignedDistricts: assignedDistricts,
+          selectionLevel: this.props.selectionLevel,
+          drawLimit: this.props.drawLimit,
+          rectangle: e.features[0],
+          rectangleStartId: this.props.rectangleStartId,
+        },
+        [assignedDistricts]
+      );
     });
 
-    window.spatialSearchWorker = new spatialSearchWorker();
-
-    window.spatialSearchWorker.postMessage({
-      type: 'INIT',
-      geoJSON: window.dataGeoJSON,
-    });
-
-    window.spatialSearchWorker.onmessage = m => {
+    window.updateHighlightWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'SELECT':
           this.props.onSelectResults(m.data.results);
@@ -64,7 +68,7 @@ class MapDrawHandler extends Component {
           break;
       }
       m = null;
-    };
+    });
   }
   render() {
     return <div className="map-draw-rectangle" />;
