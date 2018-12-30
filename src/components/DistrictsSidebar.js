@@ -58,9 +58,13 @@ class DistrictsSidebar extends Component {
 					<div
 						className={'item ' + districtStatus}
 						key={index}
+						tabIndex="0"
 						onClick={() => this.onSelectDistrict(index)}
 					>
-						<div className="district-property">
+						<div className="district-property district-background">
+							<div className="district-background-left" />
+						</div>
+						<div className="district-property no-padding-left">
 							<DistrictColorSymbol color={color} />
 							<div className="district-name">{districtNew.name}</div>
 						</div>
@@ -77,20 +81,28 @@ class DistrictsSidebar extends Component {
 							</div>
 						</div>
 						<div className="district-property">
-							<DataChart districtNew={districtNew} districtOld={districtOld} />
+							{(districtNew.population > 0 || districtOld.population > 0) && (
+								<DataChart districtNew={districtNew} districtOld={districtOld} />
+							)}
+						</div>
+						<div className="district-property">
+							{index !== 0 && districtNew.population === 0 && compactnessScores ? (
+								<DistrictCompactnessScore score={compactnessScores[index]} />
+							) : (
+								'–'
+							)}
+						</div>
+						<div className="district-property no-padding-right">
 							<button
-								className={'button-lock .' + lockedStatus}
+								className={'button-lock ' + lockedStatus}
 								onClick={e => this.onLockDistrict(e, index)}
 							>
 								<i className={'icon-lock' + lockedStatus} />
 							</button>
 						</div>
-						<div className="district-property">
-							{compactnessScores && (
-								<DistrictCompactnessScore score={compactnessScores[index]} />
-							)}
+						<div className="district-property district-background">
+							<div className="district-background-right" />
 						</div>
-						<div className="district-background" />
 					</div>
 				);
 			});
@@ -118,15 +130,30 @@ class DistrictsSidebar extends Component {
 		const hasChanged = this.props.selectedIds.length > 0 ? 'changed' : '';
 		return (
 			<div className="sidebar">
+				<h2>Districts</h2>
 				<div className={'button-group ' + hasChanged}>
 					<button className="button-reject" onClick={() => this.onRejectChanges()}>
 						Reject
 					</button>
 					<button className="button-accept" onClick={() => this.onAcceptChanges()}>
-						Accept
+						<i className="icon-check" /> Accept
 					</button>
 				</div>
-				<div className="district-table">{this.renderList()}</div>
+				<div className="district-table">
+					<div className="table-header">
+						<div className="district-property district-background" />
+						<div className="district-property no-padding-left no-padding-right">
+							Number
+						</div>
+						<div className="district-property text-right">Population</div>
+						<div className="district-property text-right">Deviation</div>
+						<div className="district-property">Race</div>
+						<div className="district-property">Comp.</div>
+						<div className="district-property no-padding-left no-padding-right" />
+						<div className="district-property district-background" />
+					</div>
+					{this.renderList()}
+				</div>
 			</div>
 		);
 	}

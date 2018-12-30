@@ -8,7 +8,6 @@ import {
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
 	REJECT_CHANGES,
-	RECTANGLE_SELECT,
 	RECTANGLE_START,
 	LOCK_DISTRICT,
 	CHANGE_OPTION_DRAW_MODE,
@@ -95,18 +94,8 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case ACTIVATE_RESULTS:
 			const activatedIds = payload.results;
-			switch (payload.selectionLevel) {
-				case 'geounit':
-					return activatedIds;
-				case 'county':
-					return activatedIds
-						.map(id => window.dataCountyIndex[id])
-						.flat()
-						.filter(id => !payload.lockedIds[payload.assignedDistricts[id]]);
-				default:
-					return selectedIds;
-			}
-		case RECTANGLE_SELECT:
+			return activatedIds;
+		case SELECT_RESULTS:
 			return [];
 		case ACCEPT_CHANGES:
 			return [];
@@ -128,20 +117,7 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 			}
 		case SELECT_RESULTS:
 			const newSelectedIds = payload.results;
-			switch (payload.selectionLevel) {
-				case 'geounit':
-					return [...new Set([...selectedIds, ...newSelectedIds])];
-				case 'county':
-					const foo = [
-						...new Set([
-							...selectedIds,
-							...newSelectedIds.map(id => window.dataCountyIndex[id]).flat(),
-						]),
-					].filter(id => !payload.lockedIds[payload.assignedDistricts[id]]);
-					return foo;
-				default:
-					return selectedIds;
-			}
+			return [...new Set([...selectedIds, ...newSelectedIds])];
 		case ACCEPT_CHANGES:
 			return [];
 		case REJECT_CHANGES:

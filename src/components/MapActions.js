@@ -24,6 +24,13 @@ import {
 } from '../constants/options';
 
 class MapActions extends Component {
+  onDownload = () => {
+    window.updateHighlightWorker.postMessage({
+      type: 'DOWNLOAD_GEOJSON',
+      assignedDistricts: this.props.districts,
+    });
+  };
+
   render() {
     return (
       <div className="map-actions">
@@ -52,6 +59,9 @@ class MapActions extends Component {
           options={optionsDrawLimit}
           selectedOption={this.props.drawLimit}
         />
+        <button onClick={() => this.onDownload()}>
+          <i className="icon-download" />
+        </button>
       </div>
     );
   }
@@ -66,6 +76,7 @@ const mapStateToProps = (state, props) => {
     drawLimit: state.drawLimit,
     sidebarRace: state.sidebarRace,
     sidebarPolitics: state.sidebarPolitics,
+    districts: state.districts,
   };
 };
 

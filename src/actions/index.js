@@ -133,20 +133,18 @@ export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
 
 export const activateResults = results => {
 	return (dispatch, getState) => {
-		const { districts, selectionLevel, lockedIds } = getState();
 		dispatch({
 			type: ACTIVATE_RESULTS,
-			payload: { selectionLevel, results, lockedIds, assignedDistricts: districts },
+			payload: { results },
 		});
 	};
 };
 
 export const selectResults = results => {
 	return (dispatch, getState) => {
-		const { districts, selectionLevel, lockedIds } = getState();
 		dispatch({
 			type: SELECT_RESULTS,
-			payload: { selectionLevel, results, lockedIds, assignedDistricts: districts },
+			payload: { results },
 		});
 	};
 };

@@ -1,12 +1,27 @@
+import React from 'react';
+
 export const optionsDrawMode = [
-	{ id: 'pointer', name: 'Pointer' },
-	{ id: 'rectangle', name: 'Rectangle' },
-	{ id: 'line', name: 'Line' },
+	{
+		id: 'pointer',
+		name: (
+			<span>
+				<i className="icon-hand-pointer" /> Pointer
+			</span>
+		),
+	},
+	{
+		id: 'rectangle',
+		name: (
+			<span>
+				<i className="icon-draw-square" /> Square
+			</span>
+		),
+	},
 ];
 
 export const optionsSelectionLevel = [
-	{ id: 'county', name: 'County' },
-	{ id: 'geounit', name: 'Block Group' },
+	{ id: 'county', name: 'Counties' },
+	{ id: 'geounit', name: 'Block Groups' },
 ];
 
 export const optionsMapChoropleth = [
