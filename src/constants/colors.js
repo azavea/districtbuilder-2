@@ -26,6 +26,10 @@ export const colorOptionsSmall = [
 	'#016071',
 	'#FF06BF',
 	'#8AB2FB',
+	'#bfef45',
+	'#800000',
+	'#e6beff',
+	'#0000ff',
 ];
 
 export const colorOptionsLarge = [

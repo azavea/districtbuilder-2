@@ -14,7 +14,6 @@ class MapDistrictLayer extends Component {
     window.updateHighlightWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'DISTRICTS':
-          console.log(m.data);
           this.props.map
             .getSource('districts')
             .setData(geobuf.decode(new Pbf(m.data.mergedGeoJSON)));

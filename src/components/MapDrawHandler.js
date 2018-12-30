@@ -14,19 +14,43 @@ class MapDrawHandler extends Component {
       modes: this.modes,
       boxSelect: false,
       displayControlsDefault: false,
+      styles: [
+        {
+          id: 'gl-draw-polygon-stroke-active',
+          type: 'line',
+          filter: ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
+          layout: {
+            'line-cap': 'round',
+            'line-join': 'round',
+          },
+          paint: {
+            'line-color': '#444',
+            'line-width': 1,
+          },
+        },
+        {
+          id: 'gl-draw-polygon-fill-active',
+          type: 'fill',
+          filter: ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
+          paint: {
+            'fill-color': '#444',
+            'fill-opacity': 0.4,
+          },
+        },
+      ],
     });
   }
   render() {
     if (this.props.drawMode === 'pointer') {
-      this.props.map.on('click', 'blockgroups-fill', this.props.onPointerSelect);
+      this.props.map.on('click', 'geounits-fill', this.props.onPointerSelect);
       this.props.map.getCanvas().style.cursor = 'pointer';
     } else {
-      this.props.map.off('click', 'blockgroups-fill', this.props.onPointerSelect);
+      this.props.map.off('click', 'geounits-fill', this.props.onPointerSelect);
     }
     if (this.props.drawMode === 'rectangle') {
       this.myDrawControl = this.props.map.addControl(this.draw);
       this.draw.changeMode('draw_rectangle');
-      this.props.map.on('click', 'blockgroups-fill', this.props.onRectangleStart);
+      this.props.map.on('click', 'geounits-fill', this.props.onRectangleStart);
       this.props.map.getCanvas().style.cursor = 'crosshair';
     } else {
       if (this.myDrawControl) {
@@ -34,7 +58,7 @@ class MapDrawHandler extends Component {
       } else {
         this.myDrawControl = undefined;
       }
-      this.props.map.off('click', 'blockgroups-fill', this.props.onRectangleStart);
+      this.props.map.off('click', 'geounits-fill', this.props.onRectangleStart);
     }
     return (
       <div className="map-draw-handler">

@@ -10,6 +10,7 @@ import MapDrawHandler from './MapDrawHandler';
 import MapLayerHandler from './MapLayerHandler';
 import MapLabelHandler from './MapLabelHandler';
 import MapCircleHandler from './MapCircleHandler';
+import MapDownloadHandler from './MapDownloadHandler';
 import { mapboxStyle } from '../constants/map-style';
 
 MapboxGL.accessToken = 'pk.eyJ1IjoibGtuYXJmIiwiYSI6IjhjbGg4RUkifQ.-lS6mAkmR3SVh-W4XwQElg';
@@ -43,6 +44,7 @@ class Map extends Component {
         {this.map && <MapLabelHandler map={this.map} />}
         {this.map && <MapCircleHandler map={this.map} />}
         {this.map && <MapLockLayer map={this.map} />}
+        {this.map && <MapDownloadHandler map={this.map} />}
       </div>
     );
   }

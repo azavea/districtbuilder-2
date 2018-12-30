@@ -54,8 +54,8 @@ mapshaper -i input/pa-bg.geojson -simplify 0.4 -o _output/geounit/geounit-lines.
 mapshaper -i input/us-counties.geojson -simplify 0.4 -filter 'statefp==="42"' -o _output/county/county-lines.topojson format=topojson
 
 # Generate vector tiles
-tippecanoe -f -o _output/mbtiles/geounit.mbtiles --detect-shared-borders --maximum-zoom=12 --minimum-zoom=1 --simplify-only-low-zooms _output/geounit/geounit-lines.geojson
-tippecanoe -f -o _output/mbtiles/county.mbtiles --detect-shared-borders --maximum-zoom=12 --minimum-zoom=1 --simplify-only-low-zooms _output/county/county-lines.geojson
+tippecanoe -f -o _output/mbtiles/geounit.mbtiles --detect-shared-borders --maximum-zoom=12 --minimum-zoom=1 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/geounit/geounit-lines.geojson
+tippecanoe -f -o _output/mbtiles/county.mbtiles --detect-shared-borders --maximum-zoom=12 --minimum-zoom=1 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/county/county-lines.geojson
 
 tippecanoe -f -o _output/mbtiles/geounit-labels.mbtiles --maximum-zoom=12 --minimum-zoom=1 -r1 _output/geounit/geounit-labels.geojson
 tippecanoe -f -o _output/mbtiles/county-labels.mbtiles --maximum-zoom=12 --minimum-zoom=1 -r1 _output/county/county-labels.geojson
