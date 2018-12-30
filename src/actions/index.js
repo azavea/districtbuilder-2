@@ -1,3 +1,5 @@
+import { ActionCreators } from 'redux-undo';
+
 import { topoUrl, geoUrl } from '../constants';
 
 export const ACTIVATE_RESULTS = 'ACTIVATE_RESULTS';
@@ -89,7 +91,7 @@ export const pointerSelect = e => (dispatch, getState) => {
 	const id = e.features[0].properties.id;
 	const countyfp = e.features[0].properties.countyfp;
 	const { lockedIds, districts, selectionLevel } = getState();
-	const assignedDistricts = districts;
+	const assignedDistricts = districts.present;
 	const countyIds =
 		selectionLevel === 'county'
 			? window.dataCountyIndex[countyfp].filter(id => {
@@ -108,27 +110,6 @@ export const pointerSelect = e => (dispatch, getState) => {
 export const rectangleStart = e => dispatch => {
 	const countyfp = e.features[0].properties.countyfp;
 	dispatch({ type: RECTANGLE_START, payload: countyfp });
-};
-
-export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
-	return (dispatch, getState) => {
-		const lockedIds = getState().lockedIds;
-		const assignedDistricts = getState().districts;
-		const selectionLevel = getState().selectionLevel;
-		const drawLimit = getState().drawLimit;
-		dispatch({
-			type: RECTANGLE_SELECT,
-			payload: {
-				queryType: 'rectangle',
-				rectangle,
-				rectangleStartId,
-				lockedIds,
-				assignedDistricts,
-				selectionLevel,
-				drawLimit,
-			},
-		});
-	};
 };
 
 export const activateResults = results => {
@@ -155,6 +136,12 @@ export const lockDistrict = districtId => {
 	};
 };
 
+export const undo = () => {
+	return dispatch => {
+		dispatch(ActionCreators.undo());
+	};
+};
+
 export const generateHighlight = topoJSON => {
 	return dispatch => {
 		dispatch({ type: GENERATE_HIGHLIGHT, payload: topoJSON });
@@ -166,7 +153,11 @@ export const acceptChanges = () => {
 		const { selectedDistrict, selectedIds, lockedDistricts } = getState();
 		dispatch({
 			type: ACCEPT_CHANGES,
-			payload: { selectedDistrict, selectedIds, lockedDistricts },
+			payload: {
+				selectedDistrict: selectedDistrict.present,
+				selectedIds: selectedIds.present,
+				lockedDistricts,
+			},
 		});
 	};
 };

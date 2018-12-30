@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import undoable from 'redux-undo';
 
 import {
 	ACTIVATE_RESULTS,
@@ -159,10 +160,10 @@ const createToggleReducer = (defaultOption, reducerName) => {
 };
 
 export default combineReducers({
-	selectedDistrict: selectedDistrictReducer,
-	districts: assignedDistrictsReducer,
+	selectedDistrict: undoable(selectedDistrictReducer),
+	districts: undoable(assignedDistrictsReducer),
 	geometry: geometryReducer,
-	selectedIds: selectedIdsReducer,
+	selectedIds: undoable(selectedIdsReducer),
 	activatedIds: activatedIdsReducer,
 	districtColors: districtColorsReducer,
 	rectangleStartId: rectangleStartIdReducer,

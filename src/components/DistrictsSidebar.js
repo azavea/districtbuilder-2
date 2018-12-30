@@ -28,6 +28,7 @@ class DistrictsSidebar extends Component {
 		});
 	}
 	renderList() {
+		console.log('hey', this.props.districts);
 		if (this.props.districts && window.dataFeatures) {
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
 				this.props.districts,
@@ -54,6 +55,7 @@ class DistrictsSidebar extends Component {
 						: districtNew.population < 0
 						? diffColors.decrease
 						: diffColors.nochange;
+				const deviation = districtOld.population + districtNew.population - idealNumber;
 				return (
 					<div
 						className={'item ' + districtStatus}
@@ -75,9 +77,8 @@ class DistrictsSidebar extends Component {
 						</div>
 						<div className="district-property">
 							<div className="district-deviation" style={{ color: diff }}>
-								{numberWithCommas(
-									districtOld.population + districtNew.population - idealNumber
-								)}
+								{deviation > 0 && '+'}
+								{numberWithCommas(deviation)}
 							</div>
 						</div>
 						<div className="district-property">
@@ -161,11 +162,11 @@ class DistrictsSidebar extends Component {
 
 const mapStateToProps = state => {
 	return {
-		selectedDistrict: state.selectedDistrict,
+		selectedDistrict: state.selectedDistrict.present,
 		activatedIds: state.activatedIds,
-		selectedIds: state.selectedIds,
+		selectedIds: state.selectedIds.present,
 		districtColors: state.districtColors,
-		districts: state.districts,
+		districts: state.districts.present,
 		lockedIds: state.lockedIds,
 		geometry: state.geometry,
 	};

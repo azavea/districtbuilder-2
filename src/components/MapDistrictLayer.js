@@ -40,7 +40,7 @@ class MapDistrictLayer extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    districts: state.districts,
+    districts: state.districts.present,
   };
 };
 

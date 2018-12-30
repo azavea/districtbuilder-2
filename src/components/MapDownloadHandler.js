@@ -25,7 +25,7 @@ class MapActions extends Component {
   }
 
   render() {
-    return <div className="map-download" />;
+    return <div className="map-downloads" />;
   }
 }
 

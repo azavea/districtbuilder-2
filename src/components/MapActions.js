@@ -13,6 +13,7 @@ import {
   changeOptionDrawLimit,
   changeOptionSidebarRace,
   changeOptionSidebarPolitics,
+  undo,
 } from '../actions';
 
 import {
@@ -62,6 +63,9 @@ class MapActions extends Component {
         <button onClick={() => this.onDownload()}>
           <i className="icon-download" />
         </button>
+        <button onClick={() => this.props.onUndo()}>
+          <i className="icon-undo" />
+        </button>
       </div>
     );
   }
@@ -76,7 +80,7 @@ const mapStateToProps = (state, props) => {
     drawLimit: state.drawLimit,
     sidebarRace: state.sidebarRace,
     sidebarPolitics: state.sidebarPolitics,
-    districts: state.districts,
+    districts: state.districts.present,
   };
 };
 
@@ -88,6 +92,7 @@ const mapActionsToProps = {
   onChangeOptionDrawLimit: changeOptionDrawLimit,
   onChangeOptionSidebarRace: changeOptionSidebarRace,
   onChangeOptionSidebarPolitics: changeOptionSidebarPolitics,
+  onUndo: undo,
 };
 
 export default connect(
