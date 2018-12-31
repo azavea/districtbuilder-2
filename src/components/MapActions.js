@@ -14,6 +14,7 @@ import {
   changeOptionSidebarRace,
   changeOptionSidebarPolitics,
   undo,
+  redo,
 } from '../actions';
 
 import {
@@ -66,6 +67,9 @@ class MapActions extends Component {
         <button onClick={() => this.props.onUndo()}>
           <i className="icon-undo" />
         </button>
+        <button onClick={() => this.props.onRedo()}>
+          <i className="icon-redo" />
+        </button>
       </div>
     );
   }
@@ -93,6 +97,7 @@ const mapActionsToProps = {
   onChangeOptionSidebarRace: changeOptionSidebarRace,
   onChangeOptionSidebarPolitics: changeOptionSidebarPolitics,
   onUndo: undo,
+  onRedo: redo,
 };
 
 export default connect(

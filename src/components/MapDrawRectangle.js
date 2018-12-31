@@ -84,7 +84,7 @@ const mapActionsToProps = {
 const mapStateToProps = state => {
   return {
     rectangleStartId: state.rectangleStartId,
-    lockedIds: state.lockedIds,
+    lockedIds: state.lockedIds.present,
     districts: state.districts.present,
     selectionLevel: state.selectionLevel,
     drawLimit: state.drawLimit,

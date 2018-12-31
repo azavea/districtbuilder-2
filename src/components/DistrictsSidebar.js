@@ -167,7 +167,7 @@ const mapStateToProps = state => {
 		selectedIds: state.selectedIds.present,
 		districtColors: state.districtColors,
 		districts: state.districts.present,
-		lockedIds: state.lockedIds,
+		lockedIds: state.lockedIds.present,
 		geometry: state.geometry,
 	};
 };

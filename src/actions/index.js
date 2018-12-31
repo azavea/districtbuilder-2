@@ -61,7 +61,7 @@ export const generateGeoJSON = topoJSON => {
 
 export const generateAssignedDistricts = assignedDistricts => {
 	return (dispatch, getState) => {
-		const lockedDistricts = getState().lockedIds;
+		const lockedDistricts = getState().lockedIds.present;
 		dispatch({
 			type: GENERATE_ASSIGNED_DISTRICTS,
 			payload: { lockedDistricts, assignedDistricts },
@@ -95,10 +95,10 @@ export const pointerSelect = e => (dispatch, getState) => {
 	const countyIds =
 		selectionLevel === 'county'
 			? window.dataCountyIndex[countyfp].filter(id => {
-					return !lockedIds[assignedDistricts[id]];
+					return !lockedIds.present[assignedDistricts[id]];
 			  })
 			: [id];
-	const unlocked = !lockedIds[assignedDistricts[id]];
+	const unlocked = !lockedIds.present[assignedDistricts[id]];
 	if (unlocked) {
 		dispatch({
 			type: SELECT_GEOUNIT,
@@ -139,6 +139,12 @@ export const lockDistrict = districtId => {
 export const undo = () => {
 	return dispatch => {
 		dispatch(ActionCreators.undo());
+	};
+};
+
+export const redo = () => {
+	return dispatch => {
+		dispatch(ActionCreators.redo());
 	};
 };
 
