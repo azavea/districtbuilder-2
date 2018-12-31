@@ -28,7 +28,6 @@ class DistrictsSidebar extends Component {
 		});
 	}
 	renderList() {
-		console.log('hey', this.props.districts);
 		if (this.props.districts && window.dataFeatures) {
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
 				this.props.districts,

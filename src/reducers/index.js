@@ -69,7 +69,6 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
 			const assignedInitial = payload.assignedDistricts;
-			console.log('GENERATE_ASSIGNED_DISTRICTS');
 			return assignedInitial;
 		case ACCEPT_CHANGES:
 			const assigned = addSelectedDistrictsToAssignedList(
@@ -77,7 +76,7 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 				payload.selectedIds,
 				payload.selectedDistrict
 			);
-			return assigned;
+			return JSON.parse(JSON.stringify(assigned));
 		default:
 			return districts;
 	}
@@ -162,7 +161,6 @@ const createToggleReducer = (defaultOption, reducerName) => {
 
 const undoableOptions = {
 	limit: 10,
-	initTypes: ['GENERATE_ASSIGNED_DISTRICTS'],
 	filter: action =>
 		[
 			'LOCK_DISTRICT',
