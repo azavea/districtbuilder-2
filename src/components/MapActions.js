@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { OptionButtons } from './OptionButtons';
 import { OptionSelect } from './OptionSelect';
 import { OptionToggle } from './OptionToggle';
+import MapDownloadHandler from './MapDownloadHandler';
+import MapUndoHandler from './MapUndoHandler';
 
 import {
   changeOptionDrawMode,
@@ -27,7 +29,7 @@ import {
 
 class MapActions extends Component {
   onDownload = () => {
-    window.updateHighlightWorker.postMessage({
+    window.spatialWorker.postMessage({
       type: 'DOWNLOAD_GEOJSON',
       assignedDistricts: this.props.districts,
     });
@@ -61,15 +63,8 @@ class MapActions extends Component {
           options={optionsDrawLimit}
           selectedOption={this.props.drawLimit}
         />
-        <button onClick={() => this.onDownload()}>
-          <i className="icon-download" />
-        </button>
-        <button onClick={() => this.props.onUndo()}>
-          <i className="icon-undo" />
-        </button>
-        <button onClick={() => this.props.onRedo()}>
-          <i className="icon-redo" />
-        </button>
+        {window.spatialWorker && <MapDownloadHandler />}
+        <MapUndoHandler />
       </div>
     );
   }
@@ -84,7 +79,7 @@ const mapStateToProps = (state, props) => {
     drawLimit: state.drawLimit,
     sidebarRace: state.sidebarRace,
     sidebarPolitics: state.sidebarPolitics,
-    districts: state.districts.present,
+    districts: state.historyState.present.districts,
   };
 };
 

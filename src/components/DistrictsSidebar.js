@@ -161,12 +161,12 @@ class DistrictsSidebar extends Component {
 
 const mapStateToProps = state => {
 	return {
-		selectedDistrict: state.selectedDistrict.present,
+		selectedDistrict: state.historyState.present.selectedDistrict,
 		activatedIds: state.activatedIds,
-		selectedIds: state.selectedIds.present,
+		selectedIds: state.historyState.present.selectedIds,
 		districtColors: state.districtColors,
-		districts: state.districts.present,
-		lockedIds: state.lockedIds.present,
+		districts: state.historyState.present.districts,
+		lockedIds: state.historyState.present.lockedIds,
 		geometry: state.geometry,
 	};
 };

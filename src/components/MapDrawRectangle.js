@@ -57,7 +57,7 @@ class MapDrawHandler extends Component {
       }
     };
 
-    this.onRectangleActivateDebounced = debounce(this.onRectangleActivate, 200, { maxWait: 1000 });
+    this.onRectangleActivateDebounced = debounce(this.onRectangleActivate, 200, { maxWait: 500 });
 
     this.props.map.on('draw.create', e => {
       this.onRectangleActivate(e.features[0], this.props.onSelectResults);
@@ -84,8 +84,8 @@ const mapActionsToProps = {
 const mapStateToProps = state => {
   return {
     rectangleStartId: state.rectangleStartId,
-    lockedIds: state.lockedIds.present,
-    districts: state.districts.present,
+    lockedIds: state.historyState.present.lockedIds,
+    districts: state.historyState.present.districts,
     selectionLevel: state.selectionLevel,
     drawLimit: state.drawLimit,
   };

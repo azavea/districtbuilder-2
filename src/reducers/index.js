@@ -71,12 +71,13 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 			const assignedInitial = payload.assignedDistricts;
 			return assignedInitial;
 		case ACCEPT_CHANGES:
+			const assignedDistricts = JSON.parse(JSON.stringify(districts));
 			const assigned = addSelectedDistrictsToAssignedList(
-				JSON.parse(JSON.stringify(districts)),
+				assignedDistricts,
 				payload.selectedIds,
 				payload.selectedDistrict
 			);
-			return JSON.parse(JSON.stringify(assigned));
+			return assigned;
 		default:
 			return districts;
 	}
@@ -160,22 +161,29 @@ const createToggleReducer = (defaultOption, reducerName) => {
 };
 
 const undoableOptions = {
-	limit: 10,
+	limit: 20,
+	ignoreInitialState: true,
 	filter: action =>
 		[
-			'LOCK_DISTRICT',
-			'DISTRICT_SELECTED',
-			'ACCEPT_CHANGES',
 			'SELECT_RESULTS',
 			'SELECT_GEOUNIT',
+			'LOCK_DISTRICT',
+			'ACCEPT_CHANGES',
+			'DISTRICT_SELECTED',
+			'GENERATE_ASSIGNED_DISTRICTS',
 		].includes(action.type),
 };
 
 export default combineReducers({
-	selectedDistrict: undoable(selectedDistrictReducer, undoableOptions),
-	districts: undoable(assignedDistrictsReducer, undoableOptions),
-	selectedIds: undoable(selectedIdsReducer, undoableOptions),
-	lockedIds: undoable(lockedIdsReducer, undoableOptions),
+	historyState: undoable(
+		combineReducers({
+			selectedDistrict: selectedDistrictReducer,
+			districts: assignedDistrictsReducer,
+			lockedIds: lockedIdsReducer,
+			selectedIds: selectedIdsReducer,
+		}),
+		undoableOptions
+	),
 	activatedIds: activatedIdsReducer,
 	geometry: geometryReducer,
 	districtColors: districtColorsReducer,

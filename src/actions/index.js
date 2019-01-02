@@ -61,10 +61,10 @@ export const generateGeoJSON = topoJSON => {
 
 export const generateAssignedDistricts = assignedDistricts => {
 	return (dispatch, getState) => {
-		const lockedDistricts = getState().lockedIds.present;
+		const { lockedIds } = getState().historyState.present;
 		dispatch({
 			type: GENERATE_ASSIGNED_DISTRICTS,
-			payload: { lockedDistricts, assignedDistricts },
+			payload: { lockedIds, assignedDistricts },
 		});
 	};
 };
@@ -90,15 +90,15 @@ export const generateCountyIndex = geoJSON => {
 export const pointerSelect = e => (dispatch, getState) => {
 	const id = e.features[0].properties.id;
 	const countyfp = e.features[0].properties.countyfp;
-	const { lockedIds, districts, selectionLevel } = getState();
-	const assignedDistricts = districts.present;
+	const { historyState, selectionLevel } = getState();
+	const assignedDistricts = historyState.present.districts;
 	const countyIds =
 		selectionLevel === 'county'
 			? window.dataCountyIndex[countyfp].filter(id => {
-					return !lockedIds.present[assignedDistricts[id]];
+					return !historyState.present.lockedIds[assignedDistricts[id]];
 			  })
 			: [id];
-	const unlocked = !lockedIds.present[assignedDistricts[id]];
+	const unlocked = !historyState.present.lockedIds[assignedDistricts[id]];
 	if (unlocked) {
 		dispatch({
 			type: SELECT_GEOUNIT,
@@ -156,12 +156,12 @@ export const generateHighlight = topoJSON => {
 
 export const acceptChanges = () => {
 	return (dispatch, getState) => {
-		const { selectedDistrict, selectedIds, lockedDistricts } = getState();
+		const { selectedDistrict, selectedIds, lockedDistricts } = getState().historyState.present;
 		dispatch({
 			type: ACCEPT_CHANGES,
 			payload: {
-				selectedDistrict: selectedDistrict.present,
-				selectedIds: selectedIds.present,
+				selectedDistrict: selectedDistrict,
+				selectedIds: selectedIds,
 				lockedDistricts,
 			},
 		});

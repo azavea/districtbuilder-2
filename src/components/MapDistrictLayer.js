@@ -11,7 +11,7 @@ class MapDistrictLayer extends Component {
   };
 
   componentWillMount() {
-    window.updateHighlightWorker.addEventListener('message', m => {
+    window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'DISTRICTS':
           this.props.map
@@ -28,7 +28,7 @@ class MapDistrictLayer extends Component {
 
   render() {
     if (this.props.districts) {
-      window.updateHighlightWorker.postMessage({
+      window.spatialWorker.postMessage({
         type: 'DISTRICTS',
         assignedDistricts: this.props.districts,
         lockedDistricts: this.props.lockedDistricts,
@@ -40,7 +40,7 @@ class MapDistrictLayer extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    districts: state.districts.present,
+    districts: state.historyState.present.districts,
   };
 };
 

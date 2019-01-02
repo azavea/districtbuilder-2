@@ -5,7 +5,7 @@ import Pbf from 'pbf';
 
 class MapHighlightLayer extends Component {
   componentWillMount() {
-    window.updateHighlightWorker.addEventListener('message', m => {
+    window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'HIGHLIGHT':
           this.geo = geobuf.decode(new Pbf(m.data.results));
@@ -21,7 +21,7 @@ class MapHighlightLayer extends Component {
     const { selectedIds, activatedIds } = this.props;
 
     if (selectedIds) {
-      window.updateHighlightWorker.postMessage({
+      window.spatialWorker.postMessage({
         type: 'HIGHLIGHT',
         selectedIds,
         activatedIds,
@@ -33,7 +33,7 @@ class MapHighlightLayer extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    selectedIds: state.selectedIds.present,
+    selectedIds: state.historyState.present.selectedIds,
     activatedIds: state.activatedIds,
     lockedDistricts: state.lockedDistricts,
   };

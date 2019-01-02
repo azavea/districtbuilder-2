@@ -12,7 +12,7 @@ class MapHighlightLayer extends Component {
 
 const mapStateToProps = (state, props) => {
 	return {
-		lockedIds: state.lockedIds.present,
+		lockedIds: state.historyState.present.lockedIds,
 	};
 };
 
