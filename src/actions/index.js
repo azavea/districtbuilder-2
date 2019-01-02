@@ -31,6 +31,10 @@ export const CHANGE_OPTION_SELECTION_LEVEL = 'CHANGE_OPTION_SELECTION_LEVEL';
 export const CHANGE_OPTION_DRAW_LIMIT = 'CHANGE_OPTION_DRAW_LIMIT';
 export const CHANGE_OPTION_SIDEBAR_RACE = 'CHANGE_OPTION_SIDEBAR_RACE';
 export const CHANGE_OPTION_SIDEBAR_POLITICS = 'CHANGE_OPTION_SIDEBAR_POLITICS';
+export const CHANGE_OPTION_MAP_COUNTY_NAME = 'CHANGE_OPTION_MAP_COUNTY_NAME';
+export const CHANGE_OPTION_MAP_LABELS = 'CHANGE_OPTION_MAP_LABELS';
+export const CHANGE_OPTION_MAP_BASEMAP = 'CHANGE_OPTION_MAP_BASEMAP';
+export const CHANGE_OPTION_MAP_POPULATIONS_LABELS = 'CHANGE_OPTION_MAP_POPULATIONS_LABELS';
 
 export const selectDistrict = district => {
 	return {
@@ -201,3 +205,10 @@ export const changeOptionSelectionLevel = createOptionAction(CHANGE_OPTION_SELEC
 export const changeOptionDrawLimit = createOptionAction(CHANGE_OPTION_DRAW_LIMIT);
 export const changeOptionSidebarRace = createOptionAction(CHANGE_OPTION_SIDEBAR_RACE);
 export const changeOptionSidebarPolitics = createOptionAction(CHANGE_OPTION_SIDEBAR_POLITICS);
+export const changeOptionMapCountyName = createOptionAction(CHANGE_OPTION_MAP_COUNTY_NAME);
+export const changeOptionMapLabels = createOptionAction(CHANGE_OPTION_MAP_LABELS);
+
+export const changeOptionMapBasemap = createOptionAction(CHANGE_OPTION_MAP_BASEMAP);
+export const changeOptionMapPopulationsLabels = createOptionAction(
+	CHANGE_OPTION_MAP_POPULATIONS_LABELS
+);

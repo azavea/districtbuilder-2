@@ -21,16 +21,8 @@
     "css-loader": "1.0.0",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
-    "eslint": "5.6.0",
-    "eslint-config-react-app": "^3.0.5",
-    "eslint-loader": "2.1.1",
-    "eslint-plugin-flowtype": "2.50.1",
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-react": "7.11.1",
     "file-loader": "2.0.0",
     "file-saver": "^2.0.0",
-    "flatbush": "^3.1.0",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.0",
     "geobuf": "^3.0.1",
@@ -66,14 +58,14 @@
     "redux-undo": "^1.0.0-beta9-9-7",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
+    "semantic-ui-react": "^0.84.0",
     "style-loader": "0.23.0",
     "terser-webpack-plugin": "1.1.0",
     "topojson": "^3.0.2",
-    "turf": "^3.0.14",
     "underscore": "^1.9.1",
     "url-loader": "1.1.1",
     "webpack": "4.19.1",
-    "webpack-dev-server": "3.1.9",
+    "webpack-dev-server": "^3.1.14",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.3",
     "yarn": "^1.12.3"
@@ -139,6 +131,13 @@
     ]
   },
   "devDependencies": {
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^2.0.0",
+    "eslint": "5.6.0",
+    "eslint-config-react-app": "^3.0.5",
+    "eslint-loader": "2.1.1",
+    "eslint-plugin-flowtype": "2.50.1",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-react": "7.11.1"
   }
 }

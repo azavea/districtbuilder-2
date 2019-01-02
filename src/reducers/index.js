@@ -19,6 +19,10 @@ import {
 	CHANGE_OPTION_SIDEBAR_RACE,
 	CHANGE_OPTION_SIDEBAR_POLITICS,
 	UPDATE_GEOMETRY,
+	CHANGE_OPTION_MAP_COUNTY_NAME,
+	CHANGE_OPTION_MAP_LABELS,
+	CHANGE_OPTION_MAP_POPULATIONS_LABELS,
+	CHANGE_OPTION_MAP_BASEMAP,
 } from '../actions';
 
 import { districtColors, lockedIdsTemplate } from '../constants';
@@ -29,6 +33,10 @@ import {
 	optionsMapChoropleth,
 	optionsMapNumber,
 	optionsDrawLimit,
+	optionsMapCountyName,
+	optionsMapLabels,
+	optionsMapPopulationsLabels,
+	optionsMapBasemap,
 } from '../constants/options';
 
 const selectedDistrictReducer = (selectedDistrict = 1, { type, payload }) => {
@@ -169,6 +177,7 @@ const undoableOptions = {
 			'SELECT_GEOUNIT',
 			'LOCK_DISTRICT',
 			'ACCEPT_CHANGES',
+			'REJECT_CHANGES',
 			'DISTRICT_SELECTED',
 			'GENERATE_ASSIGNED_DISTRICTS',
 		].includes(action.type),
@@ -195,4 +204,7 @@ export default combineReducers({
 	sidebarRaceDisplay: createOptionReducer('chart', CHANGE_OPTION_SIDEBAR_RACE),
 	sidebarPoliticsDisplay: createOptionReducer('off', CHANGE_OPTION_SIDEBAR_POLITICS),
 	drawLimit: createToggleReducer(optionsDrawLimit[0].id, CHANGE_OPTION_DRAW_LIMIT),
+	mapCountyName: createToggleReducer(optionsMapCountyName[0].id, CHANGE_OPTION_MAP_COUNTY_NAME),
+	mapLabels: createOptionReducer(optionsMapLabels[2].value, CHANGE_OPTION_MAP_LABELS),
+	mapBasemap: createOptionReducer(optionsMapBasemap[0].value, CHANGE_OPTION_MAP_BASEMAP),
 });

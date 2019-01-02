@@ -7,10 +7,12 @@ import Map from './components/Map';
 import DistrictsSidebar from './components/DistrictsSidebar';
 import MapActions from './components/MapActions';
 import { generateAssignedDistricts } from './actions';
+import MapDownloadHandler from './components/MapDownloadHandler';
+import MapUndoHandler from './components/MapUndoHandler';
 import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
 
 class Builder extends Component {
-    componentDidMount() {
+    componentWillMount() {
         window.spatialWorker = new spatialWorker();
 
         const featureRequest = fetch('data/pa-bg.json').then(res => res.json());
@@ -27,11 +29,23 @@ class Builder extends Component {
     render() {
         return (
             <div className="builder">
-                <DistrictsSidebar />
-                <div className="map-container">
-                    <MapActions />
-                    <Map />
-                </div>
+                <header>
+                    <div className="header-logo">
+                        <img src="/images/logo.png" alt="District Builder logo" />
+                    </div>
+                    <div className="header-title">Pennsylvania State House</div>
+                    <div className="header-actions">
+                        <MapUndoHandler />
+                        {window.spatialWorker && <MapDownloadHandler />}
+                    </div>
+                </header>
+                <main>
+                    <DistrictsSidebar />
+                    <div className="map-container">
+                        <MapActions />
+                        <Map />
+                    </div>
+                </main>
             </div>
         );
     }
