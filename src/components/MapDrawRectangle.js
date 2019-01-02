@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { bbox } from '@turf/turf';
 
-import { rectangleSelect, activateResults, selectResults } from '../actions';
+import { activateResults, selectResults } from '../actions';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
@@ -57,7 +57,7 @@ class MapDrawHandler extends Component {
       }
     };
 
-    this.onRectangleActivateDebounced = debounce(this.onRectangleActivate, 400, { maxWait: 1000 });
+    this.onRectangleActivateDebounced = debounce(this.onRectangleActivate, 200, { maxWait: 500 });
 
     this.props.map.on('draw.create', e => {
       this.onRectangleActivate(e.features[0], this.props.onSelectResults);
@@ -77,17 +77,15 @@ class MapDrawHandler extends Component {
 }
 
 const mapActionsToProps = {
-  onRectangleSelect: rectangleSelect,
   onActivateResults: activateResults,
   onSelectResults: selectResults,
 };
 
 const mapStateToProps = state => {
   return {
-    drawMode: state.drawMode,
     rectangleStartId: state.rectangleStartId,
-    lockedIds: state.lockedIds,
-    districts: state.districts,
+    lockedIds: state.historyState.present.lockedIds,
+    districts: state.historyState.present.districts,
     selectionLevel: state.selectionLevel,
     drawLimit: state.drawLimit,
   };

@@ -4,9 +4,16 @@ import geobuf from 'geobuf';
 import Pbf from 'pbf';
 import FileSaver from 'file-saver';
 
-class MapActions extends Component {
+class MapDownloadHandler extends Component {
+  onDownload = () => {
+    window.spatialWorker.postMessage({
+      type: 'DOWNLOAD_GEOJSON',
+      assignedDistricts: this.props.districts,
+    });
+  };
+
   componentWillMount() {
-    window.updateHighlightWorker.addEventListener('message', m => {
+    window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'DOWNLOAD_GEOJSON':
           console.log('Download launch');
@@ -25,12 +32,16 @@ class MapActions extends Component {
   }
 
   render() {
-    return <div className="map-download" />;
+    return (
+      <button onClick={() => this.onDownload()}>
+        <i className="icon-download" />
+      </button>
+    );
   }
 }
 
 const mapStateToProps = (state, props) => {
-  return {};
+  return { districts: state.historyState.present.districts };
 };
 
-export default connect(mapStateToProps)(MapActions);
+export default connect(mapStateToProps)(MapDownloadHandler);

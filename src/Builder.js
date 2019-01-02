@@ -7,11 +7,11 @@ import Map from './components/Map';
 import DistrictsSidebar from './components/DistrictsSidebar';
 import MapActions from './components/MapActions';
 import { generateAssignedDistricts } from './actions';
-import updateHighlightWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
+import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
 
 class Builder extends Component {
     componentDidMount() {
-        window.updateHighlightWorker = new updateHighlightWorker();
+        window.spatialWorker = new spatialWorker();
 
         const featureRequest = fetch('data/pa-bg.json').then(res => res.json());
         const countyIndexRequest = fetch('data/pa-county-index.json').then(res => res.json());
@@ -28,8 +28,8 @@ class Builder extends Component {
         return (
             <div className="builder">
                 <DistrictsSidebar />
-                <MapActions />
                 <div className="map-container">
+                    <MapActions />
                     <Map />
                 </div>
             </div>

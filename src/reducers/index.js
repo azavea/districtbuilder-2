@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import undoable from 'redux-undo';
 
 import {
 	ACTIVATE_RESULTS,
@@ -61,21 +62,22 @@ const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, sele
 	selectedIds.forEach(id => {
 		assignedDistricts[id] = selectedDistrict;
 	});
-	return new Int8Array(assignedDistricts);
+	return assignedDistricts;
 };
 
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
 			const assignedInitial = payload.assignedDistricts;
-			return new Int8Array(assignedInitial);
+			return assignedInitial;
 		case ACCEPT_CHANGES:
+			const assignedDistricts = JSON.parse(JSON.stringify(districts));
 			const assigned = addSelectedDistrictsToAssignedList(
-				districts,
+				assignedDistricts,
 				payload.selectedIds,
 				payload.selectedDistrict
 			);
-			return new Int8Array(assigned);
+			return assigned;
 		default:
 			return districts;
 	}
@@ -158,15 +160,34 @@ const createToggleReducer = (defaultOption, reducerName) => {
 	};
 };
 
+const undoableOptions = {
+	limit: 20,
+	ignoreInitialState: true,
+	filter: action =>
+		[
+			'SELECT_RESULTS',
+			'SELECT_GEOUNIT',
+			'LOCK_DISTRICT',
+			'ACCEPT_CHANGES',
+			'DISTRICT_SELECTED',
+			'GENERATE_ASSIGNED_DISTRICTS',
+		].includes(action.type),
+};
+
 export default combineReducers({
-	selectedDistrict: selectedDistrictReducer,
-	districts: assignedDistrictsReducer,
-	geometry: geometryReducer,
-	selectedIds: selectedIdsReducer,
+	historyState: undoable(
+		combineReducers({
+			selectedDistrict: selectedDistrictReducer,
+			districts: assignedDistrictsReducer,
+			lockedIds: lockedIdsReducer,
+			selectedIds: selectedIdsReducer,
+		}),
+		undoableOptions
+	),
 	activatedIds: activatedIdsReducer,
+	geometry: geometryReducer,
 	districtColors: districtColorsReducer,
 	rectangleStartId: rectangleStartIdReducer,
-	lockedIds: lockedIdsReducer,
 	drawMode: createOptionReducer(optionsDrawMode[0].id, CHANGE_OPTION_DRAW_MODE),
 	selectionLevel: createOptionReducer(optionsSelectionLevel[0].id, CHANGE_OPTION_SELECTION_LEVEL),
 	mapChoropleth: createOptionReducer(optionsMapChoropleth[0].id, CHANGE_OPTION_MAP_CHOROPLETH),

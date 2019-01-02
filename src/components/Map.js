@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MapboxGL from 'mapbox-gl';
 import '../css/mapbox-gl.css';
-// import ReactResizeDetector from 'react-resize-detector';
+import ReactResizeDetector from 'react-resize-detector';
 
 import MapDistrictLayer from './MapDistrictLayer';
 import MapHighlightLayer from './MapHighlightLayer';
@@ -10,7 +10,6 @@ import MapDrawHandler from './MapDrawHandler';
 import MapLayerHandler from './MapLayerHandler';
 import MapLabelHandler from './MapLabelHandler';
 import MapCircleHandler from './MapCircleHandler';
-import MapDownloadHandler from './MapDownloadHandler';
 import { mapboxStyle } from '../constants/map-style';
 
 MapboxGL.accessToken = 'pk.eyJ1IjoibGtuYXJmIiwiYSI6IjhjbGg4RUkifQ.-lS6mAkmR3SVh-W4XwQElg';
@@ -33,10 +32,16 @@ class Map extends Component {
     });
   }
 
+  onResize = () => {
+    this.map.resize();
+    console.log('map resize');
+  };
+
   render() {
     return (
       <div className="map">
         <div ref={ref => (this.mapContainer = ref)} />
+        {<ReactResizeDetector handleWidth onResize={this.onResize} />}
         {this.map && <MapDistrictLayer map={this.map} />}
         {this.map && <MapHighlightLayer map={this.map} />}
         {this.map && <MapDrawHandler map={this.map} />}
@@ -44,7 +49,6 @@ class Map extends Component {
         {this.map && <MapLabelHandler map={this.map} />}
         {this.map && <MapCircleHandler map={this.map} />}
         {this.map && <MapLockLayer map={this.map} />}
-        {this.map && <MapDownloadHandler map={this.map} />}
       </div>
     );
   }

@@ -1,3 +1,5 @@
+import { ActionCreators } from 'redux-undo';
+
 import { topoUrl, geoUrl } from '../constants';
 
 export const ACTIVATE_RESULTS = 'ACTIVATE_RESULTS';
@@ -59,10 +61,10 @@ export const generateGeoJSON = topoJSON => {
 
 export const generateAssignedDistricts = assignedDistricts => {
 	return (dispatch, getState) => {
-		const lockedDistricts = getState().lockedIds;
+		const { lockedIds } = getState().historyState.present;
 		dispatch({
 			type: GENERATE_ASSIGNED_DISTRICTS,
-			payload: { lockedDistricts, assignedDistricts },
+			payload: { lockedIds, assignedDistricts },
 		});
 	};
 };
@@ -88,15 +90,15 @@ export const generateCountyIndex = geoJSON => {
 export const pointerSelect = e => (dispatch, getState) => {
 	const id = e.features[0].properties.id;
 	const countyfp = e.features[0].properties.countyfp;
-	const { lockedIds, districts, selectionLevel } = getState();
-	const assignedDistricts = districts;
+	const { historyState, selectionLevel } = getState();
+	const assignedDistricts = historyState.present.districts;
 	const countyIds =
 		selectionLevel === 'county'
 			? window.dataCountyIndex[countyfp].filter(id => {
-					return !lockedIds[assignedDistricts[id]];
+					return !historyState.present.lockedIds[assignedDistricts[id]];
 			  })
 			: [id];
-	const unlocked = !lockedIds[assignedDistricts[id]];
+	const unlocked = !historyState.present.lockedIds[assignedDistricts[id]];
 	if (unlocked) {
 		dispatch({
 			type: SELECT_GEOUNIT,
@@ -108,27 +110,6 @@ export const pointerSelect = e => (dispatch, getState) => {
 export const rectangleStart = e => dispatch => {
 	const countyfp = e.features[0].properties.countyfp;
 	dispatch({ type: RECTANGLE_START, payload: countyfp });
-};
-
-export const rectangleSelect = ({ rectangle, rectangleStartId }) => {
-	return (dispatch, getState) => {
-		const lockedIds = getState().lockedIds;
-		const assignedDistricts = getState().districts;
-		const selectionLevel = getState().selectionLevel;
-		const drawLimit = getState().drawLimit;
-		dispatch({
-			type: RECTANGLE_SELECT,
-			payload: {
-				queryType: 'rectangle',
-				rectangle,
-				rectangleStartId,
-				lockedIds,
-				assignedDistricts,
-				selectionLevel,
-				drawLimit,
-			},
-		});
-	};
 };
 
 export const activateResults = results => {
@@ -155,6 +136,18 @@ export const lockDistrict = districtId => {
 	};
 };
 
+export const undo = () => {
+	return dispatch => {
+		dispatch(ActionCreators.undo());
+	};
+};
+
+export const redo = () => {
+	return dispatch => {
+		dispatch(ActionCreators.redo());
+	};
+};
+
 export const generateHighlight = topoJSON => {
 	return dispatch => {
 		dispatch({ type: GENERATE_HIGHLIGHT, payload: topoJSON });
@@ -163,10 +156,14 @@ export const generateHighlight = topoJSON => {
 
 export const acceptChanges = () => {
 	return (dispatch, getState) => {
-		const { selectedDistrict, selectedIds, lockedDistricts } = getState();
+		const { selectedDistrict, selectedIds, lockedDistricts } = getState().historyState.present;
 		dispatch({
 			type: ACCEPT_CHANGES,
-			payload: { selectedDistrict, selectedIds, lockedDistricts },
+			payload: {
+				selectedDistrict: selectedDistrict,
+				selectedIds: selectedIds,
+				lockedDistricts,
+			},
 		});
 	};
 };

@@ -54,6 +54,7 @@ class DistrictsSidebar extends Component {
 						: districtNew.population < 0
 						? diffColors.decrease
 						: diffColors.nochange;
+				const deviation = districtOld.population + districtNew.population - idealNumber;
 				return (
 					<div
 						className={'item ' + districtStatus}
@@ -75,9 +76,8 @@ class DistrictsSidebar extends Component {
 						</div>
 						<div className="district-property">
 							<div className="district-deviation" style={{ color: diff }}>
-								{numberWithCommas(
-									districtOld.population + districtNew.population - idealNumber
-								)}
+								{deviation > 0 && '+'}
+								{numberWithCommas(deviation)}
 							</div>
 						</div>
 						<div className="district-property">
@@ -161,12 +161,12 @@ class DistrictsSidebar extends Component {
 
 const mapStateToProps = state => {
 	return {
-		selectedDistrict: state.selectedDistrict,
+		selectedDistrict: state.historyState.present.selectedDistrict,
 		activatedIds: state.activatedIds,
-		selectedIds: state.selectedIds,
+		selectedIds: state.historyState.present.selectedIds,
 		districtColors: state.districtColors,
-		districts: state.districts,
-		lockedIds: state.lockedIds,
+		districts: state.historyState.present.districts,
+		lockedIds: state.historyState.present.lockedIds,
 		geometry: state.geometry,
 	};
 };
