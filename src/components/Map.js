@@ -9,7 +9,6 @@ import MapLockLayer from './MapLockLayer';
 import MapDrawHandler from './MapDrawHandler';
 import MapLayerHandler from './MapLayerHandler';
 import MapLabelHandler from './MapLabelHandler';
-import MapCircleHandler from './MapCircleHandler';
 import MapBasemapHandler from './MapBasemapHandler';
 import { mapboxStyle } from '../constants/map-style';
 
@@ -48,7 +47,6 @@ class Map extends Component {
         {this.map && <MapLayerHandler map={this.map} />}
         {this.map && <MapLabelHandler map={this.map} />}
         {this.map && <MapBasemapHandler map={this.map} />}
-        {/*{this.map && <MapCircleHandler map={this.map} />}*/}
         {this.map && <MapLockLayer map={this.map} />}
       </div>
     );
