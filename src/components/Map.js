@@ -10,6 +10,7 @@ import MapDrawHandler from './MapDrawHandler';
 import MapLayerHandler from './MapLayerHandler';
 import MapLabelHandler from './MapLabelHandler';
 import MapCircleHandler from './MapCircleHandler';
+import MapBasemapHandler from './MapBasemapHandler';
 import { mapboxStyle } from '../constants/map-style';
 
 MapboxGL.accessToken = 'pk.eyJ1IjoibGtuYXJmIiwiYSI6IjhjbGg4RUkifQ.-lS6mAkmR3SVh-W4XwQElg';
@@ -34,7 +35,6 @@ class Map extends Component {
 
   onResize = () => {
     this.map.resize();
-    console.log('map resize');
   };
 
   render() {
@@ -47,7 +47,8 @@ class Map extends Component {
         {this.map && <MapDrawHandler map={this.map} />}
         {this.map && <MapLayerHandler map={this.map} />}
         {this.map && <MapLabelHandler map={this.map} />}
-        {this.map && <MapCircleHandler map={this.map} />}
+        {this.map && <MapBasemapHandler map={this.map} />}
+        {/*{this.map && <MapCircleHandler map={this.map} />}*/}
         {this.map && <MapLockLayer map={this.map} />}
       </div>
     );
