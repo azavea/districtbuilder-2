@@ -1,5 +1,3 @@
-import { bbox } from '@turf/turf';
-
 import { topoObjectName } from '../constants';
 
 export const generateIdIndex = topoJSON => {

@@ -21,7 +21,6 @@ import {
 	UPDATE_GEOMETRY,
 	CHANGE_OPTION_MAP_COUNTY_NAME,
 	CHANGE_OPTION_MAP_LABELS,
-	CHANGE_OPTION_MAP_POPULATIONS_LABELS,
 	CHANGE_OPTION_MAP_BASEMAP,
 } from '../actions';
 
@@ -35,7 +34,6 @@ import {
 	optionsDrawLimit,
 	optionsMapCountyName,
 	optionsMapLabels,
-	optionsMapPopulationsLabels,
 	optionsMapBasemap,
 } from '../constants/options';
 
@@ -76,8 +74,7 @@ const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, sele
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
-			const assignedInitial = payload.assignedDistricts;
-			return assignedInitial;
+			return districts ? districts : payload.assignedDistricts;
 		case ACCEPT_CHANGES:
 			const assignedDistricts = JSON.parse(JSON.stringify(districts));
 			const assigned = addSelectedDistrictsToAssignedList(
