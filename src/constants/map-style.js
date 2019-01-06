@@ -1,6 +1,8 @@
 import { tileLayerName, districtColors, districtIds } from '../constants';
 import { generateDistrictColor } from '../util/map';
 
+import { mapStyles } from '../constants';
+
 const districtColorDefinition = generateDistrictColor(districtIds, districtColors);
 
 export const mapboxStyle = {
@@ -35,7 +37,21 @@ export const mapboxStyle = {
       source: 'districts',
       paint: {
         'fill-color': districtColorDefinition,
-        'fill-opacity': 1,
+        'fill-opacity': mapStyles.default.districtsFillOpacity,
+      },
+    },
+    {
+      id: 'districts-line',
+      type: 'line',
+      source: 'districts',
+      paint: {
+        'line-color': districtColorDefinition,
+        'line-opacity': 1,
+        'line-width': 5,
+        'line-offset': 3,
+      },
+      layout: {
+        visibility: mapStyles.default.districtsLineVisibility,
       },
     },
     {
@@ -102,7 +118,7 @@ export const mapboxStyle = {
       'source-layer': tileLayerName,
       paint: {
         'line-color': '#000',
-        'line-opacity': 0.1,
+        'line-opacity': mapStyles.default.blockgroupsLineOpacity,
         'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1, 12, 3],
       },
       layout: {
@@ -144,7 +160,7 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': 'towns',
       layout: {
-        'text-size': 10,
+        'text-size': 14,
         'symbol-spacing': 1,
         'text-padding': 20,
         'text-field': '{name}',
@@ -165,7 +181,7 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': 'townm',
       layout: {
-        'text-size': 10,
+        'text-size': 14,
         'symbol-spacing': 1,
         'text-padding': 20,
         'text-field': '{name}',
@@ -186,7 +202,7 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': 'townl',
       layout: {
-        'text-size': 10,
+        'text-size': 14,
         'symbol-spacing': 1,
         'text-padding': 20,
         'text-field': '{name}',
@@ -207,7 +223,7 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': 'citys',
       layout: {
-        'text-size': 12,
+        'text-size': 14,
         'symbol-spacing': 1,
         'text-padding': 20,
         'text-field': '{name}',
@@ -228,7 +244,7 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': 'citym',
       layout: {
-        'text-size': 12,
+        'text-size': 14,
         'symbol-spacing': 1,
         'text-padding': 20,
         'text-field': '{name}',
@@ -249,7 +265,7 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': 'cityl',
       layout: {
-        'text-size': 14,
+        'text-size': 16,
         'symbol-spacing': 1,
         'text-padding': 20,
         'text-field': '{name}',

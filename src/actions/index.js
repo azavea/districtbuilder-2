@@ -34,7 +34,6 @@ export const CHANGE_OPTION_SIDEBAR_POLITICS = 'CHANGE_OPTION_SIDEBAR_POLITICS';
 export const CHANGE_OPTION_MAP_COUNTY_NAME = 'CHANGE_OPTION_MAP_COUNTY_NAME';
 export const CHANGE_OPTION_MAP_LABELS = 'CHANGE_OPTION_MAP_LABELS';
 export const CHANGE_OPTION_MAP_BASEMAP = 'CHANGE_OPTION_MAP_BASEMAP';
-export const CHANGE_OPTION_MAP_POPULATIONS_LABELS = 'CHANGE_OPTION_MAP_POPULATIONS_LABELS';
 
 export const selectDistrict = district => {
 	return {
@@ -209,6 +208,3 @@ export const changeOptionMapCountyName = createOptionAction(CHANGE_OPTION_MAP_CO
 export const changeOptionMapLabels = createOptionAction(CHANGE_OPTION_MAP_LABELS);
 
 export const changeOptionMapBasemap = createOptionAction(CHANGE_OPTION_MAP_BASEMAP);
-export const changeOptionMapPopulationsLabels = createOptionAction(
-	CHANGE_OPTION_MAP_POPULATIONS_LABELS
-);
