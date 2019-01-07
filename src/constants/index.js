@@ -33,3 +33,50 @@ export const districtsTemplate = districtIds.map(key => {
     native: 0,
   };
 });
+
+export const mapStyles = {
+  default: {
+    blockgroupsLineOpacity: 0.1,
+    districtsFillOpacity: 1,
+    districtsLineVisibility: 'none',
+  },
+  basemap: {
+    blockgroupsLineOpacity: ['interpolate', ['linear'], ['zoom'], 0, 0.1, 6, 0.1, 12, 0.3],
+    districtsFillOpacity: ['interpolate', ['linear'], ['zoom'], 0, 0.1, 6, 0.1, 12, 0.4],
+    districtsLineVisibility: 'visible',
+  },
+};
+
+export const removeRasterLayer = map => {
+  map
+    .setPaintProperty(
+      'blockgroups-outline',
+      'line-opacity',
+      mapStyles.default.blockgroupsLineOpacity
+    )
+    .setPaintProperty('districts-fill', 'fill-opacity', mapStyles.default.districtsFillOpacity)
+    .setLayoutProperty('districts-line', 'visibility', mapStyles.default.districtsLineVisibility);
+};
+
+export const addRasterLayer = (map, url) => {
+  map
+    .addLayer(
+      {
+        id: 'raster-basemap',
+        type: 'raster',
+        source: {
+          type: 'raster',
+          tiles: [url],
+          tileSize: 256,
+        },
+      },
+      'districts-fill'
+    )
+    .setPaintProperty(
+      'blockgroups-outline',
+      'line-opacity',
+      mapStyles.basemap.blockgroupsLineOpacity
+    )
+    .setPaintProperty('districts-fill', 'fill-opacity', mapStyles.basemap.districtsFillOpacity)
+    .setLayoutProperty('districts-line', 'visibility', mapStyles.basemap.districtsLineVisibility);
+};
