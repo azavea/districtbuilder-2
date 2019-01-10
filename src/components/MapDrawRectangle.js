@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce';
 import { bbox } from '@turf/turf';
 
 import { activateResults, selectResults } from '../actions';
+import { withMap } from './Context';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
@@ -91,7 +92,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(MapDrawHandler);
+export default withMap(
+  connect(
+    mapStateToProps,
+    mapActionsToProps
+  )(MapDrawHandler)
+);

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { changeOptionDrawMode } from '../actions';
 
 class MapActions extends Component {
-  componentDidMount() {}
   renderDrawButtons() {
     const drawModes = ['Pointer', 'Rectangle', 'Line'];
     return drawModes.map((mode, index) => {

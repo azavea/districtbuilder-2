@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import geobuf from 'geobuf';
 import Pbf from 'pbf';
 
+import { withMap } from './Context';
+
 class MapHighlightLayer extends Component {
   componentWillMount() {
     window.spatialWorker.addEventListener('message', m => {
@@ -39,4 +41,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps)(MapHighlightLayer);
+export default withMap(connect(mapStateToProps)(MapHighlightLayer));

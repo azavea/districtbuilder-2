@@ -4,6 +4,7 @@ import geobuf from 'geobuf';
 import Pbf from 'pbf';
 
 import { pointerSelect, acceptChanges, updateGeometry } from '../actions';
+import { withMap } from './Context';
 
 class MapDistrictLayer extends Component {
   onUpdatedDistricts = collection => {
@@ -50,7 +51,9 @@ const mapActionsToProps = {
   onUpdateGeometry: updateGeometry,
 };
 
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(MapDistrictLayer);
+export default withMap(
+  connect(
+    mapStateToProps,
+    mapActionsToProps
+  )(MapDistrictLayer)
+);

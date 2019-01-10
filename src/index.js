@@ -23,13 +23,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-let store = createStore(
-	persistedReducer,
-	compose(
-		applyMiddleware(thunk)
-		// window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-	)
-);
+let store = createStore(persistedReducer, compose(applyMiddleware(thunk)));
 let persistor = persistStore(store);
 
 const routing = (

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { withMap } from './Context';
+
 class MapLabelHandler extends Component {
   render() {
     const { mapLabels, selectionLevel, map } = this.props;
@@ -50,4 +52,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(MapLabelHandler);
+export default withMap(connect(mapStateToProps)(MapLabelHandler));

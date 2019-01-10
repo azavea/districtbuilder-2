@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
-import MapDrawRectangle from './MapDrawRectangle';
-import { pointerSelect, rectangleStart } from '../actions';
 import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
+import MapDrawRectangle from './MapDrawRectangle';
+import { drawStyle } from '../constants/map-style';
+import { pointerSelect, rectangleStart } from '../actions';
+import { withMap } from './Context';
 
 class MapDrawHandler extends Component {
   componentWillMount() {
@@ -14,30 +16,7 @@ class MapDrawHandler extends Component {
       modes: this.modes,
       boxSelect: false,
       displayControlsDefault: false,
-      styles: [
-        {
-          id: 'gl-draw-polygon-stroke-active',
-          type: 'line',
-          filter: ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
-          layout: {
-            'line-cap': 'round',
-            'line-join': 'round',
-          },
-          paint: {
-            'line-color': '#444',
-            'line-width': 1,
-          },
-        },
-        {
-          id: 'gl-draw-polygon-fill-active',
-          type: 'fill',
-          filter: ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
-          paint: {
-            'fill-color': '#444',
-            'fill-opacity': 0.4,
-          },
-        },
-      ],
+      styles: drawStyle,
     });
   }
   render() {
@@ -62,7 +41,7 @@ class MapDrawHandler extends Component {
     }
     return (
       <div className="map-draw-handler">
-        <MapDrawRectangle map={this.props.map} draw={this.draw} />
+        <MapDrawRectangle draw={this.draw} />
       </div>
     );
   }
@@ -79,7 +58,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(MapDrawHandler);
+export default withMap(
+  connect(
+    mapStateToProps,
+    mapActionsToProps
+  )(MapDrawHandler)
+);
