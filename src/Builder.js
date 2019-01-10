@@ -4,7 +4,14 @@ import { connect } from 'react-redux';
 import './css/App.css';
 import './css/db.css';
 import Map from './components/Map';
+import MapDistrictLayer from './components/MapDistrictLayer';
 import DistrictsSidebar from './components/DistrictsSidebar';
+import MapHighlightLayer from './components/MapHighlightLayer';
+import MapLockLayer from './components/MapLockLayer';
+import MapDrawHandler from './components/MapDrawHandler';
+import MapLayerHandler from './components/MapLayerHandler';
+import MapLabelHandler from './components/MapLabelHandler';
+import MapBasemapHandler from './components/MapBasemapHandler';
 import MapActions from './components/MapActions';
 import { generateAssignedDistricts } from './actions';
 import MapDownloadHandler from './components/MapDownloadHandler';
@@ -43,7 +50,16 @@ class Builder extends Component {
                     <DistrictsSidebar />
                     <div className="map-container">
                         <MapActions />
-                        <Map />
+                        <Map>
+                            <MapDistrictLayer />
+                            <MapHighlightLayer />
+                            <MapHighlightLayer />
+                            <MapDrawHandler />
+                            <MapLayerHandler />
+                            <MapLabelHandler />
+                            <MapBasemapHandler />
+                            <MapLockLayer />
+                        </Map>
                     </div>
                 </main>
             </div>

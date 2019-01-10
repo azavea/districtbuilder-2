@@ -16,7 +16,6 @@ class MapDownloadHandler extends Component {
     window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'DOWNLOAD_GEOJSON':
-          console.log('Download launch');
           FileSaver.saveAs(
             new Blob([JSON.stringify(geobuf.decode(new Pbf(m.data.mergedGeoJSON)))], {
               type: 'text/json;charset=utf-8',

@@ -83,34 +83,6 @@ export const mapboxStyle = {
         'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1.5, 12, 5],
       },
     },
-    // {
-    //   id: 'geounit-circles',
-    //   type: 'circle',
-    //   source: 'blockgroups',
-    //   'source-layer': 'geounitlabels',
-    //   layout: {
-    //     visibility: 'none',
-    //   },
-    //   paint: {
-    //     'circle-color': '#03034f',
-    //     'circle-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.1, 12, 0.6, 22, 0.6],
-    //     'circle-radius': 0,
-    //   },
-    // },
-    // {
-    //   id: 'county-circles',
-    //   type: 'circle',
-    //   source: 'blockgroups',
-    //   'source-layer': 'countylabels',
-    //   layout: {
-    //     visibility: 'none',
-    //   },
-    //   paint: {
-    //     'circle-color': '#03034f',
-    //     'circle-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.1, 12, 0.6, 22, 0.6],
-    //     'circle-radius': 0,
-    //   },
-    // },
     {
       id: 'blockgroups-outline',
       type: 'line',
@@ -351,3 +323,28 @@ export const mapboxStyle = {
   sprite: window.location.origin + window.location.pathname + '/sprites/sprite',
   glyphs: window.location.origin + window.location.pathname + '/data/fonts/{fontstack}/{range}.pbf',
 };
+
+export const drawStyle = [
+  {
+    id: 'gl-draw-polygon-stroke-active',
+    type: 'line',
+    filter: ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-color': '#444',
+      'line-width': 1,
+    },
+  },
+  {
+    id: 'gl-draw-polygon-fill-active',
+    type: 'fill',
+    filter: ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
+    paint: {
+      'fill-color': '#444',
+      'fill-opacity': 0.4,
+    },
+  },
+];

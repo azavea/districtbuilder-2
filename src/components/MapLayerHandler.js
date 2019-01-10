@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { withMap } from './Context';
+
 class MapLayerHandler extends Component {
   render() {
     if (this.props.selectionLevel === 'county') {
@@ -19,4 +21,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(MapLayerHandler);
+export default withMap(connect(mapStateToProps)(MapLayerHandler));

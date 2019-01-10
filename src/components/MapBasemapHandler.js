@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { addRasterLayer, removeRasterLayer } from '../constants';
+import { withMap } from './Context';
 
 class MapBasemapHandler extends Component {
   render() {
@@ -42,4 +43,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(MapBasemapHandler);
+export default withMap(connect(mapStateToProps)(MapBasemapHandler));
