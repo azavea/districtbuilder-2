@@ -8,6 +8,7 @@ export const optionsDrawMode = [
 				<i className="icon-hand-pointer" /> Pointer
 			</span>
 		),
+		tooltip: 'Use pointer tool',
 	},
 	{
 		id: 'rectangle',
@@ -16,12 +17,13 @@ export const optionsDrawMode = [
 				<i className="icon-draw-square" /> Square
 			</span>
 		),
+		tooltip: 'Use rectangle draw tool',
 	},
 ];
 
 export const optionsSelectionLevel = [
-	{ id: 'county', name: 'Counties' },
-	{ id: 'geounit', name: 'Block Groups' },
+	{ id: 'county', name: 'Counties', tooltip: 'Select counties' },
+	{ id: 'geounit', name: 'Block groups', tooltip: 'Select block groups' },
 ];
 
 export const optionsMapChoropleth = [

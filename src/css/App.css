@@ -433,7 +433,7 @@ button[disabled] {
 }
 
 .district-compactness-score {
-  display: inline-block;
+  /*display: inline-block;*/
 }
 
 .district-population,
@@ -478,4 +478,30 @@ button[disabled] {
   to {
     transform: rotate(360deg);
   }
+}
+
+.react-hint {
+  animation: none;
+}
+
+.react-hint__content {
+  background: #222;
+  font-size: 12px;
+  /*max-width: 140px;*/
+}
+
+.react-hint--top:after {
+  border-top-color: #222;
+}
+
+.react-hint--bottom:after {
+  border-bottom-color: #222;
+}
+
+.react-hint--right:after {
+  border-right-color: #222;
+}
+
+.react-hint--left:after {
+  border-left-color: #222;
 }

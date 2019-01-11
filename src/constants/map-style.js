@@ -80,7 +80,7 @@ export const mapboxStyle = {
       paint: {
         'line-color': '#000',
         'line-opacity': 1,
-        'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1.5, 12, 5],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1.5, 6, 1.5, 12, 6],
       },
     },
     {
@@ -113,7 +113,7 @@ export const mapboxStyle = {
       source: 'highlight',
       paint: {
         'fill-color': '#000',
-        'fill-opacity': 0.5,
+        'fill-opacity': 0.7,
       },
     },
     {

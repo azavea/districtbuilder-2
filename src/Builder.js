@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactHintFactory from 'react-hint';
+import 'react-hint/css/index.css';
 
 import './css/App.css';
 import './css/db.css';
@@ -17,6 +19,8 @@ import { generateAssignedDistricts } from './actions';
 import MapDownloadHandler from './components/MapDownloadHandler';
 import MapUndoHandler from './components/MapUndoHandler';
 import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
+
+const ReactHint = ReactHintFactory(React);
 
 class Builder extends Component {
     componentWillMount() {
@@ -36,6 +40,7 @@ class Builder extends Component {
     render() {
         return (
             <div className="builder">
+                <ReactHint autoPosition events={{ hover: true }} delay={{ show: 500, hide: 0 }} />
                 <header>
                     <div className="header-logo">
                         <img src="/images/logo.png" alt="District Builder logo" />

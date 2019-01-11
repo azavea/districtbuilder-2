@@ -5,11 +5,15 @@ const renderScore = score => {
 		return <i className="icon-times-circle" />;
 	}
 	if (score) {
-		return <div className="district-compactness-score">{`${Math.round(score * 100)}%`}</div>;
+		return `${Math.round(score * 100)}%`;
 	}
 	return '–';
 };
 
 export function DistrictCompactnessScore(props) {
-	return <div className="district-compactness-score">{renderScore(props.score)}</div>;
+	return (
+		<div data-rh="Compactness info display" className="district-compactness-score">
+			{renderScore(props.score)}
+		</div>
+	);
 }

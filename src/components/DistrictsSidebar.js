@@ -6,11 +6,8 @@ import { DataChart } from '../components/DataChart';
 import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
 import { DistrictCompactnessScore } from '../components/DistrictCompactnessScore';
 import { selectDistrict, acceptChanges, rejectChanges, lockDistrict } from '../actions';
-
 import { diffColors } from '../constants/colors';
-
 import { districtsTemplate, idealNumber } from '../constants';
-
 import { numberWithCommas, calculatePopulationsOld, calculatePopulationsNew } from '../util';
 
 class DistrictsSidebar extends Component {
@@ -96,6 +93,7 @@ class DistrictsSidebar extends Component {
 							<button
 								className={'button-lock ' + lockedStatus}
 								onClick={e => this.onLockDistrict(e, index)}
+								data-rh="Lock district"
 							>
 								<i className={'icon-lock' + lockedStatus} />
 							</button>
@@ -142,13 +140,27 @@ class DistrictsSidebar extends Component {
 				<div className="district-table">
 					<div className="table-header">
 						<div className="district-property district-background" />
-						<div className="district-property no-padding-left no-padding-right">
+						<div
+							className="district-property no-padding-left no-padding-right"
+							data-rh="District number"
+						>
 							Number
 						</div>
-						<div className="district-property text-right">Population</div>
-						<div className="district-property text-right">Deviation</div>
-						<div className="district-property">Race</div>
-						<div className="district-property">Comp.</div>
+						<div className="district-property text-right" data-rh="Total population">
+							Population
+						</div>
+						<div
+							className="district-property text-right"
+							data-rh="Deviation from target population"
+						>
+							Deviation
+						</div>
+						<div className="district-property" data-rh="Population by race">
+							Race
+						</div>
+						<div className="district-property" data-rh="District compactness">
+							Comp.
+						</div>
 						<div className="district-property no-padding-left no-padding-right" />
 						<div className="district-property district-background" />
 					</div>
