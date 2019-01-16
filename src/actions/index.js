@@ -119,7 +119,7 @@ export const activateResults = results => {
 	return (dispatch, getState) => {
 		dispatch({
 			type: ACTIVATE_RESULTS,
-			payload: { results },
+			payload: results,
 		});
 	};
 };
@@ -198,7 +198,6 @@ const createOptionAction = type => {
 };
 
 export const changeOptionDrawMode = createOptionAction(CHANGE_OPTION_DRAW_MODE);
-export const changeOptionMapChoropleth = createOptionAction(CHANGE_OPTION_MAP_CHOROPLETH);
 export const changeOptionMapNumber = createOptionAction(CHANGE_OPTION_MAP_NUMBER);
 export const changeOptionSelectionLevel = createOptionAction(CHANGE_OPTION_SELECTION_LEVEL);
 export const changeOptionDrawLimit = createOptionAction(CHANGE_OPTION_DRAW_LIMIT);

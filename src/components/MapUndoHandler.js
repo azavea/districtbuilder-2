@@ -15,10 +15,10 @@ class MapUndoHandler extends Component {
     const { canUndo, canRedo } = this.props;
     return (
       <div className="undo-redo-buttons">
-        <button onClick={() => this.props.onUndo()} disabled={!canUndo}>
+        <button data-rh="Undo" onClick={() => this.props.onUndo()} disabled={!canUndo}>
           <i className="icon-undo" />
         </button>
-        <button onClick={() => this.props.onRedo()} disabled={!canRedo}>
+        <button data-rh="Redo" onClick={() => this.props.onRedo()} disabled={!canRedo}>
           <i className="icon-redo" />
         </button>
       </div>

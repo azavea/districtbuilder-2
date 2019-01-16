@@ -36,7 +36,7 @@ export const districtsTemplate = districtIds.map(key => {
 
 export const mapStyles = {
   default: {
-    blockgroupsLineOpacity: 0.1,
+    blockgroupsLineOpacity: ['interpolate', ['linear'], ['zoom'], 0, 0.1, 6, 0.1, 12, 0.2],
     districtsFillOpacity: 1,
     districtsLineVisibility: 'none',
   },

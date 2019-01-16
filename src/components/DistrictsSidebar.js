@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import memoize from 'memoizee';
 
-import { DataChart } from '../components/DataChart';
-import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
-import { DistrictCompactnessScore } from '../components/DistrictCompactnessScore';
+import { DataChart } from './DataChart';
+import { DistrictColorSymbol } from './DistrictColorSymbol';
+import LockButton from './LockButton';
+import { DistrictCompactnessScore } from './DistrictCompactnessScore';
 import { selectDistrict, acceptChanges, rejectChanges, lockDistrict } from '../actions';
-
 import { diffColors } from '../constants/colors';
-
 import { districtsTemplate, idealNumber } from '../constants';
-
-import { numberWithCommas, calculatePopulationsOld, calculatePopulationsNew } from '../util';
+import { numberWithCommas } from '../util/data';
+import { calculatePopulationsOld, calculatePopulationsNew } from '../util/sidebar';
 
 class DistrictsSidebar extends Component {
 	componentWillMount() {
@@ -89,16 +88,11 @@ class DistrictsSidebar extends Component {
 							{index !== 0 && districtNew.population === 0 && compactnessScores ? (
 								<DistrictCompactnessScore score={compactnessScores[index]} />
 							) : (
-								'–'
+								<div data-rh="In progress">–</div>
 							)}
 						</div>
 						<div className="district-property no-padding-right">
-							<button
-								className={'button-lock ' + lockedStatus}
-								onClick={e => this.onLockDistrict(e, index)}
-							>
-								<i className={'icon-lock' + lockedStatus} />
-							</button>
+							<LockButton index={index} lockedStatus={lockedStatus} />
 						</div>
 						<div className="district-property district-background">
 							<div className="district-background-right" />
@@ -142,13 +136,27 @@ class DistrictsSidebar extends Component {
 				<div className="district-table">
 					<div className="table-header">
 						<div className="district-property district-background" />
-						<div className="district-property no-padding-left no-padding-right">
+						<div
+							className="district-property no-padding-left no-padding-right"
+							data-rh="District number"
+						>
 							Number
 						</div>
-						<div className="district-property text-right">Population</div>
-						<div className="district-property text-right">Deviation</div>
-						<div className="district-property">Race</div>
-						<div className="district-property">Comp.</div>
+						<div className="district-property text-right" data-rh="Total population">
+							Population
+						</div>
+						<div
+							className="district-property text-right"
+							data-rh="Deviation from target population"
+						>
+							Deviation
+						</div>
+						<div className="district-property" data-rh="Population by race">
+							Race
+						</div>
+						<div className="district-property" data-rh="District compactness">
+							Comp.
+						</div>
 						<div className="district-property no-padding-left no-padding-right" />
 						<div className="district-property district-background" />
 					</div>

@@ -12,7 +12,6 @@ import {
 	RECTANGLE_START,
 	LOCK_DISTRICT,
 	CHANGE_OPTION_DRAW_MODE,
-	CHANGE_OPTION_MAP_CHOROPLETH,
 	CHANGE_OPTION_MAP_NUMBER,
 	CHANGE_OPTION_SELECTION_LEVEL,
 	CHANGE_OPTION_DRAW_LIMIT,
@@ -29,7 +28,6 @@ import { districtColors, lockedIdsTemplate } from '../constants';
 import {
 	optionsDrawMode,
 	optionsSelectionLevel,
-	optionsMapChoropleth,
 	optionsMapNumber,
 	optionsDrawLimit,
 	optionsMapCountyName,
@@ -100,12 +98,9 @@ const rectangleStartIdReducer = (countyfp = null, { type, payload }) => {
 const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
 		case ACTIVATE_RESULTS:
-			const activatedIds = payload.results;
-			return activatedIds;
+			return payload;
 		case SELECT_RESULTS:
-			return [];
 		case ACCEPT_CHANGES:
-			return [];
 		case REJECT_CHANGES:
 			return [];
 		default:
@@ -196,7 +191,6 @@ export default combineReducers({
 	rectangleStartId: rectangleStartIdReducer,
 	drawMode: createOptionReducer(optionsDrawMode[0].id, CHANGE_OPTION_DRAW_MODE),
 	selectionLevel: createOptionReducer(optionsSelectionLevel[0].id, CHANGE_OPTION_SELECTION_LEVEL),
-	mapChoropleth: createOptionReducer(optionsMapChoropleth[0].id, CHANGE_OPTION_MAP_CHOROPLETH),
 	mapNumber: createOptionReducer(optionsMapNumber[0].id, CHANGE_OPTION_MAP_NUMBER),
 	sidebarRaceDisplay: createOptionReducer('chart', CHANGE_OPTION_SIDEBAR_RACE),
 	sidebarPoliticsDisplay: createOptionReducer('off', CHANGE_OPTION_SIDEBAR_POLITICS),

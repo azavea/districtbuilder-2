@@ -32,7 +32,7 @@ class MapDownloadHandler extends Component {
 
   render() {
     return (
-      <button onClick={() => this.onDownload()}>
+      <button data-rh="Download GeoJSON" onClick={() => this.onDownload()}>
         <i className="icon-download" />
       </button>
     );

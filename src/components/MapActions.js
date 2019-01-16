@@ -8,7 +8,6 @@ import '../css/dropdown.css';
 
 import {
   changeOptionDrawMode,
-  changeOptionMapChoropleth,
   changeOptionMapNumber,
   changeOptionSelectionLevel,
   changeOptionDrawLimit,
@@ -49,16 +48,19 @@ class MapActions extends Component {
             options={optionsDrawMode}
             selectedOption={this.props.drawMode}
           />
+          <div className="header-divider" />
           <OptionButtons
             action={this.props.onChangeOptionSelectionLevel}
             options={optionsSelectionLevel}
             selectedOption={this.props.selectionLevel}
           />
-          <OptionToggle
-            action={this.props.onChangeOptionDrawLimit}
-            options={optionsDrawLimit}
-            selectedOption={this.props.drawLimit}
-          />
+          {false && (
+            <OptionToggle
+              action={this.props.onChangeOptionDrawLimit}
+              options={optionsDrawLimit}
+              selectedOption={this.props.drawLimit}
+            />
+          )}
         </div>
         <div className="actions-right">
           <Dropdown
@@ -81,10 +83,6 @@ class MapActions extends Component {
             }}
           />
         </div>
-        <div className="actions-extra">
-          {/*          {window.spatialWorker && <MapDownloadHandler />}
-          <MapUndoHandler />*/}
-        </div>
       </div>
     );
   }
@@ -93,7 +91,6 @@ class MapActions extends Component {
 const mapStateToProps = (state, props) => {
   return {
     drawMode: state.drawMode,
-    mapChoropleth: state.mapChoropleth,
     mapNumber: state.mapNumber,
     mapLabels: state.mapLabels,
     selectionLevel: state.selectionLevel,
@@ -109,7 +106,6 @@ const mapStateToProps = (state, props) => {
 
 const mapActionsToProps = {
   onChangeOptionDrawMode: changeOptionDrawMode,
-  onChangeOptionMapChoropleth: changeOptionMapChoropleth,
   onChangeOptionMapNumber: changeOptionMapNumber,
   onChangeOptionSelectionLevel: changeOptionSelectionLevel,
   onChangeOptionDrawLimit: changeOptionDrawLimit,
