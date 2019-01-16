@@ -17,5 +17,9 @@ function renderOptions(action, options, selectedOption) {
 }
 
 export function OptionButtons(props) {
-	return renderOptions(props.action, props.options, props.selectedOption);
+	return (
+		<div className="button-group">
+			{renderOptions(props.action, props.options, props.selectedOption)}
+		</div>
+	);
 }

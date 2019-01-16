@@ -80,7 +80,7 @@ export const mapboxStyle = {
       paint: {
         'line-color': '#000',
         'line-opacity': 1,
-        'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1.5, 6, 1.5, 12, 6],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1, 4, 1.5, 12, 4],
       },
     },
     {
@@ -91,7 +91,7 @@ export const mapboxStyle = {
       paint: {
         'line-color': '#000',
         'line-opacity': mapStyles.default.blockgroupsLineOpacity,
-        'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1, 12, 3],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1, 12, 2],
       },
       layout: {
         visibility: 'none',
@@ -113,7 +113,7 @@ export const mapboxStyle = {
       source: 'highlight',
       paint: {
         'fill-color': '#000',
-        'fill-opacity': 0.7,
+        'fill-opacity': 0.5,
       },
     },
     {

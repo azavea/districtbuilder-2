@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import memoize from 'memoizee';
 
-import { DataChart } from '../components/DataChart';
-import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
-import { DistrictCompactnessScore } from '../components/DistrictCompactnessScore';
+import { DataChart } from './DataChart';
+import { DistrictColorSymbol } from './DistrictColorSymbol';
+import LockButton from './LockButton';
+import { DistrictCompactnessScore } from './DistrictCompactnessScore';
 import { selectDistrict, acceptChanges, rejectChanges, lockDistrict } from '../actions';
 import { diffColors } from '../constants/colors';
 import { districtsTemplate, idealNumber } from '../constants';
-import { numberWithCommas, calculatePopulationsOld, calculatePopulationsNew } from '../util';
+import { numberWithCommas } from '../util/data';
+import { calculatePopulationsOld, calculatePopulationsNew } from '../util/sidebar';
 
 class DistrictsSidebar extends Component {
 	componentWillMount() {
@@ -86,17 +88,11 @@ class DistrictsSidebar extends Component {
 							{index !== 0 && districtNew.population === 0 && compactnessScores ? (
 								<DistrictCompactnessScore score={compactnessScores[index]} />
 							) : (
-								'–'
+								<div data-rh="In progress">–</div>
 							)}
 						</div>
 						<div className="district-property no-padding-right">
-							<button
-								className={'button-lock ' + lockedStatus}
-								onClick={e => this.onLockDistrict(e, index)}
-								data-rh="Lock district"
-							>
-								<i className={'icon-lock' + lockedStatus} />
-							</button>
+							<LockButton index={index} lockedStatus={lockedStatus} />
 						</div>
 						<div className="district-property district-background">
 							<div className="district-background-right" />

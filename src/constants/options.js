@@ -5,7 +5,7 @@ export const optionsDrawMode = [
 		id: 'pointer',
 		name: (
 			<span>
-				<i className="icon-hand-pointer" /> Pointer
+				<i className="icon-hand-pointer" />
 			</span>
 		),
 		tooltip: 'Use pointer tool',
@@ -14,7 +14,7 @@ export const optionsDrawMode = [
 		id: 'rectangle',
 		name: (
 			<span>
-				<i className="icon-draw-square" /> Square
+				<i className="icon-draw-square" />
 			</span>
 		),
 		tooltip: 'Use rectangle draw tool',
@@ -114,13 +114,8 @@ export const optionsMapBasemap = [
 		value: 'streets',
 		image: { avatar: true, src: '/images/basemap-streets.jpg' },
 	},
-	// {
-	// 	text: 'circles',
-	// 	value: 'circles',
-	// 	image: { avatar: true, src: '/images/avatar/small/jenny.jpg' },
-	// },
 ];
 
-export const optionsDrawLimit = 'Limit draw';
+export const optionsDrawLimit = 'Limit to county';
 
 export const optionsMapCountyName = 'County name';

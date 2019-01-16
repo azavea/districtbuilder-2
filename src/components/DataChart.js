@@ -14,7 +14,7 @@ const renderList = (districtNew, districtOld) => {
 
 export function DataChart(props) {
 	return (
-		<div data-rh="True data" className="demographics">
+		<div data-rh="More details about charts" className="demographics">
 			{renderList(props.districtNew, props.districtOld)}
 		</div>
 	);
