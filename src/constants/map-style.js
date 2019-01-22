@@ -18,7 +18,7 @@ export const mapboxStyle = {
     },
     blockgroups: {
       type: 'vector',
-      tiles: [window.location.origin + window.location.pathname + '/data/tiles/{z}/{x}/{y}.pbf'],
+      tiles: [window.location.origin + '/data/tiles/{z}/{x}/{y}.pbf'],
       minzoom: 0,
       maxzoom: 12,
     },
@@ -320,8 +320,8 @@ export const mapboxStyle = {
       },
     },
   ],
-  sprite: window.location.origin + window.location.pathname + '/sprites/sprite',
-  glyphs: window.location.origin + window.location.pathname + '/data/fonts/{fontstack}/{range}.pbf',
+  sprite: window.location.origin + '/data/sprites/sprite',
+  glyphs: window.location.origin + '/data/fonts/{fontstack}/{range}.pbf',
 };
 
 export const drawStyle = [

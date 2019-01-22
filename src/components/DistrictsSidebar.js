@@ -19,12 +19,6 @@ class DistrictsSidebar extends Component {
 			primitive: true,
 			length: 1,
 		});
-
-		this.calculatePopulationsNewMemoized = memoize(calculatePopulationsNew, {
-			max: 2,
-			primitive: true,
-			length: 4,
-		});
 	}
 	renderList() {
 		if (this.props.districts && window.dataFeatures) {
