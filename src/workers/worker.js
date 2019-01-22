@@ -16,7 +16,7 @@ fetch(topoUrl)
 		topoJSON = response;
 	});
 
-const onDistrictDraw = (e, results) => {
+const onDistrictDraw = (e, topoJSON) => {
 	type = e.data.type;
 	results = getDistricts(e.data.assignedDistricts, topoJSON);
 	districtCompactnessScores = results.districtCompactnessScores;
@@ -24,31 +24,39 @@ const onDistrictDraw = (e, results) => {
 	postMessage({ type, districtCompactnessScores, mergedGeoJSON }, [mergedGeoJSON]);
 };
 
+const onDownload = (e, topoJSON) => {
+	type = e.data.type;
+	results = getDistricts(e.data.assignedDistricts, topoJSON);
+	mergedGeoJSON = geobuf.encode(results.mergedGeoJSON, new Pbf()).buffer;
+	postMessage({ type, mergedGeoJSON }, [mergedGeoJSON]);
+};
+
+const onGenerateHighlight = (e, topoJSON) => {
+	type = e.data.type;
+	results = geobuf.encode(
+		updateHighlight(e.data.selectedIds, e.data.activatedIds, topoJSON),
+		new Pbf()
+	).buffer;
+	postMessage(
+		{
+			type,
+			results,
+		},
+		[results]
+	);
+};
+
 onmessage = function(e) {
 	if (topoJSON) {
 		switch (e.data.type) {
 			case 'DISTRICTS':
-				onDistrictDraw(e, results);
+				onDistrictDraw(e, topoJSON);
 				break;
 			case 'DOWNLOAD_GEOJSON':
-				type = e.data.type;
-				results = getDistricts(e.data.assignedDistricts, topoJSON);
-				mergedGeoJSON = geobuf.encode(results.mergedGeoJSON, new Pbf()).buffer;
-				postMessage({ type, mergedGeoJSON }, [mergedGeoJSON]);
+				onDownload(e, topoJSON);
 				break;
 			case 'HIGHLIGHT':
-				type = e.data.type;
-				results = geobuf.encode(
-					updateHighlight(e.data.selectedIds, e.data.activatedIds, topoJSON),
-					new Pbf()
-				).buffer;
-				postMessage(
-					{
-						type,
-						results,
-					},
-					[results]
-				);
+				onGenerateHighlight(e, topoJSON);
 				break;
 			default:
 				break;
