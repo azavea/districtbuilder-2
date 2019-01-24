@@ -1,8 +1,16 @@
 # Frontend Builder
 
+## Getting Started
+
+Run `npm install` and `npm start`.
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+Installs dependencies.
 
 ### `npm start`
 
