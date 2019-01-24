@@ -1,6 +1,7 @@
 import { merge } from 'topojson';
 import { featureCollection, area, length as turfLength } from '@turf/turf';
 import flatten from '@turf/flatten';
+import flat from 'array.prototype.flat';
 
 import { topoObjectName, districtIds } from '../constants';
 
@@ -44,13 +45,14 @@ const calculateCompactnessAndContiguity = geoJSON => {
 
 const mergeGeoJSONs = geoJSONs => {
 	return featureCollection(
-		geoJSONs
-			.map((geoJSON, index) => {
-				return geoJSON.features.map(feature => {
-					return Object.assign(feature, { properties: { district: index } });
-				});
-			})
-			.flat()
+        flat(
+            geoJSONs
+                .map((geoJSON, index) => {
+                    return geoJSON.features.map(feature => {
+                        return Object.assign(feature, { properties: { district: index } });
+                    });
+                })
+        )
 	);
 };
 
@@ -65,13 +67,13 @@ export const getDistricts = (assignedDistricts, topoJSON) => {
 
 // TODO: Is there a more clear way to write this?
 export const generateDistrictColor = (ids, colors) => {
-	return [
+	return flat([
 		['match', ['get', 'district']],
 		...ids.map(id => {
 			return [id, colors[id]];
 		}),
 		...['transparent'],
-	].flat();
+	]);
 };
 
 export const generateLockFilter = lockedIds => {

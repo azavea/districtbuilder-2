@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 import { bbox } from '@turf/turf';
+import flat from 'array.prototype.flat';
 
 import { activateResults, selectResults } from '../actions';
 import { withMap } from './Context';
@@ -42,15 +43,15 @@ class MapDrawHandler extends Component {
           break;
         case 'county':
           action(
-            map
-              .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
-                layers: ['counties-fill'],
-              })
-              .map(feature => window.dataCountyIndex[feature.properties.countyfp])
-              .flat()
-              .filter(id => {
-                return this.lockedFilter(lockedIds, districts, id);
-              })
+            flat(
+              map
+                .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
+                  layers: ['counties-fill'],
+                })
+                .map(feature => window.dataCountyIndex[feature.properties.countyfp])
+            ).filter(id => {
+              return this.lockedFilter(lockedIds, districts, id);
+            })
           );
           break;
         default:
