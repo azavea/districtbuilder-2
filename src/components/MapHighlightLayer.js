@@ -19,7 +19,7 @@ class MapHighlightLayer extends Component {
       m = null;
     });
   }
-  render() {
+  componentDidUpdate() {
     const { selectedIds, activatedIds } = this.props;
 
     if (selectedIds) {
@@ -29,6 +29,8 @@ class MapHighlightLayer extends Component {
         activatedIds,
       });
     }
+  }
+  render() {
     return <div className="map-highlight-layer" />;
   }
 }

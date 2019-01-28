@@ -5,7 +5,7 @@ import { addRasterLayer, removeRasterLayer } from '../constants';
 import { withMap } from './Context';
 
 class MapBasemapHandler extends Component {
-  render() {
+  componentDidUpdate() {
     const { map, mapBasemap } = this.props;
     if (map.getSource('raster-basemap')) {
       map.removeLayer('raster-basemap').removeSource('raster-basemap');
@@ -33,6 +33,8 @@ class MapBasemapHandler extends Component {
         removeRasterLayer(map);
         break;
     }
+  }
+  render() {
     return <div className="map-label-handler" />;
   }
 }
