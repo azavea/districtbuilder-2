@@ -118,7 +118,7 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 				return selectedIds.filter(x => !payload.countyIds.includes(x));
 			}
 		case SELECT_RESULTS:
-			const newSelectedIds = payload.results;
+			const newSelectedIds = payload;
 			return [...new Set([...selectedIds, ...newSelectedIds])];
 		case ACCEPT_CHANGES:
 			return [];

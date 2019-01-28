@@ -1,13 +1,9 @@
 import { ActionCreators } from 'redux-undo';
 
-import { topoUrl, geoUrl } from '../constants';
-
 export const ACTIVATE_RESULTS = 'ACTIVATE_RESULTS';
 export const SELECT_RESULTS = 'SELECT_RESULTS';
 export const DISTRICT_SELECTED = 'DISTRICT_SELECTED';
 export const FETCH_SPATIAL_INDEX = 'FETCH_SPATIAL_INDEX';
-export const FETCH_TOPOJSON = 'FETCH_TOPOJSON';
-export const FETCH_GEOJSON = 'FETCH_GEOJSON';
 export const GENERATE_GEOMETRIES = 'GENERATE_GEOMETRIES';
 export const GENERATE_GEOJSON = 'GENERATE_GEOJSON';
 export const GENERATE_ASSIGNED_DISTRICTS = 'GENERATE_ASSIGNED_DISTRICTS';
@@ -35,33 +31,6 @@ export const CHANGE_OPTION_MAP_COUNTY_NAME = 'CHANGE_OPTION_MAP_COUNTY_NAME';
 export const CHANGE_OPTION_MAP_LABELS = 'CHANGE_OPTION_MAP_LABELS';
 export const CHANGE_OPTION_MAP_BASEMAP = 'CHANGE_OPTION_MAP_BASEMAP';
 
-export const selectDistrict = district => {
-	return {
-		type: DISTRICT_SELECTED,
-		payload: district,
-	};
-};
-
-export const fetchTopoJSON = () => {
-	return async dispatch => {
-		const response = await fetch(topoUrl).then(res => res.json());
-		dispatch({ type: FETCH_TOPOJSON, payload: response });
-	};
-};
-
-export const fetchGeoJSON = () => {
-	return async dispatch => {
-		const response = await fetch(geoUrl).then(res => res.json());
-		dispatch({ type: FETCH_GEOJSON, payload: response });
-	};
-};
-
-export const generateGeoJSON = topoJSON => {
-	return dispatch => {
-		dispatch({ type: GENERATE_GEOJSON, payload: topoJSON });
-	};
-};
-
 export const generateAssignedDistricts = assignedDistricts => {
 	return (dispatch, getState) => {
 		const { lockedIds } = getState().historyState.present;
@@ -72,23 +41,15 @@ export const generateAssignedDistricts = assignedDistricts => {
 	};
 };
 
-export const generateGeometries = topoJSON => {
-	return dispatch => {
-		dispatch({ type: GENERATE_GEOMETRIES, payload: topoJSON });
-	};
-};
+export const selectDistrict = district => ({ type: DISTRICT_SELECTED, payload: district });
 
-export const generateSpatialIndex = geoJSON => {
-	return dispatch => {
-		dispatch({ type: GENERATE_SPATIAL_INDEX, payload: geoJSON });
-	};
-};
+export const generateGeoJSON = topoJSON => ({ type: GENERATE_GEOJSON, payload: topoJSON });
 
-export const generateCountyIndex = geoJSON => {
-	return dispatch => {
-		dispatch({ type: GENERATE_COUNTY_INDEX, payload: geoJSON });
-	};
-};
+export const generateGeometries = topoJSON => ({ type: GENERATE_GEOMETRIES, payload: topoJSON });
+
+export const generateSpatialIndex = geoJSON => ({ type: GENERATE_SPATIAL_INDEX, payload: geoJSON });
+
+export const generateCountyIndex = geoJSON => ({ type: GENERATE_COUNTY_INDEX, payload: geoJSON });
 
 export const pointerSelect = e => (dispatch, getState) => {
 	const id = e.features[0].properties.id;
@@ -115,47 +76,17 @@ export const rectangleStart = e => dispatch => {
 	dispatch({ type: RECTANGLE_START, payload: countyfp });
 };
 
-export const activateResults = results => {
-	return (dispatch, getState) => {
-		dispatch({
-			type: ACTIVATE_RESULTS,
-			payload: results,
-		});
-	};
-};
+export const activateResults = results => ({ type: ACTIVATE_RESULTS, payload: results });
 
-export const selectResults = results => {
-	return (dispatch, getState) => {
-		dispatch({
-			type: SELECT_RESULTS,
-			payload: { results },
-		});
-	};
-};
+export const selectResults = results => ({ type: SELECT_RESULTS, payload: results });
 
-export const lockDistrict = districtId => {
-	return dispatch => {
-		dispatch({ type: LOCK_DISTRICT, payload: districtId });
-	};
-};
+export const lockDistrict = districtId => ({ type: LOCK_DISTRICT, payload: districtId });
 
-export const undo = () => {
-	return dispatch => {
-		dispatch(ActionCreators.undo());
-	};
-};
+export const undo = () => ActionCreators.undo();
 
-export const redo = () => {
-	return dispatch => {
-		dispatch(ActionCreators.redo());
-	};
-};
+export const redo = () => ActionCreators.redo();
 
-export const generateHighlight = topoJSON => {
-	return dispatch => {
-		dispatch({ type: GENERATE_HIGHLIGHT, payload: topoJSON });
-	};
-};
+export const generateHighlight = topoJSON => ({ type: GENERATE_HIGHLIGHT, payload: topoJSON });
 
 export const acceptChanges = () => {
 	return (dispatch, getState) => {
@@ -171,29 +102,13 @@ export const acceptChanges = () => {
 	};
 };
 
-export const updateGeometry = geometry => {
-	return (dispatch, getState) => {
-		dispatch({
-			type: UPDATE_GEOMETRY,
-			payload: geometry,
-		});
-	};
-};
+export const updateGeometry = geometry => ({ type: UPDATE_GEOMETRY, payload: geometry });
 
-export const rejectChanges = () => {
-	return dispatch => {
-		dispatch({
-			type: REJECT_CHANGES,
-			payload: null,
-		});
-	};
-};
+export const rejectChanges = () => ({ type: REJECT_CHANGES });
 
 const createOptionAction = type => {
 	return selectedOption => {
-		return dispatch => {
-			dispatch({ type: type, payload: selectedOption });
-		};
+		return { type: type, payload: selectedOption };
 	};
 };
 
