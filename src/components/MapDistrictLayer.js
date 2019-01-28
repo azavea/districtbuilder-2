@@ -11,7 +11,7 @@ class MapDistrictLayer extends Component {
     this.props.onUpdatedDistricts(collection);
   };
 
-  componentWillMount() {
+  componentDidMount() {
     window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'DISTRICTS':

@@ -9,7 +9,7 @@ import { pointerSelect, rectangleStart } from '../actions';
 import { withMap } from './Context';
 
 class MapDrawHandler extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.modes = MapboxDraw.modes;
     this.modes.draw_rectangle = DrawRectangle;
     this.draw = new MapboxDraw({

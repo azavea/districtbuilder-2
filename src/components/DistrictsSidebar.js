@@ -13,7 +13,7 @@ import { numberWithCommas } from '../util/data';
 import { calculatePopulationsOld, calculatePopulationsNew } from '../util/sidebar';
 
 class DistrictsSidebar extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		this.calculatePopulationsOldMemoized = memoize(calculatePopulationsOld, {
 			max: 1,
 			primitive: true,
