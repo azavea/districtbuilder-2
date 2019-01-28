@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import { withMap } from './Context';
 
 class MapLayerHandler extends Component {
-  render() {
+  componentDidUpdate() {
     if (this.props.selectionLevel === 'county') {
       this.props.map.setLayoutProperty('blockgroups-outline', 'visibility', 'none');
     }
     if (this.props.selectionLevel === 'geounit') {
       this.props.map.setLayoutProperty('blockgroups-outline', 'visibility', 'visible');
     }
+  }
+  render() {
     return <div className="map-layer-handler" />;
   }
 }

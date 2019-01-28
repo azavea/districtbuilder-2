@@ -12,7 +12,7 @@ class MapDownloadHandler extends Component {
     });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'DOWNLOAD_GEOJSON':

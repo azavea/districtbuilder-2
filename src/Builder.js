@@ -23,60 +23,60 @@ import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable
 const ReactHint = ReactHintFactory(React);
 
 class Builder extends Component {
-    componentWillMount() {
-        window.spatialWorker = new spatialWorker();
+  componentDidMount() {
+    window.spatialWorker = new spatialWorker();
 
-        const featureRequest = fetch('data/pa-bg.json').then(res => res.json());
-        const countyIndexRequest = fetch('data/pa-county-index.json').then(res => res.json());
-        const assignedDistricts = fetch('data/assigned-districts.json').then(res => res.json());
+    const featureRequest = fetch('data/pa-bg.json').then(res => res.json());
+    const countyIndexRequest = fetch('data/pa-county-index.json').then(res => res.json());
+    const assignedDistricts = fetch('data/assigned-districts.json').then(res => res.json());
 
-        Promise.all([featureRequest, countyIndexRequest, assignedDistricts]).then(responses => {
-            window.dataFeatures = responses[0];
-            window.dataCountyIndex = responses[1];
-            this.props.onGenerateAssignedDistricts(responses[2]);
-        });
-    }
+    Promise.all([featureRequest, countyIndexRequest, assignedDistricts]).then(responses => {
+      window.dataFeatures = responses[0];
+      window.dataCountyIndex = responses[1];
+      this.props.onGenerateAssignedDistricts(responses[2]);
+    });
+  }
 
-    render() {
-        return (
-            <div className="builder">
-                <ReactHint autoPosition events={{ hover: true }} delay={{ show: 500, hide: 0 }} />
-                <header>
-                    <div className="header-logo">
-                        <img src="/images/logo.png" alt="District Builder logo" />
-                    </div>
-                    <div className="header-title">Pennsylvania State House</div>
-                    <div className="header-actions">
-                        <MapUndoHandler />
-                        {window.spatialWorker && <MapDownloadHandler />}
-                    </div>
-                </header>
-                <main>
-                    <DistrictsSidebar />
-                    <div className="map-container">
-                        <MapActions />
-                        <Map>
-                            <MapDistrictLayer />
-                            <MapHighlightLayer />
-                            <MapHighlightLayer />
-                            <MapDrawHandler />
-                            <MapLayerHandler />
-                            <MapLabelHandler />
-                            <MapBasemapHandler />
-                            <MapLockLayer />
-                        </Map>
-                    </div>
-                </main>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="builder">
+        <ReactHint autoPosition events={{ hover: true }} delay={{ show: 500, hide: 0 }} />
+        <header>
+          <div className="header-logo">
+            <img src="/images/logo.png" alt="District Builder logo" />
+          </div>
+          <div className="header-title">Pennsylvania State House</div>
+          <div className="header-actions">
+            <MapUndoHandler />
+            {window.spatialWorker && <MapDownloadHandler />}
+          </div>
+        </header>
+        <main>
+          <DistrictsSidebar />
+          <div className="map-container">
+            <MapActions />
+            <Map>
+              <MapDistrictLayer />
+              <MapHighlightLayer />
+              <MapHighlightLayer />
+              <MapDrawHandler />
+              <MapLayerHandler />
+              <MapLabelHandler />
+              <MapBasemapHandler />
+              <MapLockLayer />
+            </Map>
+          </div>
+        </main>
+      </div>
+    );
+  }
 }
 
 const mapActionsToProps = {
-    onGenerateAssignedDistricts: generateAssignedDistricts,
+  onGenerateAssignedDistricts: generateAssignedDistricts,
 };
 
 export default connect(
-    null,
-    mapActionsToProps
+  null,
+  mapActionsToProps
 )(Builder);

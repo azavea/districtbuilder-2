@@ -11,7 +11,7 @@ class MapDistrictLayer extends Component {
     this.props.onUpdatedDistricts(collection);
   };
 
-  componentWillMount() {
+  componentDidMount() {
     window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'DISTRICTS':
@@ -27,7 +27,7 @@ class MapDistrictLayer extends Component {
     });
   }
 
-  render() {
+  componentDidUpdate() {
     if (this.props.districts) {
       window.spatialWorker.postMessage({
         type: 'DISTRICTS',
@@ -35,6 +35,9 @@ class MapDistrictLayer extends Component {
         lockedDistricts: this.props.lockedDistricts,
       });
     }
+  }
+
+  render() {
     return <div className="map-district-layer" />;
   }
 }

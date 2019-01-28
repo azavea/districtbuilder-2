@@ -6,7 +6,7 @@ import Pbf from 'pbf';
 import { withMap } from './Context';
 
 class MapHighlightLayer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
         case 'HIGHLIGHT':
@@ -19,7 +19,7 @@ class MapHighlightLayer extends Component {
       m = null;
     });
   }
-  render() {
+  componentDidUpdate() {
     const { selectedIds, activatedIds } = this.props;
 
     if (selectedIds) {
@@ -29,6 +29,8 @@ class MapHighlightLayer extends Component {
         activatedIds,
       });
     }
+  }
+  render() {
     return <div className="map-highlight-layer" />;
   }
 }

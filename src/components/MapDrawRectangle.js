@@ -7,7 +7,7 @@ import { activateResults, selectResults } from '../actions';
 import { withMap } from './Context';
 
 class MapDrawHandler extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.limitDrawFilter = (drawLimit, rectangleStartId, countyFps) => {
       return drawLimit ? rectangleStartId === countyFps : true;
     };
