@@ -173,14 +173,16 @@ const mapStateToProps = state => {
 	};
 };
 
-const mapActionsToProps = {
-	onSelectDistrict: selectDistrict,
-	onAcceptChanges: acceptChanges,
-	onRejectChanges: rejectChanges,
-	onLockDistrict: lockDistrict,
+const mapDispatchToProps = dispatch => {
+	return {
+		onSelectDistrict: districtId => dispatch(selectDistrict(districtId)),
+		onLockDistrict: districtId => dispatch(lockDistrict(districtId)),
+		onAcceptChanges: () => dispatch(acceptChanges()),
+		onRejectChanges: () => dispatch(rejectChanges()),
+	};
 };
 
 export default connect(
 	mapStateToProps,
-	mapActionsToProps
+	mapDispatchToProps
 )(DistrictsSidebar);

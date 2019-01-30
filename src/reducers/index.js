@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import undoable from 'redux-undo';
+import produce from 'immer';
 
 import {
 	ACTIVATE_RESULTS,
@@ -62,25 +63,16 @@ const districtColorsReducer = (colors = districtColors, { type, payload }) => {
 	}
 };
 
-const addSelectedDistrictsToAssignedList = (assignedDistricts, selectedIds, selectedDistrict) => {
-	selectedIds.forEach(id => {
-		assignedDistricts[id] = selectedDistrict;
-	});
-	return assignedDistricts;
-};
-
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
 			return districts ? districts : payload.assignedDistricts;
 		case ACCEPT_CHANGES:
-			const assignedDistricts = JSON.parse(JSON.stringify(districts));
-			const assigned = addSelectedDistrictsToAssignedList(
-				assignedDistricts,
-				payload.selectedIds,
-				payload.selectedDistrict
-			);
-			return assigned;
+			return produce(districts, draft => {
+				payload.selectedIds.forEach(id => {
+					draft[id] = payload.selectedDistrict;
+				});
+			});
 		default:
 			return districts;
 	}

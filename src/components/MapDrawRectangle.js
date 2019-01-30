@@ -77,11 +77,6 @@ class MapDrawHandler extends Component {
   }
 }
 
-const mapActionsToProps = {
-  onActivateResults: activateResults,
-  onSelectResults: selectResults,
-};
-
 const mapStateToProps = state => {
   return {
     rectangleStartId: state.rectangleStartId,
@@ -92,9 +87,16 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onActivateResults: ids => dispatch(activateResults(ids)),
+    onSelectResults: ids => dispatch(selectResults(ids)),
+  };
+};
+
 export default withMap(
   connect(
     mapStateToProps,
-    mapActionsToProps
+    mapDispatchToProps
   )(MapDrawHandler)
 );

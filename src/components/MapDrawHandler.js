@@ -53,20 +53,22 @@ class MapDrawHandler extends Component {
   }
 }
 
-const mapActionsToProps = {
-  onPointerSelect: pointerSelect,
-  onRectangleStart: rectangleStart,
-};
-
 const mapStateToProps = state => {
   return {
     drawMode: state.drawMode,
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onPointerSelect: e => dispatch(pointerSelect(e)),
+    onRectangleStart: e => dispatch(rectangleStart(e)),
+  };
+};
+
 export default withMap(
   connect(
     mapStateToProps,
-    mapActionsToProps
+    mapDispatchToProps
   )(MapDrawHandler)
 );
