@@ -33,12 +33,14 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapActionsToProps = {
-  onUndo: undo,
-  onRedo: redo,
+const mapDispatchToProps = dispatch => {
+  return {
+    onUndo: () => dispatch(undo()),
+    onRedo: () => dispatch(redo()),
+  };
 };
 
 export default connect(
   mapStateToProps,
-  mapActionsToProps
+  mapDispatchToProps
 )(MapUndoHandler);

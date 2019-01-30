@@ -16,8 +16,6 @@ import {
   changeOptionMapCountyName,
   changeOptionMapLabels,
   changeOptionMapBasemap,
-  undo,
-  redo,
 } from '../actions';
 
 import {
@@ -104,21 +102,21 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapActionsToProps = {
-  onChangeOptionDrawMode: changeOptionDrawMode,
-  onChangeOptionMapNumber: changeOptionMapNumber,
-  onChangeOptionSelectionLevel: changeOptionSelectionLevel,
-  onChangeOptionDrawLimit: changeOptionDrawLimit,
-  onChangeOptionSidebarRace: changeOptionSidebarRace,
-  onChangeOptionSidebarPolitics: changeOptionSidebarPolitics,
-  onChangeOptionMapCountyName: changeOptionMapCountyName,
-  onChangeOptionMapLabels: changeOptionMapLabels,
-  onChangeOptionMapBasemap: changeOptionMapBasemap,
-  onUndo: undo,
-  onRedo: redo,
+const mapDispatchToProps = dispatch => {
+  return {
+    onChangeOptionDrawMode: option => dispatch(changeOptionDrawMode(option)),
+    onChangeOptionMapNumber: option => dispatch(changeOptionMapNumber(option)),
+    onChangeOptionSelectionLevel: option => dispatch(changeOptionSelectionLevel(option)),
+    onChangeOptionDrawLimit: option => dispatch(changeOptionDrawLimit(option)),
+    onChangeOptionSidebarRace: option => dispatch(changeOptionSidebarRace(option)),
+    onChangeOptionSidebarPolitics: option => dispatch(changeOptionSidebarPolitics(option)),
+    onChangeOptionMapCountyName: option => dispatch(changeOptionMapCountyName(option)),
+    onChangeOptionMapLabels: option => dispatch(changeOptionMapLabels(option)),
+    onChangeOptionMapBasemap: option => dispatch(changeOptionMapBasemap(option)),
+  };
 };
 
 export default connect(
   mapStateToProps,
-  mapActionsToProps
+  mapDispatchToProps
 )(MapActions);

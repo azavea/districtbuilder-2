@@ -22,11 +22,13 @@ class LockButton extends Component {
     };
 }
 
-const mapActionsToProps = {
-    onLockDistrict: lockDistrict,
+const mapDispatchToProps = dispatch => {
+    return {
+        onLockDistrict: (e, index) => dispatch(lockDistrict(e, index)),
+    };
 };
 
 export default connect(
     null,
-    mapActionsToProps
+    mapDispatchToProps
 )(LockButton);

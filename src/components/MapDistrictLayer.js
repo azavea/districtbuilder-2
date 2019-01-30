@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import geobuf from 'geobuf';
 import Pbf from 'pbf';
 
-import { pointerSelect, acceptChanges, updateGeometry } from '../actions';
+import { updateGeometry } from '../actions';
 import { withMap } from './Context';
 
 class MapDistrictLayer extends Component {
@@ -48,15 +48,15 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapActionsToProps = {
-  onPointerSelect: pointerSelect,
-  onAcceptChanges: acceptChanges,
-  onUpdateGeometry: updateGeometry,
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdateGeometry: compactnessScores => dispatch(updateGeometry(compactnessScores)),
+  };
 };
 
 export default withMap(
   connect(
     mapStateToProps,
-    mapActionsToProps
+    mapDispatchToProps
   )(MapDistrictLayer)
 );

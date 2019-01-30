@@ -72,11 +72,14 @@ class Builder extends Component {
   }
 }
 
-const mapActionsToProps = {
-  onGenerateAssignedDistricts: generateAssignedDistricts,
+const mapDispatchToProps = dispatch => {
+  return {
+    onGenerateAssignedDistricts: assignedDistricts =>
+      dispatch(generateAssignedDistricts(assignedDistricts)),
+  };
 };
 
 export default connect(
   null,
-  mapActionsToProps
+  mapDispatchToProps
 )(Builder);
