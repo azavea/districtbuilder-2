@@ -130,7 +130,7 @@
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "6.0.6",
     "postcss-safe-parser": "4.0.1",
-    "prettier": "^1.16.1",
+    "prettier": "^1.16.4",
     "react-hint": "^3.2.0",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",

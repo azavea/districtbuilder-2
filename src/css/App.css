@@ -159,6 +159,28 @@ button[disabled] {
   height: 100%;
 }
 
+.app .mapboxgl-popup-content {
+  pointer-events: none !important;
+  background: #444;
+  box-shadow: none;
+  padding: 0 10px;
+  color: #fff;
+  width: 200px;
+}
+
+.app .mapboxgl-popup-content h2,
+.app .mapboxgl-popup-content h3 {
+  color: #fff;
+}
+
+.mapboxgl-popup-tip {
+  display: none;
+}
+
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-content {
+  border-top-left-radius: auto;
+}
+
 .toggle.hidden {
   display: none;
 }

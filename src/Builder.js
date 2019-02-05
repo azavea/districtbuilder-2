@@ -14,6 +14,7 @@ import MapDrawHandler from './components/MapDrawHandler';
 import MapLayerHandler from './components/MapLayerHandler';
 import MapLabelHandler from './components/MapLabelHandler';
 import MapBasemapHandler from './components/MapBasemapHandler';
+import MapTooltip from './components/MapTooltip';
 import MapActions from './components/MapActions';
 import { generateAssignedDistricts } from './actions';
 import MapDownloadHandler from './components/MapDownloadHandler';
@@ -61,6 +62,7 @@ class Builder extends Component {
               <MapHighlightLayer />
               <MapDrawHandler />
               <MapLayerHandler />
+              <MapTooltip />
               <MapLabelHandler />
               <MapBasemapHandler />
               <MapLockLayer />

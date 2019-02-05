@@ -48,7 +48,7 @@ class MapDrawHandler extends Component {
                 .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
                   layers: ['counties-fill'],
                 })
-                .map(feature => window.dataCountyIndex[feature.properties.countyfp])
+                .map(feature => window.dataCountyIndex[feature.properties.countyfp].geounits)
             ).filter(id => {
               return this.lockedFilter(lockedIds, districts, id);
             })

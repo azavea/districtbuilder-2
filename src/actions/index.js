@@ -58,7 +58,7 @@ export const pointerSelect = e => (dispatch, getState) => {
 	const assignedDistricts = historyState.present.districts;
 	const countyIds =
 		selectionLevel === 'county'
-			? window.dataCountyIndex[countyfp].filter(id => {
+			? window.dataCountyIndex[countyfp].geounits.filter(id => {
 					return !historyState.present.lockedIds[assignedDistricts[id]];
 			  })
 			: [id];
