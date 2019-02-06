@@ -39,21 +39,21 @@ describe('assigning geounits to districts', () => {
   });
   it('should accept changes', () => {
     // Given
-    const store = createStore(rootReducer);
     const districts = [0, 0, 0];  // NOTE: districts has one item for each geounit
-    const selectedDistrictId = 2;
-    const geounitId = 1;
-    const geounitIds = [geounitId];
-    // When
-    actions.generateAssignedDistricts(districts)(store.dispatch, store.getState);
-    store.dispatch(actions.selectDistrict(selectedDistrictId));
-    store.dispatch({
-      type: actions.SELECT_GEOUNIT,
-      payload: {
-        id: geounitId,
-        countyIds: geounitIds,
-      },
+    const selectedDistrict = 2;
+    const selectedIds = [1];
+    const store = createStore(rootReducer, {
+      historyState: {
+        past: [],
+        present: {
+          districts,
+          selectedDistrict,
+          selectedIds,
+        },
+        future: [],
+      }
     });
+    // When
     actions.acceptChanges()(store.dispatch, store.getState);
     // Then
     const expectedDistricts = [0, 2, 0];
