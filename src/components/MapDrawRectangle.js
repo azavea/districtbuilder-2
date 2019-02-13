@@ -27,32 +27,39 @@ class MapDrawHandler extends Component {
 
       switch (selectionLevel) {
         case 'geounit':
-          action(
-            map
-              .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
-                layers: ['geounits-fill'],
-              })
-              .filter(feature => {
-                return (
-                  this.limitDrawFilter(drawLimit, rectangleStartId, feature.properties.countyfp) &&
-                  this.lockedFilter(lockedIds, districts, feature.properties.id)
-                );
-              })
-              .map(feature => feature.properties.id)
-          );
-          break;
-        case 'county':
-          action(
-            flat(
+          action([
+            ...new Set(
               map
                 .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
-                  layers: ['counties-fill'],
+                  layers: ['geounits-fill'],
                 })
-                .map(feature => window.dataCountyIndex[feature.properties.countyfp].geounits)
-            ).filter(id => {
-              return this.lockedFilter(lockedIds, districts, id);
-            })
-          );
+                .filter(feature => {
+                  return (
+                    this.limitDrawFilter(
+                      drawLimit,
+                      rectangleStartId,
+                      feature.properties.countyfp
+                    ) && this.lockedFilter(lockedIds, districts, feature.properties.id)
+                  );
+                })
+                .map(feature => feature.properties.id)
+            ),
+          ]);
+          break;
+        case 'county':
+          action([
+            ...new Set(
+              flat(
+                map
+                  .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
+                    layers: ['counties-fill'],
+                  })
+                  .map(feature => window.dataCountyIndex[feature.properties.countyfp].geounits)
+              ).filter(id => {
+                return this.lockedFilter(lockedIds, districts, id);
+              })
+            ),
+          ]);
           break;
         default:
           break;

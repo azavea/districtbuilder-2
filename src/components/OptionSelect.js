@@ -4,7 +4,7 @@ function renderOptions(action, options) {
 	return options.map((option, index) => {
 		return (
 			<option value={option.id} key={index}>
-				{option.name}
+				{option.text}
 			</option>
 		);
 	});

@@ -6,8 +6,6 @@ import ReactResizeDetector from 'react-resize-detector';
 import { MapContext } from './Context';
 import { mapboxStyle } from '../constants/map-style';
 
-MapboxGL.accessToken = 'pk.eyJ1IjoibGtuYXJmIiwiYSI6IjhjbGg4RUkifQ.-lS6mAkmR3SVh-W4XwQElg';
-
 class Map extends Component {
   onResize = () => {
     this.map.resize();
@@ -19,6 +17,8 @@ class Map extends Component {
       style: mapboxStyle,
       center: [-77.63, 41],
       zoom: 6.5,
+      minZoom: 5,
+      maxZoom: 15,
     });
 
     this.map.doubleClickZoom.disable();

@@ -15,6 +15,7 @@ import {
 	CHANGE_OPTION_DRAW_MODE,
 	CHANGE_OPTION_MAP_NUMBER,
 	CHANGE_OPTION_SELECTION_LEVEL,
+	CHANGE_OPTION_POPUP_CONTENT,
 	CHANGE_OPTION_DRAW_LIMIT,
 	CHANGE_OPTION_SIDEBAR_RACE,
 	CHANGE_OPTION_SIDEBAR_POLITICS,
@@ -22,6 +23,7 @@ import {
 	CHANGE_OPTION_MAP_COUNTY_NAME,
 	CHANGE_OPTION_MAP_LABELS,
 	CHANGE_OPTION_MAP_BASEMAP,
+	CHANGE_OPTIONS_MENU,
 } from '../actions';
 
 import { districtColors, lockedIdsTemplate } from '../constants';
@@ -30,6 +32,7 @@ import {
 	optionsDrawMode,
 	optionsSelectionLevel,
 	optionsMapNumber,
+	optionsPopup,
 	optionsDrawLimit,
 	optionsMapCountyName,
 	optionsMapLabels,
@@ -82,6 +85,8 @@ const rectangleStartIdReducer = (countyfp = null, { type, payload }) => {
 	switch (type) {
 		case RECTANGLE_START:
 			return payload;
+		case CHANGE_OPTION_DRAW_MODE:
+			return null;
 		default:
 			return countyfp;
 	}
@@ -95,6 +100,19 @@ const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
 		case ACCEPT_CHANGES:
 		case REJECT_CHANGES:
 			return [];
+		default:
+			return selectedIds;
+	}
+};
+
+const hasActiveReducer = (selectedIds = false, { type, payload }) => {
+	switch (type) {
+		case ACTIVATE_RESULTS:
+			return payload.length > 0;
+		case SELECT_RESULTS:
+		case ACCEPT_CHANGES:
+		case REJECT_CHANGES:
+			return false;
 		default:
 			return selectedIds;
 	}
@@ -181,13 +199,19 @@ export default combineReducers({
 	geometry: geometryReducer,
 	districtColors: districtColorsReducer,
 	rectangleStartId: rectangleStartIdReducer,
-	drawMode: createOptionReducer(optionsDrawMode[0].id, CHANGE_OPTION_DRAW_MODE),
-	selectionLevel: createOptionReducer(optionsSelectionLevel[0].id, CHANGE_OPTION_SELECTION_LEVEL),
-	mapNumber: createOptionReducer(optionsMapNumber[0].id, CHANGE_OPTION_MAP_NUMBER),
+	drawMode: createOptionReducer(optionsDrawMode[0].value, CHANGE_OPTION_DRAW_MODE),
+	selectionLevel: createOptionReducer(
+		optionsSelectionLevel[0].value,
+		CHANGE_OPTION_SELECTION_LEVEL
+	),
+	optionsMenu: createOptionReducer(false, CHANGE_OPTIONS_MENU),
+	mapNumber: createOptionReducer(optionsMapNumber[0].value, CHANGE_OPTION_MAP_NUMBER),
 	sidebarRaceDisplay: createOptionReducer('chart', CHANGE_OPTION_SIDEBAR_RACE),
 	sidebarPoliticsDisplay: createOptionReducer('off', CHANGE_OPTION_SIDEBAR_POLITICS),
-	drawLimit: createToggleReducer(optionsDrawLimit[0].id, CHANGE_OPTION_DRAW_LIMIT),
-	mapCountyName: createToggleReducer(optionsMapCountyName[0].id, CHANGE_OPTION_MAP_COUNTY_NAME),
+	drawLimit: createToggleReducer(optionsDrawLimit[0].value, CHANGE_OPTION_DRAW_LIMIT),
+	mapCountyName: createToggleReducer(optionsMapCountyName[0].value, CHANGE_OPTION_MAP_COUNTY_NAME),
+	popup: createOptionReducer(optionsPopup[0].value, CHANGE_OPTION_POPUP_CONTENT),
 	mapLabels: createOptionReducer(optionsMapLabels[2].value, CHANGE_OPTION_MAP_LABELS),
 	mapBasemap: createOptionReducer(optionsMapBasemap[0].value, CHANGE_OPTION_MAP_BASEMAP),
+	hasActive: hasActiveReducer,
 });

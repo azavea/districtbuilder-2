@@ -1,4 +1,4 @@
-import { tileLayerName, districtColors, districtIds } from '../constants';
+import { geounitLayerName, countyLayerName, districtColors, districtIds } from '../constants';
 import { generateDistrictColor } from '../util/map';
 
 import { mapStyles } from '../constants';
@@ -58,7 +58,7 @@ export const mapboxStyle = {
       id: 'geounits-fill',
       type: 'fill',
       source: 'blockgroups',
-      'source-layer': tileLayerName,
+      'source-layer': geounitLayerName,
       paint: {
         'fill-color': 'transparent',
       },
@@ -67,7 +67,7 @@ export const mapboxStyle = {
       id: 'counties-fill',
       type: 'fill',
       source: 'blockgroups',
-      'source-layer': 'countylines',
+      'source-layer': countyLayerName,
       paint: {
         'fill-color': 'transparent',
       },
@@ -76,7 +76,7 @@ export const mapboxStyle = {
       id: 'counties-outline',
       type: 'line',
       source: 'blockgroups',
-      'source-layer': 'countylines',
+      'source-layer': countyLayerName,
       paint: {
         'line-color': '#000',
         'line-opacity': 1,
@@ -84,10 +84,20 @@ export const mapboxStyle = {
       },
     },
     {
+      id: 'counties-outline-highlight',
+      type: 'fill',
+      source: 'blockgroups',
+      'source-layer': countyLayerName,
+      paint: {
+        'fill-color': '#000',
+        'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.1, 0],
+      },
+    },
+    {
       id: 'blockgroups-outline',
       type: 'line',
       source: 'blockgroups',
-      'source-layer': tileLayerName,
+      'source-layer': geounitLayerName,
       paint: {
         'line-color': '#000',
         'line-opacity': mapStyles.default.blockgroupsLineOpacity,
@@ -97,6 +107,16 @@ export const mapboxStyle = {
         visibility: 'none',
       },
     },
+    // {
+    //   id: 'blockgroups-outline-highlight',
+    //   type: 'fill',
+    //   source: 'blockgroups',
+    //   'source-layer': geounitLayerName,
+    //   paint: {
+    //     'fill-color': '#000',
+    //     'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.1, 0],
+    //   },
+    // },
     {
       id: 'districts-lock',
       type: 'fill',
@@ -255,7 +275,7 @@ export const mapboxStyle = {
     {
       id: 'geounit-population-labels',
       type: 'symbol',
-      minzoom: 9,
+      minzoom: 8,
       source: 'blockgroups',
       'source-layer': 'geounitlabels',
       layout: {

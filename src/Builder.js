@@ -18,15 +18,18 @@ import MapTooltip from './components/MapTooltip';
 import MapActions from './components/MapActions';
 import { generateAssignedDistricts } from './actions';
 import MapDownloadHandler from './components/MapDownloadHandler';
+import MapOptionsMenu from './components/MapOptionsMenu';
 import MapUndoHandler from './components/MapUndoHandler';
 import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
 
 const ReactHint = ReactHintFactory(React);
 
 class Builder extends Component {
-  componentDidMount() {
+  componentWillMount() {
     window.spatialWorker = new spatialWorker();
+  }
 
+  componentDidMount() {
     const featureRequest = fetch('data/pa-bg.json').then(res => res.json());
     const countyIndexRequest = fetch('data/pa-county-index.json').then(res => res.json());
     const assignedDistricts = fetch('data/assigned-districts.json').then(res => res.json());
@@ -50,6 +53,7 @@ class Builder extends Component {
           <div className="header-actions">
             <MapUndoHandler />
             {window.spatialWorker && <MapDownloadHandler />}
+            {false && <MapOptionsMenu />}
           </div>
         </header>
         <main>
@@ -58,7 +62,6 @@ class Builder extends Component {
             <MapActions />
             <Map>
               <MapDistrictLayer />
-              <MapHighlightLayer />
               <MapHighlightLayer />
               <MapDrawHandler />
               <MapLayerHandler />
