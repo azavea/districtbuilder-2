@@ -1,6 +1,9 @@
-const doubleClickZoom = {
-	enable: ctx => {
-		setTimeout(() => {
+Object.defineProperty(exports, '__esModule', {
+	value: true,
+});
+var doubleClickZoom = {
+	enable: function enable(ctx) {
+		setTimeout(function() {
 			// First check we've got a map and some context.
 			if (
 				!ctx.map ||
@@ -15,8 +18,8 @@ const doubleClickZoom = {
 			ctx.map.doubleClickZoom.enable();
 		}, 0);
 	},
-	disable(ctx) {
-		setTimeout(() => {
+	disable: function disable(ctx) {
+		setTimeout(function() {
 			if (!ctx.map || !ctx.map.doubleClickZoom) return;
 			// Always disable here, as it's necessary in some cases.
 			ctx.map.doubleClickZoom.disable();
@@ -24,10 +27,10 @@ const doubleClickZoom = {
 	},
 };
 
-const DrawRectangle = {
+var DrawRectangle = {
 	// When the mode starts this function will be called.
-	onSetup: function(opts) {
-		const rectangle = this.newFeature({
+	onSetup: function onSetup(opts) {
+		var rectangle = this.newFeature({
 			type: 'Feature',
 			properties: {},
 			geometry: {
@@ -43,11 +46,18 @@ const DrawRectangle = {
 			trash: true,
 		});
 		return {
-			rectangle,
+			rectangle: rectangle,
 		};
 	},
+	// support mobile taps
+	onTap: function onTap(state, e) {
+		// emulate 'move mouse' to update feature coords
+		if (state.startPoint) this.onMouseMove(state, e);
+		// emulate onClick
+		this.onClick(state, e);
+	},
 	// Whenever a user clicks on the map, Draw will call `onClick`
-	onClick: function(state, e) {
+	onClick: function onClick(state, e) {
 		// if state.startPoint exist, means its second click
 		//change to  simple_select mode
 		if (
@@ -58,12 +68,15 @@ const DrawRectangle = {
 			this.updateUIClasses({ mouse: 'pointer' });
 			state.endPoint = [e.lngLat.lng, e.lngLat.lat];
 			this.changeMode('simple_select', { featuresId: state.rectangle.id });
+		} else {
+			// Added from District Builder
+			this.map.fire('draw.start');
 		}
 		// on first click, save clicked point coords as starting for  rectangle
-		const startPoint = [e.lngLat.lng, e.lngLat.lat];
+		var startPoint = [e.lngLat.lng, e.lngLat.lat];
 		state.startPoint = startPoint;
 	},
-	onMouseMove: function(state, e) {
+	onMouseMove: function onMouseMove(state, e) {
 		// if startPoint, update the feature coordinates, using the bounding box concept
 		// we are simply using the startingPoint coordinates and the current Mouse Position
 		// coordinates to calculate the bounding box on the fly, which will be our rectangle
@@ -74,15 +87,16 @@ const DrawRectangle = {
 			state.rectangle.updateCoordinate('0.3', state.startPoint[0], e.lngLat.lat); // minX,maxY
 			state.rectangle.updateCoordinate('0.4', state.startPoint[0], state.startPoint[1]); //minX,minY - ending point (equals to starting point)
 			this.map.fire('draw.move', {
+				// Added from District Builder
 				features: [state.rectangle.toGeoJSON()],
 			});
 		}
 	},
 	// Whenever a user clicks on a key while focused on the map, it will be sent here
-	onKeyUp: function(state, e) {
+	onKeyUp: function onKeyUp(state, e) {
 		if (e.keyCode === 27) return this.changeMode('simple_select');
 	},
-	onStop: function(state) {
+	onStop: function onStop(state) {
 		doubleClickZoom.enable(this);
 		this.updateUIClasses({ mouse: 'none' });
 		this.activateUIButton();
@@ -101,8 +115,8 @@ const DrawRectangle = {
 			this.changeMode('simple_select', {}, { silent: true });
 		}
 	},
-	toDisplayFeatures: function(state, geojson, display) {
-		const isActivePolygon = geojson.properties.id === state.rectangle.id;
+	toDisplayFeatures: function toDisplayFeatures(state, geojson, display) {
+		var isActivePolygon = geojson.properties.id === state.rectangle.id;
 		geojson.properties.active = isActivePolygon ? 'true' : 'false';
 		if (!isActivePolygon) return display(geojson);
 
@@ -110,10 +124,10 @@ const DrawRectangle = {
 		if (!state.startPoint) return;
 		return display(geojson);
 	},
-	onTrash: function(state) {
+	onTrash: function onTrash(state) {
 		this.deleteFeature([state.rectangle.id], { silent: true });
 		this.changeMode('simple_select');
 	},
 };
 
-export default DrawRectangle;
+exports.default = DrawRectangle;

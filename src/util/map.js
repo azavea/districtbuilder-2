@@ -23,10 +23,7 @@ const mapGeometriesToDistricts = (geometries, assignedDistricts) => {
 };
 
 const getGeoJSONForEachDistrict = (assignedDistricts, topoJSON) => {
-	const geometriesByDistrict = mapGeometriesToDistricts(
-		getGeometries(topoJSON),
-		assignedDistricts
-	);
+	const geometriesByDistrict = mapGeometriesToDistricts(getGeometries(topoJSON), assignedDistricts);
 	return geometriesByDistrict.map(geometries => flatten(merge(topoJSON, geometries)));
 };
 
@@ -45,14 +42,13 @@ const calculateCompactnessAndContiguity = geoJSON => {
 
 const mergeGeoJSONs = geoJSONs => {
 	return featureCollection(
-        flat(
-            geoJSONs
-                .map((geoJSON, index) => {
-                    return geoJSON.features.map(feature => {
-                        return Object.assign(feature, { properties: { district: index } });
-                    });
-                })
-        )
+		flat(
+			geoJSONs.map((geoJSON, index) => {
+				return geoJSON.features.map(feature => {
+					return Object.assign(feature, { properties: { district: index } });
+				});
+			})
+		)
 	);
 };
 
@@ -78,8 +74,6 @@ export const generateDistrictColor = (ids, colors) => {
 
 export const generateLockFilter = lockedIds => {
 	return ['in', 'district'].concat(
-		lockedIds
-			.map((status, key) => (status ? key : undefined))
-			.filter(value => value !== undefined)
+		lockedIds.map((status, key) => (status ? key : undefined)).filter(value => value !== undefined)
 	);
 };

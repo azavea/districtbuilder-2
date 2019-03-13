@@ -19,10 +19,12 @@ export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
 export const RECTANGLE_START = 'RECTANGLE_START';
 export const LOCK_DISTRICT = 'LOCK_DISTRICT';
+export const CHANGE_OPTIONS_MENU = 'CHANGE_OPTIONS_MENU';
 export const UPDATED_DISTRICTS = 'UPDATED_DISTRICTS';
 export const CHANGE_OPTION_DRAW_MODE = 'CHANGE_OPTION_DRAW_MODE';
 export const CHANGE_OPTION_MAP_CHOROPLETH = 'CHANGE_OPTION_MAP_CHOROPLETH';
 export const CHANGE_OPTION_MAP_NUMBER = 'CHANGE_OPTION_MAP_NUMBER';
+export const CHANGE_OPTION_POPUP_CONTENT = 'CHANGE_OPTION_POPUP_CONTENT';
 export const CHANGE_OPTION_SELECTION_LEVEL = 'CHANGE_OPTION_SELECTION_LEVEL';
 export const CHANGE_OPTION_DRAW_LIMIT = 'CHANGE_OPTION_DRAW_LIMIT';
 export const CHANGE_OPTION_SIDEBAR_RACE = 'CHANGE_OPTION_SIDEBAR_RACE';
@@ -58,7 +60,7 @@ export const pointerSelect = e => (dispatch, getState) => {
 	const assignedDistricts = historyState.present.districts;
 	const countyIds =
 		selectionLevel === 'county'
-			? window.dataCountyIndex[countyfp].filter(id => {
+			? window.dataCountyIndex[countyfp].geounits.filter(id => {
 					return !historyState.present.lockedIds[assignedDistricts[id]];
 			  })
 			: [id];
@@ -71,9 +73,10 @@ export const pointerSelect = e => (dispatch, getState) => {
 	}
 };
 
-export const rectangleStart = e => dispatch => {
+export const rectangleStart = e => (dispatch, getState) => {
+	const rectangleStartId = getState().rectangleStartId;
 	const countyfp = e.features[0].properties.countyfp;
-	dispatch({ type: RECTANGLE_START, payload: countyfp });
+	dispatch({ type: RECTANGLE_START, payload: rectangleStartId ? null : countyfp });
 };
 
 export const activateResults = results => ({ type: ACTIVATE_RESULTS, payload: results });
@@ -114,11 +117,12 @@ const createOptionAction = type => {
 
 export const changeOptionDrawMode = createOptionAction(CHANGE_OPTION_DRAW_MODE);
 export const changeOptionMapNumber = createOptionAction(CHANGE_OPTION_MAP_NUMBER);
+export const changeOptionPopup = createOptionAction(CHANGE_OPTION_POPUP_CONTENT);
 export const changeOptionSelectionLevel = createOptionAction(CHANGE_OPTION_SELECTION_LEVEL);
 export const changeOptionDrawLimit = createOptionAction(CHANGE_OPTION_DRAW_LIMIT);
 export const changeOptionSidebarRace = createOptionAction(CHANGE_OPTION_SIDEBAR_RACE);
 export const changeOptionSidebarPolitics = createOptionAction(CHANGE_OPTION_SIDEBAR_POLITICS);
 export const changeOptionMapCountyName = createOptionAction(CHANGE_OPTION_MAP_COUNTY_NAME);
 export const changeOptionMapLabels = createOptionAction(CHANGE_OPTION_MAP_LABELS);
-
+export const changeOptionsMenu = createOptionAction(CHANGE_OPTIONS_MENU);
 export const changeOptionMapBasemap = createOptionAction(CHANGE_OPTION_MAP_BASEMAP);

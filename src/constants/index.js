@@ -5,9 +5,10 @@ export const topoObjectName = 'pa-bg';
 export const topoUrl = 'data/pa-bg.topojson';
 export const geoUrl = 'data/pa-bg.geojson';
 
-export const tileLayerName = 'geounitlines';
+export const geounitLayerName = 'geounitlines';
+export const countyLayerName = 'countylines';
 
-export const demographicTypes = ['white', 'black', 'native', 'asian'];
+export const demographicTypes = ['white', 'black', 'asian', 'native', 'other'];
 export const populationTypes = ['population', ...demographicTypes];
 export const districtNum = 23;
 export const bucketNum = districtNum + 1;
@@ -31,6 +32,7 @@ export const districtsTemplate = districtIds.map(key => {
     black: 0,
     asian: 0,
     native: 0,
+    other: 0,
   };
 });
 

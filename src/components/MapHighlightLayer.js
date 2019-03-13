@@ -21,7 +21,6 @@ class MapHighlightLayer extends Component {
   }
   componentDidUpdate() {
     const { selectedIds, activatedIds } = this.props;
-
     if (selectedIds) {
       window.spatialWorker.postMessage({
         type: 'HIGHLIGHT',

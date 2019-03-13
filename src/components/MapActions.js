@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { OptionButtons } from './OptionButtons';
-import { OptionToggle } from './OptionToggle';
 import { Dropdown } from 'semantic-ui-react';
 import '../css/dropdown.css';
 
@@ -10,10 +9,10 @@ import {
   changeOptionDrawMode,
   changeOptionMapNumber,
   changeOptionSelectionLevel,
-  changeOptionDrawLimit,
   changeOptionSidebarRace,
   changeOptionSidebarPolitics,
   changeOptionMapCountyName,
+  changeOptionPopup,
   changeOptionMapLabels,
   changeOptionMapBasemap,
 } from '../actions';
@@ -21,8 +20,8 @@ import {
 import {
   optionsDrawMode,
   optionsSelectionLevel,
-  optionsDrawLimit,
   optionsMapLabels,
+  optionsPopup,
   optionsMapBasemap,
 } from '../constants/options';
 
@@ -52,15 +51,17 @@ class MapActions extends Component {
             options={optionsSelectionLevel}
             selectedOption={this.props.selectionLevel}
           />
-          {false && (
-            <OptionToggle
-              action={this.props.onChangeOptionDrawLimit}
-              options={optionsDrawLimit}
-              selectedOption={this.props.drawLimit}
-            />
-          )}
         </div>
         <div className="actions-right">
+          <Dropdown
+            inline
+            trigger={trigger('Tooltip', optionsPopup, this.props.popup)}
+            options={optionsPopup}
+            defaultValue={this.props.popup}
+            onChange={(e, data) => {
+              this.props.onChangeOptionPopup(data.value);
+            }}
+          />
           <Dropdown
             inline
             trigger={trigger('Labels', optionsMapLabels, this.props.mapLabels)}
@@ -91,9 +92,9 @@ const mapStateToProps = (state, props) => {
     drawMode: state.drawMode,
     mapNumber: state.mapNumber,
     mapLabels: state.mapLabels,
+    popup: state.popup,
     selectionLevel: state.selectionLevel,
     mapCountyName: state.mapCountyName,
-    drawLimit: state.drawLimit,
     sidebarRace: state.sidebarRace,
     sidebarPolitics: state.sidebarPolitics,
     mapPopulationsLabels: state.mapPopulationsLabels,
@@ -107,10 +108,10 @@ const mapDispatchToProps = dispatch => {
     onChangeOptionDrawMode: option => dispatch(changeOptionDrawMode(option)),
     onChangeOptionMapNumber: option => dispatch(changeOptionMapNumber(option)),
     onChangeOptionSelectionLevel: option => dispatch(changeOptionSelectionLevel(option)),
-    onChangeOptionDrawLimit: option => dispatch(changeOptionDrawLimit(option)),
     onChangeOptionSidebarRace: option => dispatch(changeOptionSidebarRace(option)),
     onChangeOptionSidebarPolitics: option => dispatch(changeOptionSidebarPolitics(option)),
     onChangeOptionMapCountyName: option => dispatch(changeOptionMapCountyName(option)),
+    onChangeOptionPopup: option => dispatch(changeOptionPopup(option)),
     onChangeOptionMapLabels: option => dispatch(changeOptionMapLabels(option)),
     onChangeOptionMapBasemap: option => dispatch(changeOptionMapBasemap(option)),
   };

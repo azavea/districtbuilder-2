@@ -2,8 +2,8 @@ import React from 'react';
 
 export const optionsDrawMode = [
 	{
-		id: 'pointer',
-		name: (
+		value: 'pointer',
+		text: (
 			<span>
 				<i className="icon-hand-pointer" />
 			</span>
@@ -11,8 +11,8 @@ export const optionsDrawMode = [
 		tooltip: 'Use pointer tool',
 	},
 	{
-		id: 'rectangle',
-		name: (
+		value: 'rectangle',
+		text: (
 			<span>
 				<i className="icon-draw-square" />
 			</span>
@@ -22,28 +22,51 @@ export const optionsDrawMode = [
 ];
 
 export const optionsSelectionLevel = [
-	{ id: 'county', name: 'Counties', tooltip: 'Select counties' },
-	{ id: 'geounit', name: 'Block groups', tooltip: 'Select block groups' },
+	{ value: 'county', text: 'Counties', tooltip: 'Select counties' },
+	{ value: 'geounit', text: 'Block groups', tooltip: 'Select block groups' },
 ];
 
 export const optionsMapChoropleth = [
-	{ id: 'off', name: 'Circle: Off' },
-	{ id: 'population', name: 'Population' },
-	{ id: 'white', name: 'White' },
-	{ id: 'black', name: 'Black' },
-	{ id: 'asian', name: 'Asian' },
-	{ id: 'native', name: 'Native' },
-	{ id: 'other', name: 'Other' },
+	{ value: 'off', text: 'Circle: Off' },
+	{ value: 'population', text: 'Population' },
+	{ value: 'white', text: 'White' },
+	{ value: 'black', text: 'Black' },
+	{ value: 'asian', text: 'Asian' },
+	{ value: 'native', text: 'Native' },
+	{ value: 'other', text: 'Other' },
 ];
 
 export const optionsMapNumber = [
-	{ id: 'off', name: 'Number: Off' },
-	{ id: 'population', name: 'Population' },
-	{ id: 'white', name: 'White' },
-	{ id: 'black', name: 'Black' },
-	{ id: 'asian', name: 'Asian' },
-	{ id: 'native', name: 'Native' },
-	{ id: 'other', name: 'Other' },
+	{ value: 'off', text: 'Number: Off' },
+	{ value: 'population', text: 'Population' },
+	{ value: 'white', text: 'White' },
+	{ value: 'black', text: 'Black' },
+	{ value: 'asian', text: 'Asian' },
+	{ value: 'native', text: 'Native' },
+	{ value: 'other', text: 'Other' },
+];
+
+export const optionsPopup = [
+	{
+		text: 'none',
+		value: 'none',
+	},
+	{
+		type: 'separator',
+		value: 'separator1',
+	},
+	{
+		text: 'compact',
+		value: 'compact',
+	},
+	{
+		text: 'fixed, left',
+		value: 'fixed-left',
+	},
+	{
+		text: 'fixed, right',
+		value: 'fixed-right',
+	},
 ];
 
 export const optionsMapLabels = [
