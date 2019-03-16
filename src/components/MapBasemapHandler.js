@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { addRasterLayer, removeRasterLayer } from '../constants';
+import { getOpacityExpress } from '../util/map';
 import { withMap } from './Context';
 
 class MapBasemapHandler extends Component {
@@ -10,6 +11,8 @@ class MapBasemapHandler extends Component {
     if (map.getSource('raster-basemap')) {
       map.removeLayer('raster-basemap').removeSource('raster-basemap');
     }
+    removeRasterLayer(map);
+    map.setLayoutProperty('geounits-choropleth', 'visibility', 'none');
     switch (mapBasemap) {
       case 'satellite':
         addRasterLayer(
@@ -29,8 +32,31 @@ class MapBasemapHandler extends Component {
           'https://a.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}@2x.png'
         );
         break;
+      case 'total':
+        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('popw'));
+        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        break;
+      case 'white':
+        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('whitew'));
+        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        break;
+      case 'black':
+        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('blackw'));
+        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        break;
+      case 'asian':
+        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('asianw'));
+        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        break;
+      case 'native':
+        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('nativew'));
+        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        break;
+      case 'other':
+        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('otherw'));
+        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        break;
       default:
-        removeRasterLayer(map);
         break;
     }
   }

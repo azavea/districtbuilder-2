@@ -55,6 +55,18 @@ export const mapboxStyle = {
       },
     },
     {
+      id: 'geounits-choropleth',
+      type: 'fill',
+      source: 'blockgroups',
+      'source-layer': geounitLayerName,
+      paint: {
+        'fill-color': '#000',
+      },
+      layout: {
+        visibility: 'none',
+      },
+    },
+    {
       id: 'geounits-fill',
       type: 'fill',
       source: 'blockgroups',
