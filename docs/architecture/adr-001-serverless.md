@@ -2,7 +2,7 @@
 
 ## Context
 
-District Builder 2 was designed to be a mostly-frontend version of the original tool. However, the tool must have user accounts and users must be able to save their maps. So even with the redesign, the app must have auth and some not-geospatial data needs to be stored by it. Instead of a backend server, the team was excited to build the backend using serverless technologies. This ADR details the options we looked into and the final decision made. 
+District Builder 2 was designed to be a mostly-frontend version of the original tool. However, the tool must have user accounts and users must be able to save their maps. So even with the redesign, the app must support authentication and data persistence. Instead of deploying a long-lived service, the team was excited to build the backend using serverless technologies. This ADR details the options we evaluated and the final decision made. 
 
 ## Decision
 
