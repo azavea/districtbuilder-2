@@ -124,6 +124,15 @@ export const optionsMapBasemap = [
 		image: { avatar: true, src: '/images/basemap-none.jpg' },
 	},
 	{
+		type: 'separator',
+		value: 'separator1',
+	},
+	{
+		type: 'title',
+		value: 'title1',
+		text: 'Imagery',
+	},
+	{
 		text: 'satellite',
 		value: 'satellite',
 		type: 'raster',
@@ -143,7 +152,12 @@ export const optionsMapBasemap = [
 	},
 	{
 		type: 'separator',
-		value: 'separator1',
+		value: 'separator2',
+	},
+	{
+		type: 'title',
+		value: 'title2',
+		text: 'Population',
 	},
 	{
 		text: 'total',

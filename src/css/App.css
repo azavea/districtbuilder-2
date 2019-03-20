@@ -168,6 +168,13 @@ button[disabled] {
   pointer-events: none !important;
 }
 
+.ui.dropdown .menu > .item[type='title'] {
+  pointer-events: none !important;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #777;
+}
+
 .popup-style-none .mapboxgl-popup {
   display: none;
 }
