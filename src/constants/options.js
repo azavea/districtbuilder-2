@@ -120,22 +120,74 @@ export const optionsMapBasemap = [
 	{
 		text: 'none',
 		value: 'none',
+		type: 'raster',
 		image: { avatar: true, src: '/images/basemap-none.jpg' },
+	},
+	{
+		type: 'separator',
+		value: 'separator1',
+	},
+	{
+		type: 'title',
+		value: 'title1',
+		text: 'Imagery',
 	},
 	{
 		text: 'satellite',
 		value: 'satellite',
+		type: 'raster',
 		image: { avatar: true, src: '/images/basemap-satellite.jpg' },
 	},
 	{
 		text: 'topography',
 		value: 'topography',
+		type: 'raster',
 		image: { avatar: true, src: '/images/basemap-topography.jpg' },
 	},
 	{
 		text: 'streets',
 		value: 'streets',
+		type: 'raster',
 		image: { avatar: true, src: '/images/basemap-streets.jpg' },
+	},
+	{
+		type: 'separator',
+		value: 'separator2',
+	},
+	{
+		type: 'title',
+		value: 'title2',
+		text: 'Population',
+	},
+	{
+		text: 'total',
+		value: 'total',
+		type: 'choropleth',
+	},
+	{
+		text: 'white',
+		value: 'white',
+		type: 'choropleth',
+	},
+	{
+		text: 'black',
+		value: 'black',
+		type: 'choropleth',
+	},
+	{
+		text: 'asian',
+		value: 'asian',
+		type: 'choropleth',
+	},
+	{
+		text: 'native',
+		value: 'native',
+		type: 'choropleth',
+	},
+	{
+		text: 'other',
+		value: 'other',
+		type: 'choropleth',
 	},
 ];
 

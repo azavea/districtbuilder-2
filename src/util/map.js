@@ -77,3 +77,8 @@ export const generateLockFilter = lockedIds => {
 		lockedIds.map((status, key) => (status ? key : undefined)).filter(value => value !== undefined)
 	);
 };
+
+export const getOpacityExpress = property => {
+	// Property must resolve to value 1, 2, or 3
+	return ['match', ['get', property], 1, 0, 2, 0.2, 3, 0.4, 0];
+};
