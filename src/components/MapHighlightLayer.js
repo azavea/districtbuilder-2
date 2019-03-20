@@ -11,7 +11,13 @@ class MapHighlightLayer extends Component {
       switch (m.data.type) {
         case 'HIGHLIGHT':
           this.geo = geobuf.decode(new Pbf(m.data.results));
-          this.props.map.getSource('highlight').setData(this.geo);
+          if (typeof this.geo.coordinates !== 'undefined') {
+            this.props.map.getSource('highlight').setData(this.geo);
+          } else {
+            this.props.map
+              .getSource('highlight')
+              .setData({ type: 'Feature', properties: { title: 'empty' }, geometry: null });
+          }
           break;
         default:
           break;

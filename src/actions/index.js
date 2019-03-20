@@ -54,7 +54,6 @@ export const generateSpatialIndex = geoJSON => ({ type: GENERATE_SPATIAL_INDEX, 
 export const generateCountyIndex = geoJSON => ({ type: GENERATE_COUNTY_INDEX, payload: geoJSON });
 
 export const pointerSelect = e => (dispatch, getState) => {
-	console.log(e.features[0].properties);
 	const id = e.features[0].properties.id;
 	const countyfp = e.features[0].properties.countyfp;
 	const { historyState, selectionLevel } = getState();
