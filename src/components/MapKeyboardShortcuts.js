@@ -15,12 +15,6 @@ import { districtNum } from '../constants';
 import { optionsSelectionLevel } from '../constants/options';
 
 class MapKeyboardShortcuts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      output: 'Hello, I am a component that listens to keydown and keyup of a',
-    };
-  }
   componentDidMount() {
     Mousetrap.bind(
       [
