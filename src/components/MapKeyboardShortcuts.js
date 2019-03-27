@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
-import hotkeys from 'hotkeys-js';
 
 import {
   undo,
   redo,
   changeOptionDrawMode,
-  changeOptionMapNumber,
   changeOptionSelectionLevel,
   acceptChanges,
   rejectChanges,
@@ -77,6 +75,8 @@ class MapKeyboardShortcuts extends Component {
           case 'shift+command+z':
           case 'shift+ctrl+z':
             this.props.onRedo();
+            break;
+          default:
             break;
         }
         event.preventDefault();
