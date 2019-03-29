@@ -155,17 +155,18 @@ button[disabled] {
   overflow: hidden;
 }
 
+.map-container-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .map {
   width: 100%;
   height: 100%;
   position: relative;
-}
-
-.mapboxgl-popup-content {
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  pointer-events: none !important;
 }
 
 .ui.dropdown .menu > .item[type='title'] {
@@ -175,70 +176,42 @@ button[disabled] {
   color: #777;
 }
 
-.popup-style-none .mapboxgl-popup {
-  display: none;
-}
-
-.popup-style-compact .mapboxgl-popup {
-  min-width: 70px;
-}
-
-.popup-style-fixed-left .mapboxgl-popup {
-  position: absolute !important;
-  left: 5px !important;
-  top: 5px !important;
-  transform: none !important;
-}
-
-.popup-style-fixed-right .mapboxgl-popup {
-  position: absolute !important;
-  right: 5px !important;
-  left: auto !important;
-  top: 5px !important;
-  transform: none !important;
-}
-
-.popup-style-fixed-left .mapboxgl-popup .mapboxgl-popup-content,
-.popup-style-fixed-right .mapboxgl-popup .mapboxgl-popup-content {
-  font-size: 14px;
-}
-
 .mapboxgl-popup {
   pointer-events: none !important;
 }
 
 .popup-content-container {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 400;
   pointer-events: none !important;
-  padding: 5px 5px 5px !important;
-  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.44) !important;
-  background: #fff;
+  padding: 8px 8px 15px !important;
+  min-width: 120px;
+  background: #051c2e;
 }
 
-.mapboxgl-popup-content .table {
+.map-tooltip .table {
   line-height: 1.25;
   border-spacing: 0;
   padding: 2px;
   width: 100%;
 }
 
-.mapboxgl-popup-content td,
-.mapboxgl-popup-content th {
+.map-tooltip td,
+.map-tooltip th {
   padding: 1px 3px;
 }
 
-.mapboxgl-popup-content th {
+.map-tooltip th {
   font-weight: 600;
 }
 
 .fixed-title {
-  font-size: 13px;
   font-weight: 900;
-  border-bottom: 1px solid #ccc;
-  margin: 0 -5px 5px;
-  padding: 0 10px 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 4px;
 }
 
 .popup-zero-population {
@@ -256,44 +229,64 @@ button[disabled] {
   text-align: right;
 }
 
-.mapboxgl-popup-content .chart {
+.map-tooltip .chart {
   margin-top: -3px;
   margin-bottom: -10px;
 }
 
-.mapboxgl-popup-content .demographic {
+.map-tooltip .demographic {
+  /*transition: 0.2s width ease-in-out;*/
+  height: 7px;
+  position: relative;
+  top: 0px;
+}
+
+.demographic-item {
+  display: block;
+  margin-top: -5px;
+}
+
+.demographic-label {
+  display: inline-block;
+  font-size: 11px;
+  width: 40px;
+}
+
+.demographic-bar {
+  width: 85px;
   display: inline-block;
 }
 
-.mapboxgl-popup-content .label {
+.map-tooltip .label {
   width: 45px;
   display: inline-block;
   font-weight: 500;
 }
 
-.mapboxgl-popup-content .number {
+.map-tooltip .number {
   width: 35px;
   display: inline-block;
   text-align: right;
 }
 
-.mapboxgl-popup-content .demographics {
-  height: 15px;
-  display: flex;
+.map-tooltip .demographics {
+  height: auto;
+  display: block;
   width: 100%;
   margin: 10px 0 0;
 }
 
-.mapboxgl-popup-content .population {
-  font-weight: 700;
-}
-
-.mapboxgl-popup-content .count {
-  font-size: 12px;
+.map-tooltip .population {
   font-weight: 500;
+  margin: 0px 0 -9px;
 }
 
-.mapboxgl-popup-content h2 {
+.map-tooltip .count {
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.map-tooltip h2 {
   font-weight: 700;
   font-size: 13px;
   margin-bottom: 4px;
@@ -325,7 +318,7 @@ button[disabled] {
   display: none;
 }
 
-.mapboxgl-popup-anchor-top-left .mapboxgl-popup-content {
+.mapboxgl-popup-anchor-top-left .map-tooltip {
   border-top-left-radius: auto;
 }
 
@@ -470,8 +463,7 @@ button[disabled] {
 }
 
 .demographic {
-  height: 5px;
-  display: inline-block;
+  height: 3px;
 }
 
 .demographic-none {
@@ -501,11 +493,8 @@ button[disabled] {
 
 .demographics {
   position: relative;
-  top: -3px;
-  display: inline-block;
-  width: 50px;
-  height: 5px;
-  white-space: nowrap;
+  width: 45px;
+  top: 1px;
 }
 
 .district-property {
@@ -589,6 +578,21 @@ button[disabled] {
   top: 0;
   bottom: 0;
   background: #efefef;
+}
+
+.map-tooltip {
+  font-size: 13px;
+  position: absolute;
+  top: 20px;
+  left: 15px;
+  will-change: transform;
+  pointer-events: none;
+  background: #051c2e;
+  z-index: 20000;
+  color: #fff;
+  font-feature-settings: normal;
+  padding: 8px 8px 18px;
+  border-radius: 2px;
 }
 
 .district-property:last-child {

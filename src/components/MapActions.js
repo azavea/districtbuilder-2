@@ -12,7 +12,6 @@ import {
   changeOptionSidebarRace,
   changeOptionSidebarPolitics,
   changeOptionMapCountyName,
-  changeOptionPopup,
   changeOptionMapLabels,
   changeOptionMapBasemap,
 } from '../actions';
@@ -21,7 +20,6 @@ import {
   optionsDrawMode,
   optionsSelectionLevel,
   optionsMapLabels,
-  optionsPopup,
   optionsMapBasemap,
 } from '../constants/options';
 
@@ -55,15 +53,6 @@ class MapActions extends Component {
         <div className="actions-right">
           <Dropdown
             inline
-            trigger={trigger('Tooltip', optionsPopup, this.props.popup)}
-            options={optionsPopup}
-            defaultValue={this.props.popup}
-            onChange={(e, data) => {
-              this.props.onChangeOptionPopup(data.value);
-            }}
-          />
-          <Dropdown
-            inline
             trigger={trigger('Labels', optionsMapLabels, this.props.mapLabels)}
             options={optionsMapLabels}
             defaultValue={this.props.mapLabels}
@@ -92,7 +81,6 @@ const mapStateToProps = (state, props) => {
     drawMode: state.drawMode,
     mapNumber: state.mapNumber,
     mapLabels: state.mapLabels,
-    popup: state.popup,
     selectionLevel: state.selectionLevel,
     mapCountyName: state.mapCountyName,
     sidebarRace: state.sidebarRace,
@@ -111,7 +99,6 @@ const mapDispatchToProps = dispatch => {
     onChangeOptionSidebarRace: option => dispatch(changeOptionSidebarRace(option)),
     onChangeOptionSidebarPolitics: option => dispatch(changeOptionSidebarPolitics(option)),
     onChangeOptionMapCountyName: option => dispatch(changeOptionMapCountyName(option)),
-    onChangeOptionPopup: option => dispatch(changeOptionPopup(option)),
     onChangeOptionMapLabels: option => dispatch(changeOptionMapLabels(option)),
     onChangeOptionMapBasemap: option => dispatch(changeOptionMapBasemap(option)),
   };

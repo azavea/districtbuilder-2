@@ -24,7 +24,6 @@ export const UPDATED_DISTRICTS = 'UPDATED_DISTRICTS';
 export const CHANGE_OPTION_DRAW_MODE = 'CHANGE_OPTION_DRAW_MODE';
 export const CHANGE_OPTION_MAP_CHOROPLETH = 'CHANGE_OPTION_MAP_CHOROPLETH';
 export const CHANGE_OPTION_MAP_NUMBER = 'CHANGE_OPTION_MAP_NUMBER';
-export const CHANGE_OPTION_POPUP_CONTENT = 'CHANGE_OPTION_POPUP_CONTENT';
 export const CHANGE_OPTION_SELECTION_LEVEL = 'CHANGE_OPTION_SELECTION_LEVEL';
 export const CHANGE_OPTION_DRAW_LIMIT = 'CHANGE_OPTION_DRAW_LIMIT';
 export const CHANGE_OPTION_SIDEBAR_RACE = 'CHANGE_OPTION_SIDEBAR_RACE';
@@ -117,7 +116,6 @@ const createOptionAction = type => {
 
 export const changeOptionDrawMode = createOptionAction(CHANGE_OPTION_DRAW_MODE);
 export const changeOptionMapNumber = createOptionAction(CHANGE_OPTION_MAP_NUMBER);
-export const changeOptionPopup = createOptionAction(CHANGE_OPTION_POPUP_CONTENT);
 export const changeOptionSelectionLevel = createOptionAction(CHANGE_OPTION_SELECTION_LEVEL);
 export const changeOptionDrawLimit = createOptionAction(CHANGE_OPTION_DRAW_LIMIT);
 export const changeOptionSidebarRace = createOptionAction(CHANGE_OPTION_SIDEBAR_RACE);

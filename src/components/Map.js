@@ -31,11 +31,9 @@ class Map extends Component {
   render() {
     return (
       <MapContext.Provider value={this.map}>
-        <div className="map">
-          <div ref={ref => (this.mapContainer = ref)} />
-          {this.map && this.props.children}
-          <ReactResizeDetector handleWidth onResize={this.onResize} />
-        </div>
+        <div ref={ref => (this.mapContainer = ref)} />
+        {this.map && this.props.children}
+        <ReactResizeDetector handleWidth onResize={this.onResize} />
       </MapContext.Provider>
     );
   }
