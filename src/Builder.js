@@ -14,6 +14,7 @@ import MapDrawHandler from './components/MapDrawHandler';
 import MapLayerHandler from './components/MapLayerHandler';
 import MapLabelHandler from './components/MapLabelHandler';
 import MapBasemapHandler from './components/MapBasemapHandler';
+import MapKeyboardShortcuts from './components/MapKeyboardShortcuts';
 import MapTooltip from './components/MapTooltip';
 import MapActions from './components/MapActions';
 import { generateAssignedDistricts } from './actions';
@@ -69,6 +70,7 @@ class Builder extends Component {
               <MapLabelHandler />
               <MapBasemapHandler />
               <MapLockLayer />
+              <MapKeyboardShortcuts />
             </Map>
           </div>
         </main>
