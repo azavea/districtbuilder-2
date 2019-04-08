@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { OptionButtons } from './OptionButtons';
 import { Dropdown } from 'semantic-ui-react';
-import '../css/dropdown.css';
 
 import {
   changeOptionDrawMode,

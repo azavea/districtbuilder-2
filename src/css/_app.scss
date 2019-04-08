@@ -19,8 +19,7 @@ body {
   font-feature-settings: 'tnum';
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
-    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  font-family: $font-family;
 }
 
 .map-highlight-layer {
@@ -340,7 +339,7 @@ button[disabled] {
   height: 100%;
   display: flex;
   flex-direction: column;
-  z-index: 6000;
+  z-index: 20;
   position: relative;
   flex-shrink: 0;
   box-shadow: 0 0 1px #a9acae;
@@ -354,7 +353,7 @@ button[disabled] {
 }
 
 .map-actions {
-  z-index: 5000;
+  z-index: 20;
   background: #ffffff;
   border-bottom: 1px solid #e3e6e8;
   display: flex;
@@ -715,4 +714,34 @@ button[disabled] {
 
 .react-hint--left:after {
   border-left-color: #222;
+}
+
+.shortcut-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.shortcut-item {
+  border-bottom: 1px solid #ddd;
+  &:last-child {
+    border-bottom-width: 0;
+  }
+}
+
+.shortcut-keys {
+  text-align: right;
+  padding: 5px 5px 5px 0;
+}
+
+.shortcut-key {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 2px;
+  border-radius: 2px;
+  margin-right: 2px;
+  text-transform: uppercase;
+  font-size: 14px;
+  border-bottom-width: 2px;
+  color: #666;
+  display: inline-block;
 }
