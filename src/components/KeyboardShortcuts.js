@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
 
+import { keymap } from '../util/keyboard';
+
 import {
   undo,
   redo,
@@ -14,60 +16,57 @@ import {
 import { districtNum } from '../constants';
 import { optionsSelectionLevel } from '../constants/options';
 
-class MapKeyboardShortcuts extends Component {
+class KeyboardShortcuts extends Component {
   componentDidMount() {
     Mousetrap.bind(
       [
-        '1',
-        '2',
-        'q',
-        'w',
-        's',
-        'a',
-        'd',
-        'e',
-        'command+z',
-        'ctrl+z',
-        'shift+command+z',
-        'shift+ctrl+z',
+        keymap.pointer.key,
+        keymap.rectangle.key,
+        keymap.previousDistrict.key,
+        keymap.nextDistrict.key,
+        keymap.accept.key,
+        keymap.reject.key,
+        keymap.counties.key,
+        keymap.geounit.key,
+        keymap.undo.key,
+        keymap.undo.alt,
+        keymap.redo.key,
+        keymap.redo.alt,
       ],
       (event, key) => {
-        console.log(key);
         switch (key) {
-          case '1':
+          case keymap.pointer.key:
             this.props.onChangeOptionDrawMode('pointer');
             break;
-          case '2':
+          case keymap.rectangle.key:
             this.props.onChangeOptionDrawMode('rectangle');
             break;
-          case 'w':
-            if (this.props.selectedDistrict > 0) {
+          case keymap.previousDistrict.key:
+            this.props.selectedDistrict > 0 &&
               this.props.onSelectDistrict(this.props.selectedDistrict - 1);
-            }
             break;
-          case 's':
-            if (this.props.selectedDistrict < districtNum) {
+          case keymap.nextDistrict.key:
+            this.props.selectedDistrict < districtNum &&
               this.props.onSelectDistrict(this.props.selectedDistrict + 1);
-            }
             break;
-          case 'e':
+          case keymap.accept.key:
             this.props.onAcceptChanges();
             break;
-          case 'q':
+          case keymap.reject.key:
             this.props.onRejectChanges();
             break;
-          case 'a':
+          case keymap.counties.key:
             this.props.onChangeOptionSelectionLevel(optionsSelectionLevel[0].value);
             break;
-          case 'd':
+          case keymap.geounit.key:
             this.props.onChangeOptionSelectionLevel(optionsSelectionLevel[1].value);
             break;
-          case 'command+z':
-          case 'ctrl+z':
+          case keymap.undo.key:
+          case keymap.undo.alt:
             this.props.onUndo();
             break;
-          case 'shift+command+z':
-          case 'shift+ctrl+z':
+          case keymap.redo.key:
+          case keymap.redo.alt:
             this.props.onRedo();
             break;
           default:
@@ -105,4 +104,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MapKeyboardShortcuts);
+)(KeyboardShortcuts);

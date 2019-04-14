@@ -1,0 +1,78 @@
+/*******************************
+Variables
+*******************************/
+
+$import-google-fonts: false !default;
+$font-url: 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' !default;
+$font-name: 'Lato' !default;
+$font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif !default;
+$icons-font-path: '../../icons' !default;
+$flags-image-path: '../../images' !default;
+
+/*******************************
+Imports
+*******************************/
+
+@import '../../node_modules/semantic-ui-sass/scss/modules/dimmer';
+@import '../../node_modules/semantic-ui-sass/scss/modules/dropdown';
+@import '../../node_modules/semantic-ui-sass/scss/modules/modal';
+@import '../../node_modules/semantic-ui-sass/scss/modules/popup';
+@import '../../node_modules/semantic-ui-sass/scss/modules/transition';
+
+/*******************************
+User Overrides
+*******************************/
+
+.ui.dropdown .menu.visible {
+  display: block;
+}
+
+.ui.dropdown .menu > .item[type='separator'] {
+  pointer-events: none !important;
+  background: #c7c7c7;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: 6px 0;
+}
+
+.ui.dropdown .menu > .item {
+  padding: 0.5rem 0.7rem !important;
+  user-select: none;
+}
+
+.ui.dropdown .menu.visible {
+  display: block;
+  padding: 5px 0 5px;
+}
+
+.ui.dropdown .menu.right {
+  right: 0;
+  left: auto;
+}
+
+.ui.dropdown > .text > img,
+.ui.dropdown > .text > .image,
+.ui.dropdown .menu > .item > .image,
+.ui.dropdown .menu > .item > img {
+  max-height: none;
+  width: 24px;
+  border-radius: 100px;
+  margin-top: -4px;
+}
+
+.ui.dropdown.selected,
+.ui.dropdown .menu .selected.item {
+  background: #e6ebf3;
+}
+
+.ui.dimmer {
+  background: rgba(4, 28, 47, 0.65);
+}
+
+.ui.modal {
+  padding: 20px;
+}
+
+.modal-heading {
+  margin-top: 0;
+}

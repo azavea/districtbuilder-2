@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import ReactHintFactory from 'react-hint';
 import 'react-hint/css/index.css';
 
-import './css/App.css';
-import './css/db.css';
+import './css/main.scss';
 import Map from './components/Map';
 import MapDistrictLayer from './components/MapDistrictLayer';
 import DistrictsSidebar from './components/DistrictsSidebar';
@@ -14,7 +13,8 @@ import MapDrawHandler from './components/MapDrawHandler';
 import MapLayerHandler from './components/MapLayerHandler';
 import MapLabelHandler from './components/MapLabelHandler';
 import MapBasemapHandler from './components/MapBasemapHandler';
-import MapKeyboardShortcuts from './components/MapKeyboardShortcuts';
+import KeyboardShortcuts from './components/KeyboardShortcuts';
+import KeyboardShortcutModal from './components/KeyboardShortcutModal';
 import MapTooltip from './components/MapTooltip';
 import MapActions from './components/MapActions';
 import { generateAssignedDistricts } from './actions';
@@ -45,6 +45,7 @@ class Builder extends Component {
   render() {
     return (
       <div className="builder">
+        <KeyboardShortcuts />
         <ReactHint autoPosition events={{ hover: true }} delay={{ show: 500, hide: 0 }} />
         <header>
           <div className="header-logo">
@@ -53,8 +54,8 @@ class Builder extends Component {
           <div className="header-title">Pennsylvania Congressional Districts</div>
           <div className="header-actions">
             <MapUndoHandler />
-            {window.spatialWorker && <MapDownloadHandler />}
-            {false && <MapOptionsMenu />}
+            <MapDownloadHandler />
+            <KeyboardShortcutModal />
           </div>
         </header>
         <main>
@@ -70,7 +71,6 @@ class Builder extends Component {
               <MapLabelHandler />
               <MapBasemapHandler />
               <MapLockLayer />
-              <MapKeyboardShortcuts />
             </Map>
           </div>
         </main>

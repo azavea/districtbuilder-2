@@ -13,28 +13,31 @@ class MapDownloadHandler extends Component {
   };
 
   componentDidMount() {
-    window.spatialWorker.addEventListener('message', m => {
-      switch (m.data.type) {
-        case 'DOWNLOAD_GEOJSON':
-          FileSaver.saveAs(
-            new Blob([JSON.stringify(geobuf.decode(new Pbf(m.data.mergedGeoJSON)))], {
-              type: 'text/json;charset=utf-8',
-            }),
-            'districts.geojson'
-          );
-          break;
-        default:
-          break;
-      }
-      m = null;
-    });
+    window.spatialWorker &&
+      window.spatialWorker.addEventListener('message', m => {
+        switch (m.data.type) {
+          case 'DOWNLOAD_GEOJSON':
+            FileSaver.saveAs(
+              new Blob([JSON.stringify(geobuf.decode(new Pbf(m.data.mergedGeoJSON)))], {
+                type: 'text/json;charset=utf-8',
+              }),
+              'districts.geojson'
+            );
+            break;
+          default:
+            break;
+        }
+        m = null;
+      });
   }
 
   render() {
     return (
-      <button data-rh="Download GeoJSON" onClick={() => this.onDownload()}>
-        <i className="icon-download" />
-      </button>
+      window.spatialWorker && (
+        <button data-rh="Download GeoJSON" onClick={() => this.onDownload()}>
+          <i className="icon-download" />
+        </button>
+      )
     );
   }
 }
