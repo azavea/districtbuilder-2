@@ -19,6 +19,11 @@ export const optionsDrawMode = [
 		),
 		tooltip: 'Use rectangle draw tool',
 	},
+	{
+		value: 'paint',
+		text: <span>P</span>,
+		tooltip: 'Use rectangle paintbrush tool',
+	},
 ];
 
 export const optionsSelectionLevel = [

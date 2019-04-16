@@ -20,12 +20,12 @@ class MapHighlightLayer extends Component {
     });
   }
   componentDidUpdate() {
-    const { selectedIds, activatedIds } = this.props;
+    console.log('maphighlight layer');
+    const { selectedIds } = this.props;
     if (selectedIds) {
       window.spatialWorker.postMessage({
         type: 'HIGHLIGHT',
         selectedIds,
-        activatedIds,
       });
     }
   }
@@ -37,7 +37,6 @@ class MapHighlightLayer extends Component {
 const mapStateToProps = (state, props) => {
   return {
     selectedIds: state.historyState.present.selectedIds,
-    activatedIds: state.activatedIds,
     lockedDistricts: state.lockedDistricts,
   };
 };

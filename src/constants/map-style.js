@@ -29,6 +29,13 @@ export const mapboxStyle = {
         geometry: { type: 'Polygon', coordinates: [[]] },
       },
     },
+    hover: {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        geometry: { type: 'Polygon', coordinates: [[]] },
+      },
+    },
   },
   layers: [
     {
@@ -138,6 +145,15 @@ export const mapboxStyle = {
         'fill-pattern': 'circle-1',
       },
       filter: ['in', 'district', -1],
+    },
+    {
+      id: 'hover-fill',
+      type: 'fill',
+      source: 'hover',
+      paint: {
+        'fill-color': '#000',
+        'fill-opacity': 0.25,
+      },
     },
     {
       id: 'highlight-fill',

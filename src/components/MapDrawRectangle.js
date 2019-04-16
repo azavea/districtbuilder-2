@@ -17,11 +17,10 @@ class MapDrawHandler extends Component {
       return !lockedIds[districts[id]];
     };
 
-    this.onRectangleActivate = (rectangle, action) => {
+    this.onRectangleActivate = (bbox, action) => {
       const { drawLimit, rectangleStartId, lockedIds, districts, map, selectionLevel } = this.props;
-      const rectangleBbox = bbox(rectangle);
-      const southWest = [rectangleBbox[0], rectangleBbox[1]];
-      const northEast = [rectangleBbox[2], rectangleBbox[3]];
+      const southWest = [bbox[0], bbox[1]];
+      const northEast = [bbox[2], bbox[3]];
       const southWestPointPixel = this.props.map.project(southWest);
       const northEastPointPixel = this.props.map.project(northEast);
 
@@ -69,7 +68,7 @@ class MapDrawHandler extends Component {
     this.onRectangleActivateDebounced = debounce(this.onRectangleActivate, 200, { maxWait: 500 });
 
     this.props.map.on('draw.create', e => {
-      this.onRectangleActivate(e.features[0], this.props.onSelectResults);
+      this.onRectangleActivate(bbox(e.features[0]), this.props.onSelectResults);
       this.props.draw.deleteAll();
       setTimeout(() => {
         this.props.draw.changeMode('draw_rectangle');
@@ -77,7 +76,14 @@ class MapDrawHandler extends Component {
     });
 
     this.props.map.on('draw.move', e => {
-      this.onRectangleActivateDebounced(e.features[0], this.props.onActivateResults);
+      this.onRectangleActivateDebounced(bbox(e.features[0]), this.props.onActivateResults);
+    });
+
+    this.props.map.on('mousemove', e => {
+      const { lng, lat } = e.lngLat;
+      const brushSize = 0.1;
+      const paintBbox = [lng - brushSize, lat - brushSize, lng + brushSize, lat + brushSize];
+      this.onRectangleActivateDebounced(paintBbox, this.props.onActivateResults);
     });
   }
   render() {

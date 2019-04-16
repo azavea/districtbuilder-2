@@ -9,12 +9,21 @@ import { pointerSelect, rectangleStart } from '../actions';
 import { withMap } from './Context';
 
 class MapDrawHandler extends Component {
+  onMove = e => {
+    // console.log(e);
+  };
   changeMapDrawTool = () => {
     if (this.props.drawMode === 'pointer') {
       this.props.map.on('click', 'geounits-fill', this.props.onPointerSelect);
       this.props.map.getCanvas().style.cursor = 'pointer';
     } else {
       this.props.map.off('click', 'geounits-fill', this.props.onPointerSelect);
+    }
+    if (this.props.drawMode === 'paint') {
+      // this.props.map.on('mousemove', 'geounits-fill', this.onMove);
+      // this.props.map.getCanvas().style.cursor = 'pointer';
+    } else {
+      // this.props.map.off('click', 'geounits-fill', this.props.onPointerSelect);
     }
     if (this.props.drawMode === 'rectangle') {
       this.myDrawControl = this.props.map.addControl(this.draw);

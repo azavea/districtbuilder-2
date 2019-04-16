@@ -33,10 +33,7 @@ const onDownload = (e, topoJSON) => {
 
 const onGenerateHighlight = (e, topoJSON) => {
 	type = e.data.type;
-	results = geobuf.encode(
-		updateHighlight(e.data.selectedIds, e.data.activatedIds, topoJSON),
-		new Pbf()
-	).buffer;
+	results = geobuf.encode(updateHighlight(e.data.selectedIds, topoJSON), new Pbf()).buffer;
 	postMessage(
 		{
 			type,
