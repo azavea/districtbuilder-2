@@ -17,8 +17,16 @@ class MapDrawHandler extends Component {
       return !lockedIds[districts[id]];
     };
 
+    this.lockedFilter = (lockedIds, districts, id) => {
+      return !lockedIds[districts[id]];
+    };
+
+    this.selectedFilter = (selectedDistrict, districts, id) => {
+      return id !== selectedDistrict;
+    };
+
     this.onRectangleActivate = (bbox, action) => {
-      const { drawLimit, rectangleStartId, lockedIds, districts, map, selectionLevel } = this.props;
+      const { lockedIds, districts, map, selectionLevel, selectedDistrict } = this.props;
       const southWest = [bbox[0], bbox[1]];
       const northEast = [bbox[2], bbox[3]];
       const southWestPointPixel = this.props.map.project(southWest);
@@ -34,11 +42,8 @@ class MapDrawHandler extends Component {
                 })
                 .filter(feature => {
                   return (
-                    this.limitDrawFilter(
-                      drawLimit,
-                      rectangleStartId,
-                      feature.properties.countyfp
-                    ) && this.lockedFilter(lockedIds, districts, feature.properties.id)
+                    // this.selectedFilter(selectedDistrict, districts, feature.properties.id) &&
+                    this.lockedFilter(lockedIds, districts, feature.properties.id)
                   );
                 })
                 .map(feature => feature.properties.id)
@@ -66,6 +71,7 @@ class MapDrawHandler extends Component {
     };
 
     this.onRectangleActivateDebounced = debounce(this.onRectangleActivate, 200, { maxWait: 500 });
+    this.onPaintActivateDebounced = debounce(this.onRectangleActivate, 1, { maxWait: 1 });
 
     this.props.map.on('draw.create', e => {
       this.onRectangleActivate(bbox(e.features[0]), this.props.onSelectResults);
@@ -83,7 +89,7 @@ class MapDrawHandler extends Component {
       const { lng, lat } = e.lngLat;
       const brushSize = 0.1;
       const paintBbox = [lng - brushSize, lat - brushSize, lng + brushSize, lat + brushSize];
-      this.onRectangleActivateDebounced(paintBbox, this.props.onActivateResults);
+      // this.onRectangleActivate(paintBbox, this.props.onActivateResults);
     });
   }
   render() {
@@ -93,6 +99,7 @@ class MapDrawHandler extends Component {
 
 const mapStateToProps = state => {
   return {
+    selectedDistrict: state.historyState.present.selectedDistrict,
     rectangleStartId: state.rectangleStartId,
     lockedIds: state.historyState.present.lockedIds,
     districts: state.historyState.present.districts,

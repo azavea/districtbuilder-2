@@ -7,7 +7,8 @@ import './css/main.scss';
 import Map from './components/Map';
 import MapDistrictLayer from './components/MapDistrictLayer';
 import DistrictsSidebar from './components/DistrictsSidebar';
-import MapHighlightLayer from './components/MapHighlightLayer';
+import MapSelectedLayer from './components/MapSelectedLayer';
+import MapActivatedLayer from './components/MapActivatedLayer';
 import MapLockLayer from './components/MapLockLayer';
 import MapDrawHandler from './components/MapDrawHandler';
 import MapLayerHandler from './components/MapLayerHandler';
@@ -17,11 +18,10 @@ import KeyboardShortcuts from './components/KeyboardShortcuts';
 import KeyboardShortcutModal from './components/KeyboardShortcutModal';
 import MapTooltip from './components/MapTooltip';
 import MapActions from './components/MapActions';
-import { generateAssignedDistricts } from './actions';
 import MapDownloadHandler from './components/MapDownloadHandler';
-import MapOptionsMenu from './components/MapOptionsMenu';
 import MapUndoHandler from './components/MapUndoHandler';
 import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
+import { generateAssignedDistricts } from './actions';
 
 const ReactHint = ReactHintFactory(React);
 
@@ -64,7 +64,8 @@ class Builder extends Component {
             <MapActions />
             <Map>
               <MapDistrictLayer />
-              <MapHighlightLayer />
+              <MapSelectedLayer />
+              <MapActivatedLayer />
               <MapDrawHandler />
               <MapLayerHandler />
               <MapTooltip />

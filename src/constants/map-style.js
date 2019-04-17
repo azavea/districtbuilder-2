@@ -126,16 +126,6 @@ export const mapboxStyle = {
         visibility: 'none',
       },
     },
-    // {
-    //   id: 'blockgroups-outline-highlight',
-    //   type: 'fill',
-    //   source: 'blockgroups',
-    //   'source-layer': geounitLayerName,
-    //   paint: {
-    //     'fill-color': '#000',
-    //     'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.1, 0],
-    //   },
-    // },
     {
       id: 'districts-lock',
       type: 'fill',
@@ -149,9 +139,10 @@ export const mapboxStyle = {
     {
       id: 'hover-fill',
       type: 'fill',
-      source: 'hover',
+      source: 'blockgroups',
+      'source-layer': geounitLayerName,
       paint: {
-        'fill-color': '#000',
+        'fill-color': 'red',
         'fill-opacity': 0.25,
       },
     },

@@ -5,7 +5,7 @@ import Pbf from 'pbf';
 
 import { withMap } from './Context';
 
-class MapHighlightLayer extends Component {
+class MapSelectedLayer extends Component {
   componentDidMount() {
     window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
@@ -20,7 +20,6 @@ class MapHighlightLayer extends Component {
     });
   }
   componentDidUpdate() {
-    console.log('maphighlight layer');
     const { selectedIds } = this.props;
     if (selectedIds) {
       window.spatialWorker.postMessage({
@@ -41,4 +40,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default withMap(connect(mapStateToProps)(MapHighlightLayer));
+export default withMap(connect(mapStateToProps)(MapSelectedLayer));
