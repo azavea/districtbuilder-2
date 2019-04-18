@@ -28,6 +28,19 @@ class MapDrawHandler extends Component {
       return id !== selectedDistrict;
     };
 
+    this.removeHover = () => {
+      this.hovered.forEach(feature => {
+        this.props.map.setFeatureState(
+          {
+            source: 'blockgroups',
+            sourceLayer: geounitLayerName,
+            id: feature.id,
+          },
+          { hover: false }
+        );
+      });
+    };
+
     this.onRectangleActivate = (bbox, action) => {
       const { lockedIds, districts, map, selectionLevel, selectedDistrict } = this.props;
       const southWest = [bbox[0], bbox[1]];
@@ -37,16 +50,8 @@ class MapDrawHandler extends Component {
 
       switch (selectionLevel) {
         case 'geounit':
-          this.hovered.forEach(feature => {
-            this.props.map.setFeatureState(
-              {
-                source: 'blockgroups',
-                sourceLayer: geounitLayerName,
-                id: feature.id,
-              },
-              { hover: false }
-            );
-          });
+          this.removeHover();
+
           this.hovered = map
             .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
               layers: ['geounits-fill'],
@@ -61,7 +66,6 @@ class MapDrawHandler extends Component {
           action([
             ...new Set(
               this.hovered.map(feature => {
-                console.log(feature.id);
                 this.props.map.setFeatureState(
                   {
                     source: 'blockgroups',
@@ -112,7 +116,7 @@ class MapDrawHandler extends Component {
 
     this.props.map.on('mousemove', e => {
       const { lng, lat } = e.lngLat;
-      const brushSize = 0.03;
+      const brushSize = 0.0001;
       const paintBbox = [lng - brushSize, lat - brushSize, lng + brushSize, lat + brushSize];
       this.onPaintActivateThrottled(paintBbox, this.props.onActivateResults);
     });

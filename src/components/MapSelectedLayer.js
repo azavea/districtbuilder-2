@@ -4,6 +4,7 @@ import geobuf from 'geobuf';
 import Pbf from 'pbf';
 
 import { withMap } from './Context';
+import { districtColors } from '../constants';
 
 class MapSelectedLayer extends Component {
   componentDidMount() {
@@ -36,7 +37,6 @@ class MapSelectedLayer extends Component {
 const mapStateToProps = (state, props) => {
   return {
     selectedIds: state.historyState.present.selectedIds,
-    lockedDistricts: state.lockedDistricts,
   };
 };
 

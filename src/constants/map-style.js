@@ -148,7 +148,7 @@ export const mapboxStyle = {
           '#000',
           'transparent',
         ],
-        'fill-opacity': 0.2,
+        'fill-opacity': 0.25,
       },
     },
     {
