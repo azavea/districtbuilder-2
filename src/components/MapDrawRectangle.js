@@ -51,7 +51,6 @@ class MapDrawHandler extends Component {
       switch (selectionLevel) {
         case 'geounit':
           this.removeHover();
-
           this.hovered = map
             .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
               layers: ['geounits-fill'],
@@ -80,6 +79,7 @@ class MapDrawHandler extends Component {
           ]);
           break;
         case 'county':
+          this.removeHover();
           action([
             ...new Set(
               flat(
@@ -116,7 +116,7 @@ class MapDrawHandler extends Component {
 
     this.props.map.on('mousemove', e => {
       const { lng, lat } = e.lngLat;
-      const brushSize = 0.0001;
+      const brushSize = 0.05;
       const paintBbox = [lng - brushSize, lat - brushSize, lng + brushSize, lat + brushSize];
       this.onPaintActivateThrottled(paintBbox, this.props.onActivateResults);
     });
