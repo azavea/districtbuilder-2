@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 import { bbox } from '@turf/turf';
 import flat from 'array.prototype.flat';
 
 import { activateResults, selectResults } from '../actions';
 import { withMap } from './Context';
+import { geounitLayerName } from '../constants';
 
 class MapDrawHandler extends Component {
+  hovered = [];
   componentDidMount() {
     this.limitDrawFilter = (drawLimit, rectangleStartId, countyFps) => {
       return drawLimit ? rectangleStartId === countyFps : true;
@@ -34,19 +37,41 @@ class MapDrawHandler extends Component {
 
       switch (selectionLevel) {
         case 'geounit':
+          this.hovered.forEach(feature => {
+            this.props.map.setFeatureState(
+              {
+                source: 'blockgroups',
+                sourceLayer: geounitLayerName,
+                id: feature.id,
+              },
+              { hover: false }
+            );
+          });
+          this.hovered = map
+            .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
+              layers: ['geounits-fill'],
+            })
+            .filter(feature => {
+              return (
+                // this.selectedFilter(selectedDistrict, districts, feature.properties.id) &&
+                this.lockedFilter(lockedIds, districts, feature.properties.id)
+              );
+            });
+          // Is it necessary to use the ...new Set opperation? Might be able to remove
           action([
             ...new Set(
-              map
-                .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
-                  layers: ['geounits-fill'],
-                })
-                .filter(feature => {
-                  return (
-                    // this.selectedFilter(selectedDistrict, districts, feature.properties.id) &&
-                    this.lockedFilter(lockedIds, districts, feature.properties.id)
-                  );
-                })
-                .map(feature => feature.properties.id)
+              this.hovered.map(feature => {
+                console.log(feature.id);
+                this.props.map.setFeatureState(
+                  {
+                    source: 'blockgroups',
+                    sourceLayer: geounitLayerName,
+                    id: feature.id,
+                  },
+                  { hover: true }
+                );
+                return feature.properties.id;
+              })
             ),
           ]);
           break;
@@ -71,7 +96,7 @@ class MapDrawHandler extends Component {
     };
 
     this.onRectangleActivateDebounced = debounce(this.onRectangleActivate, 200, { maxWait: 500 });
-    this.onPaintActivateDebounced = debounce(this.onRectangleActivate, 1, { maxWait: 1 });
+    this.onPaintActivateThrottled = throttle(this.onRectangleActivate, 50, { maxWait: 50 });
 
     this.props.map.on('draw.create', e => {
       this.onRectangleActivate(bbox(e.features[0]), this.props.onSelectResults);
@@ -87,9 +112,9 @@ class MapDrawHandler extends Component {
 
     this.props.map.on('mousemove', e => {
       const { lng, lat } = e.lngLat;
-      const brushSize = 0.1;
+      const brushSize = 0.03;
       const paintBbox = [lng - brushSize, lat - brushSize, lng + brushSize, lat + brushSize];
-      // this.onRectangleActivate(paintBbox, this.props.onActivateResults);
+      this.onPaintActivateThrottled(paintBbox, this.props.onActivateResults);
     });
   }
   render() {

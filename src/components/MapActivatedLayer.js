@@ -5,13 +5,13 @@ import { withMap } from './Context';
 
 class MapActivatedLayer extends Component {
   componentDidUpdate() {
-    const { activatedIds } = this.props;
-    const expression = ['in', 'id'].concat(
-      activatedIds.map(function(id) {
-        return id;
-      })
-    );
-    this.props.map.setFilter('hover-fill', expression);
+    // const { activatedIds } = this.props;
+    // const expression = ['in', 'id'].concat(
+    //   activatedIds.map(function(id) {
+    //     return id;
+    //   })
+    // );
+    // this.props.map.setFilter('hover-fill', expression);
   }
   render() {
     return <div className="map-activated-layer" />;
@@ -20,7 +20,7 @@ class MapActivatedLayer extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    activatedIds: state.activatedIds,
+    // activatedIds: state.activatedIds,
   };
 };
 

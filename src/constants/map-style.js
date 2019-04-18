@@ -142,8 +142,13 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': geounitLayerName,
       paint: {
-        'fill-color': 'red',
-        'fill-opacity': 0.25,
+        'fill-color': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          '#000',
+          'transparent',
+        ],
+        'fill-opacity': 0.2,
       },
     },
     {
