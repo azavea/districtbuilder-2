@@ -1,7 +1,10 @@
 import { ActionCreators } from 'redux-undo';
 
 export const ACTIVATE_RESULTS = 'ACTIVATE_RESULTS';
+export const ACTIVATE_PAINT_RESULTS = 'ACTIVATE_PAINT_RESULTS';
+export const HOVER_RESULTS = 'HOVER_RESULTS';
 export const SELECT_RESULTS = 'SELECT_RESULTS';
+export const SELECT_ACTIVATED = 'SELECT_ACTIVATED';
 export const DISTRICT_SELECTED = 'DISTRICT_SELECTED';
 export const FETCH_SPATIAL_INDEX = 'FETCH_SPATIAL_INDEX';
 export const GENERATE_GEOMETRIES = 'GENERATE_GEOMETRIES';
@@ -31,6 +34,8 @@ export const CHANGE_OPTION_SIDEBAR_POLITICS = 'CHANGE_OPTION_SIDEBAR_POLITICS';
 export const CHANGE_OPTION_MAP_COUNTY_NAME = 'CHANGE_OPTION_MAP_COUNTY_NAME';
 export const CHANGE_OPTION_MAP_LABELS = 'CHANGE_OPTION_MAP_LABELS';
 export const CHANGE_OPTION_MAP_BASEMAP = 'CHANGE_OPTION_MAP_BASEMAP';
+export const CLICK_DOWN = 'CLICK_DOWN';
+export const SPACE_DOWN = 'SPACE_DOWN';
 
 export const generateAssignedDistricts = assignedDistricts => {
 	return (dispatch, getState) => {
@@ -80,6 +85,20 @@ export const rectangleStart = e => (dispatch, getState) => {
 
 export const activateResults = results => ({ type: ACTIVATE_RESULTS, payload: results });
 
+export const activatePaintResults = results => ({ type: ACTIVATE_PAINT_RESULTS, payload: results });
+
+export const selectActivated = () => {
+	return (dispatch, getState) => {
+		const { activatedIds } = getState();
+		dispatch({
+			type: SELECT_ACTIVATED,
+			payload: activatedIds,
+		});
+	};
+};
+
+export const hoverResults = results => ({ type: HOVER_RESULTS, payload: results });
+
 export const selectResults = results => ({ type: SELECT_RESULTS, payload: results });
 
 export const lockDistrict = districtId => ({ type: LOCK_DISTRICT, payload: districtId });
@@ -124,3 +143,5 @@ export const changeOptionMapCountyName = createOptionAction(CHANGE_OPTION_MAP_CO
 export const changeOptionMapLabels = createOptionAction(CHANGE_OPTION_MAP_LABELS);
 export const changeOptionsMenu = createOptionAction(CHANGE_OPTIONS_MENU);
 export const changeOptionMapBasemap = createOptionAction(CHANGE_OPTION_MAP_BASEMAP);
+export const clickDown = createOptionAction(CLICK_DOWN);
+export const spaceDown = createOptionAction(SPACE_DOWN);

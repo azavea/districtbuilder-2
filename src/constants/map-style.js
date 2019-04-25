@@ -29,6 +29,13 @@ export const mapboxStyle = {
         geometry: { type: 'Polygon', coordinates: [[]] },
       },
     },
+    // hover: {
+    //   type: 'geojson',
+    //   data: {
+    //     type: 'Feature',
+    //     geometry: { type: 'Polygon', coordinates: [[]] },
+    //   },
+    // },
   },
   layers: [
     {
@@ -72,7 +79,13 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': geounitLayerName,
       paint: {
-        'fill-color': 'transparent',
+        'fill-color': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          '#000',
+          'transparent',
+        ],
+        'fill-opacity': 0.5,
       },
     },
     {
@@ -81,7 +94,13 @@ export const mapboxStyle = {
       source: 'blockgroups',
       'source-layer': countyLayerName,
       paint: {
-        'fill-color': 'transparent',
+        'fill-color': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          '#000',
+          'transparent',
+        ],
+        'fill-opacity': 0.5,
       },
     },
     {
@@ -95,16 +114,16 @@ export const mapboxStyle = {
         'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1, 4, 1.5, 12, 4],
       },
     },
-    {
-      id: 'counties-outline-highlight',
-      type: 'fill',
-      source: 'blockgroups',
-      'source-layer': countyLayerName,
-      paint: {
-        'fill-color': '#000',
-        'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.1, 0],
-      },
-    },
+    // {
+    //   id: 'counties-outline-highlight',
+    //   type: 'fill',
+    //   source: 'blockgroups',
+    //   'source-layer': countyLayerName,
+    //   paint: {
+    //     'fill-color': '#000',
+    //     'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.1, 0],
+    //   },
+    // },
     {
       id: 'blockgroups-outline',
       type: 'line',
@@ -119,16 +138,6 @@ export const mapboxStyle = {
         visibility: 'none',
       },
     },
-    // {
-    //   id: 'blockgroups-outline-highlight',
-    //   type: 'fill',
-    //   source: 'blockgroups',
-    //   'source-layer': geounitLayerName,
-    //   paint: {
-    //     'fill-color': '#000',
-    //     'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.1, 0],
-    //   },
-    // },
     {
       id: 'districts-lock',
       type: 'fill',
@@ -139,6 +148,21 @@ export const mapboxStyle = {
       },
       filter: ['in', 'district', -1],
     },
+    // {
+    //   id: 'hover-fill',
+    //   type: 'fill',
+    //   source: 'blockgroups',
+    //   'source-layer': geounitLayerName,
+    //   paint: {
+    //     'fill-color': [
+    //       'case',
+    //       ['boolean', ['feature-state', 'hover'], false],
+    //       '#000',
+    //       'transparent',
+    //     ],
+    //     'fill-opacity': 0.5,
+    //   },
+    // },
     {
       id: 'highlight-fill',
       type: 'fill',
@@ -148,16 +172,16 @@ export const mapboxStyle = {
         'fill-opacity': 0.5,
       },
     },
-    {
-      id: 'highlight-line',
-      type: 'line',
-      source: 'highlight',
-      paint: {
-        'line-color': '#000',
-        'line-opacity': 1,
-        'line-width': 5,
-      },
-    },
+    // {
+    //   id: 'highlight-line',
+    //   type: 'line',
+    //   source: 'highlight',
+    //   paint: {
+    //     'line-color': '#000',
+    //     'line-opacity': 1,
+    //     'line-width': 5,
+    //   },
+    // },
     {
       id: 'town-small',
       type: 'symbol',
@@ -287,7 +311,7 @@ export const mapboxStyle = {
     {
       id: 'geounit-population-labels',
       type: 'symbol',
-      minzoom: 8,
+      minzoom: 8.5,
       source: 'blockgroups',
       'source-layer': 'geounitlabels',
       layout: {

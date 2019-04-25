@@ -19,7 +19,6 @@ import MapTooltip from './components/MapTooltip';
 import MapActions from './components/MapActions';
 import { generateAssignedDistricts } from './actions';
 import MapDownloadHandler from './components/MapDownloadHandler';
-import MapOptionsMenu from './components/MapOptionsMenu';
 import MapUndoHandler from './components/MapUndoHandler';
 import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
 

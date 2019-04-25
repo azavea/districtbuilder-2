@@ -3,21 +3,18 @@ import React from 'react';
 export const optionsDrawMode = [
 	{
 		value: 'pointer',
-		text: (
-			<span>
-				<i className="icon-hand-pointer" />
-			</span>
-		),
+		text: <i className="icon-hand-pointer" />,
 		tooltip: 'Use pointer tool',
 	},
 	{
 		value: 'rectangle',
-		text: (
-			<span>
-				<i className="icon-draw-square" />
-			</span>
-		),
+		text: <i className="icon-draw-square" />,
 		tooltip: 'Use rectangle draw tool',
+	},
+	{
+		value: 'paintbrush',
+		text: <i className="icon-paint-brush" />,
+		tooltip: 'Use brush tool',
 	},
 ];
 
@@ -79,6 +76,11 @@ export const optionsMapLabels = [
 		value: 'separator1',
 	},
 	{
+		type: 'title',
+		value: 'title1',
+		text: 'Places',
+	},
+	{
 		text: 'city names',
 		value: 'city',
 	},
@@ -91,27 +93,32 @@ export const optionsMapLabels = [
 		value: 'separator2',
 	},
 	{
-		text: 'total population',
-		value: 'pop-population',
+		type: 'title',
+		value: 'title2',
+		text: 'Population',
 	},
 	{
-		text: 'white population',
+		text: 'total',
+		value: 'pop',
+	},
+	{
+		text: 'white',
 		value: 'pop-white',
 	},
 	{
-		text: 'black population',
+		text: 'black',
 		value: 'pop-black',
 	},
 	{
-		text: 'asian population',
+		text: 'asian',
 		value: 'pop-asian',
 	},
 	{
-		text: 'native population',
+		text: 'native',
 		value: 'pop-native',
 	},
 	{
-		text: 'other population',
+		text: 'other',
 		value: 'pop-other',
 	},
 ];
