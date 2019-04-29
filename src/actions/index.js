@@ -3,6 +3,7 @@ import { ActionCreators } from 'redux-undo';
 export const ACTIVATE_RESULTS = 'ACTIVATE_RESULTS';
 export const SELECT_RESULTS = 'SELECT_RESULTS';
 export const DISTRICT_SELECTED = 'DISTRICT_SELECTED';
+export const IMPORT_DISTRICTS = 'IMPORT_DISTRICTS';
 export const FETCH_SPATIAL_INDEX = 'FETCH_SPATIAL_INDEX';
 export const GENERATE_GEOMETRIES = 'GENERATE_GEOMETRIES';
 export const GENERATE_GEOJSON = 'GENERATE_GEOJSON';
@@ -79,6 +80,8 @@ export const rectangleStart = e => (dispatch, getState) => {
 };
 
 export const activateResults = results => ({ type: ACTIVATE_RESULTS, payload: results });
+
+export const importDistricts = results => ({ type: IMPORT_DISTRICTS, payload: results });
 
 export const selectResults = results => ({ type: SELECT_RESULTS, payload: results });
 

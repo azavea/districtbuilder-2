@@ -13,6 +13,7 @@ import MapDrawHandler from './components/MapDrawHandler';
 import MapLayerHandler from './components/MapLayerHandler';
 import MapLabelHandler from './components/MapLabelHandler';
 import MapBasemapHandler from './components/MapBasemapHandler';
+import ImportGeo from './components/ImportGeo';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
 import KeyboardShortcutModal from './components/KeyboardShortcutModal';
 import MapTooltip from './components/MapTooltip';
@@ -64,6 +65,7 @@ class Builder extends Component {
             <MapActions />
             <Map>
               <MapDistrictLayer />
+              <ImportGeo />
               <MapHighlightLayer />
               <MapDrawHandler />
               <MapLayerHandler />

@@ -6,6 +6,7 @@ import {
 	ACTIVATE_RESULTS,
 	SELECT_RESULTS,
 	DISTRICT_SELECTED,
+	IMPORT_DISTRICTS,
 	GENERATE_ASSIGNED_DISTRICTS,
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
@@ -66,6 +67,8 @@ const districtColorsReducer = (colors = districtColors, { type, payload }) => {
 
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
+		case IMPORT_DISTRICTS:
+			return payload;
 		case GENERATE_ASSIGNED_DISTRICTS:
 			return districts ? districts : payload.assignedDistricts;
 		case ACCEPT_CHANGES:
