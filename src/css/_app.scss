@@ -745,3 +745,7 @@ button[disabled] {
   color: #666;
   display: inline-block;
 }
+
+.painting {
+  cursor: url('/images/paint.png') 0 14, default !important;
+}

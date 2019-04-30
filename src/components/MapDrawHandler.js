@@ -4,12 +4,61 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
 import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 import MapDrawRectangle from './MapDrawRectangle';
+import MapDrawPaint from './MapDrawPaint';
 import { drawStyle } from '../constants/map-style';
-import { pointerSelect, rectangleStart } from '../actions';
+import { pointerSelect, rectangleStart, clickDown, spaceDown, selectActivated } from '../actions';
 import { withMap } from './Context';
 
 class MapDrawHandler extends Component {
+  mouseDown = false;
+  spaceDown = false;
+  handleMouseDown = e => {
+    if (e.type === 'mousedown') {
+      this.props.onClickDown(true);
+    } else if (e.type === 'mouseup') {
+      this.props.onClickDown(false);
+      this.props.onSelectActivated();
+    }
+  };
+  onPaint = e => {
+    this.props.map.fire('paint', e);
+  };
+  onKeyInteraction = e => {
+    if (e.keyCode === 32) {
+      if (e.type === 'keydown') {
+        this.props.onSpaceDown(true);
+        this.props.map.dragPan.enable();
+        this.props.map.getCanvas().style.cursor = '';
+        this.props.map.getCanvas().classList.remove('painting');
+      } else {
+        this.props.onSpaceDown(false);
+        this.props.map.dragPan.disable();
+        this.props.map.getCanvas().classList.add('painting');
+      }
+    }
+  };
   changeMapDrawTool = () => {
+    if (this.props.drawMode === 'paintbrush') {
+      this.props.map.getCanvas().classList.add('painting');
+      setTimeout(() => {
+        this.props.map.dragPan.disable();
+      }, 0);
+      document.body.addEventListener('mousedown', this.handleMouseDown);
+      document.body.addEventListener('mouseup', this.handleMouseDown);
+      document.body.addEventListener('keydown', this.onKeyInteraction);
+      document.body.addEventListener('keyup', this.onKeyInteraction);
+      this.props.map.on('mousemove', this.onPaint);
+      this.props.map.on('mousedown', this.onPaint);
+    } else {
+      this.props.map.getCanvas().classList.remove('painting');
+      this.props.map.dragPan.enable();
+      document.body.removeEventListener('mousedown', this.handleMouseDown);
+      document.body.removeEventListener('mouseup', this.handleMouseDown);
+      document.body.removeEventListener('keydown', this.onKeyInteraction);
+      document.body.removeEventListener('keyup', this.onKeyInteraction);
+      this.props.map.off('mousemove', this.onPaint);
+      this.props.map.off('mousedown', this.onPaint);
+    }
     if (this.props.drawMode === 'pointer') {
       this.props.map.on('click', 'geounits-fill', this.props.onPointerSelect);
       this.props.map.getCanvas().style.cursor = 'pointer';
@@ -19,15 +68,12 @@ class MapDrawHandler extends Component {
     if (this.props.drawMode === 'rectangle') {
       this.myDrawControl = this.props.map.addControl(this.draw);
       this.draw.changeMode('draw_rectangle');
-      this.props.map.on('click', 'geounits-fill', this.props.onRectangleStart);
       this.props.map.getCanvas().style.cursor = 'crosshair';
     } else {
       if (this.myDrawControl) {
         this.props.map.removeControl(this.draw);
-      } else {
         this.myDrawControl = undefined;
       }
-      this.props.map.off('click', 'geounits-fill', this.props.onRectangleStart);
     }
   };
   componentDidMount() {
@@ -48,6 +94,7 @@ class MapDrawHandler extends Component {
     return (
       <div className="map-draw-handler">
         <MapDrawRectangle draw={this.draw} />
+        <MapDrawPaint />
       </div>
     );
   }
@@ -63,6 +110,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onPointerSelect: e => dispatch(pointerSelect(e)),
     onRectangleStart: e => dispatch(rectangleStart(e)),
+    onClickDown: e => dispatch(clickDown(e)),
+    onSpaceDown: e => dispatch(spaceDown(e)),
+    onSelectActivated: e => dispatch(selectActivated()),
   };
 };
 

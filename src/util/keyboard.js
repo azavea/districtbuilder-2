@@ -7,6 +7,10 @@ export const keymap = {
 		description: 'Use rectangle tool',
 		key: '2',
 	},
+	paintbrush: {
+		description: 'Use paintbrush tool',
+		key: '3',
+	},
 	previousDistrict: {
 		description: 'Previous district',
 		key: 'w',
@@ -51,6 +55,10 @@ export const keymapList = [
 	{
 		description: keymap.rectangle.description,
 		keys: [keymap.rectangle.key],
+	},
+	{
+		description: keymap.paintbrush.description,
+		keys: [keymap.paintbrush.key],
 	},
 	{
 		description: keymap.previousDistrict.description,

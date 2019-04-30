@@ -14,10 +14,12 @@ export const rectTooltipHtml = activeIds => {
 	};
 	activeIds.forEach(id => {
 		const geounit = window.dataFeatures[id];
-		popTotal.number += geounit.population;
-		popTotal.race.forEach(population => {
-			population.number += geounit[population.name];
-		});
+		if (geounit) {
+			popTotal.number += geounit.population;
+			popTotal.race.forEach(population => {
+				population.number += geounit[population.name];
+			});
+		}
 		popTotal.race.forEach(population => {
 			population.percent = `${(population.number / popTotal.number) * 100}%`;
 		});

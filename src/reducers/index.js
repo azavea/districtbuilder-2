@@ -4,7 +4,10 @@ import produce from 'immer';
 
 import {
 	ACTIVATE_RESULTS,
+	ACTIVATE_PAINT_RESULTS,
+	HOVER_RESULTS,
 	SELECT_RESULTS,
+	SELECT_ACTIVATED,
 	DISTRICT_SELECTED,
 	GENERATE_ASSIGNED_DISTRICTS,
 	SELECT_GEOUNIT,
@@ -23,6 +26,8 @@ import {
 	CHANGE_OPTION_MAP_LABELS,
 	CHANGE_OPTION_MAP_BASEMAP,
 	CHANGE_OPTIONS_MENU,
+	CLICK_DOWN,
+	SPACE_DOWN,
 } from '../actions';
 
 import { districtColors, lockedIdsTemplate } from '../constants';
@@ -90,16 +95,33 @@ const rectangleStartIdReducer = (countyfp = null, { type, payload }) => {
 	}
 };
 
-const activatedIdsReducer = (selectedIds = [], { type, payload }) => {
+const activatedIdsReducer = (activatedIds = [], { type, payload }) => {
 	switch (type) {
 		case ACTIVATE_RESULTS:
 			return payload;
+		case ACTIVATE_PAINT_RESULTS:
+			return [...new Set([...activatedIds, ...payload])];
+		case SELECT_RESULTS:
+		case ACCEPT_CHANGES:
+		case REJECT_CHANGES:
+		case SELECT_ACTIVATED:
+			return [];
+		default:
+			return activatedIds;
+	}
+};
+
+const hoveredIdsReducer = (hoveredIds = [], { type, payload }) => {
+	switch (type) {
+		case HOVER_RESULTS:
+			return payload;
+		case ACTIVATE_RESULTS:
 		case SELECT_RESULTS:
 		case ACCEPT_CHANGES:
 		case REJECT_CHANGES:
 			return [];
 		default:
-			return selectedIds;
+			return hoveredIds;
 	}
 };
 
@@ -128,8 +150,9 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 		case SELECT_RESULTS:
 			const newSelectedIds = payload;
 			return [...new Set([...selectedIds, ...newSelectedIds])];
+		case SELECT_ACTIVATED:
+			return [...new Set([...selectedIds, ...payload])];
 		case ACCEPT_CHANGES:
-			return [];
 		case REJECT_CHANGES:
 			return [];
 		default:
@@ -169,7 +192,7 @@ const createToggleReducer = (defaultOption, reducerName) => {
 };
 
 const undoableOptions = {
-	limit: 20,
+	limit: 25,
 	ignoreInitialState: true,
 	filter: action =>
 		[
@@ -177,6 +200,8 @@ const undoableOptions = {
 			'SELECT_GEOUNIT',
 			'LOCK_DISTRICT',
 			'ACCEPT_CHANGES',
+			'ACTIVATE_PAINT_RESULTS',
+			'SELECT_ACTIVATED',
 			'REJECT_CHANGES',
 			'DISTRICT_SELECTED',
 			'GENERATE_ASSIGNED_DISTRICTS',
@@ -194,6 +219,7 @@ export default combineReducers({
 		undoableOptions
 	),
 	activatedIds: activatedIdsReducer,
+	hoveredIds: hoveredIdsReducer,
 	geometry: geometryReducer,
 	districtColors: districtColorsReducer,
 	rectangleStartId: rectangleStartIdReducer,
@@ -208,7 +234,9 @@ export default combineReducers({
 	sidebarPoliticsDisplay: createOptionReducer('off', CHANGE_OPTION_SIDEBAR_POLITICS),
 	drawLimit: createToggleReducer(optionsDrawLimit[0].value, CHANGE_OPTION_DRAW_LIMIT),
 	mapCountyName: createToggleReducer(optionsMapCountyName[0].value, CHANGE_OPTION_MAP_COUNTY_NAME),
-	mapLabels: createOptionReducer(optionsMapLabels[2].value, CHANGE_OPTION_MAP_LABELS),
+	mapLabels: createOptionReducer(optionsMapLabels[3].value, CHANGE_OPTION_MAP_LABELS),
 	mapBasemap: createOptionReducer(optionsMapBasemap[0].value, CHANGE_OPTION_MAP_BASEMAP),
+	clickDown: createOptionReducer(false, CLICK_DOWN),
+	spaceDown: createOptionReducer(false, SPACE_DOWN),
 	hasActive: hasActiveReducer,
 });

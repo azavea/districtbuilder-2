@@ -92,13 +92,19 @@ class MapTooltip extends Component {
     }
   }
   render() {
-    const html = this.state.isDrawing
-      ? this.memoizeRectTooltipHtml(this.props.activeIds)
-      : this.memoizePointerTooltipHtml(
-          this.state.feature.id,
-          this.state.feature,
-          this.props.selectionLevel
-        );
+    let html;
+    if (this.state.isDrawing || this.props.clickDown) {
+      html = this.memoizeRectTooltipHtml(this.props.activeIds);
+    } else if (this.props.drawMode === 'paintbrush' && this.props.hoverIds.length > 1) {
+      html = this.memoizeRectTooltipHtml(this.props.hoverIds);
+    } else if (this.props.drawMode === 'paintbrush' && this.props.hoverIds.length > 1) {
+    } else {
+      html = this.memoizePointerTooltipHtml(
+        this.state.feature.id,
+        this.state.feature,
+        this.props.selectionLevel
+      );
+    }
     const showPopup = this.state.isDrawing || this.state.hover;
     const style = {
       transform: `translate3d(${this.state.x}px, ${this.state.y}px, 0)`,
@@ -117,6 +123,8 @@ const mapStateToProps = state => {
     selectionLevel: state.selectionLevel,
     drawMode: state.drawMode,
     activeIds: state.activatedIds,
+    hoverIds: state.hoveredIds,
+    clickDown: state.clickDown,
   };
 };
 

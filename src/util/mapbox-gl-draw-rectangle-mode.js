@@ -94,7 +94,7 @@ var DrawRectangle = {
 	},
 	// Whenever a user clicks on a key while focused on the map, it will be sent here
 	onKeyUp: function onKeyUp(state, e) {
-		if (e.keyCode === 27) return this.changeMode('simple_select');
+		// if (e.keyCode === 27) return this.changeMode('simple_select');
 	},
 	onStop: function onStop(state) {
 		doubleClickZoom.enable(this);

@@ -22,6 +22,7 @@ class KeyboardShortcuts extends Component {
       [
         keymap.pointer.key,
         keymap.rectangle.key,
+        keymap.paintbrush.key,
         keymap.previousDistrict.key,
         keymap.nextDistrict.key,
         keymap.accept.key,
@@ -40,6 +41,9 @@ class KeyboardShortcuts extends Component {
             break;
           case keymap.rectangle.key:
             this.props.onChangeOptionDrawMode('rectangle');
+            break;
+          case keymap.paintbrush.key:
+            this.props.onChangeOptionDrawMode('paintbrush');
             break;
           case keymap.previousDistrict.key:
             this.props.selectedDistrict > 0 &&
