@@ -27,6 +27,7 @@ class MapLabelHandler extends Component {
     const split = mapLabels.split('-');
     if (split[0] === 'pop') {
       if (selectionLevel === 'county') {
+        console.log(split[1]);
         map.setLayoutProperty('county-population-labels', 'visibility', 'visible');
         map.setLayoutProperty('county-population-labels', 'text-field', `{${split[1]}abbr}`);
         map.setLayoutProperty('geounit-population-labels', 'visibility', 'none');
