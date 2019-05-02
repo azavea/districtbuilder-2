@@ -24,16 +24,20 @@ class MapDrawHandler extends Component {
     this.props.map.fire('paint', e);
   };
   onKeyInteraction = e => {
-    if (e.keyCode === 32) {
-      if (e.type === 'keydown') {
-        this.props.onSpaceDown(true);
-        this.props.map.dragPan.enable();
-        this.props.map.getCanvas().style.cursor = '';
-        this.props.map.getCanvas().classList.remove('painting');
-      } else {
-        this.props.onSpaceDown(false);
-        this.props.map.dragPan.disable();
-        this.props.map.getCanvas().classList.add('painting');
+    switch (e.keyCode) {
+      case 32: {
+        if (e.type === 'keydown') {
+          if (!e.repeat) {
+            this.props.onSpaceDown(true);
+            this.props.map.dragPan.enable();
+            this.props.map.getCanvas().style.cursor = '';
+            this.props.map.getCanvas().classList.remove('painting');
+          }
+        } else {
+          this.props.onSpaceDown(false);
+          this.props.map.dragPan.disable();
+          this.props.map.getCanvas().classList.add('painting');
+        }
       }
     }
   };

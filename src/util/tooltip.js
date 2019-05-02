@@ -28,7 +28,7 @@ export const rectTooltipHtml = activeIds => {
 	if (popTotal.number > 0) {
 		html = (
 			<span>
-				<div className="fixed-title">{numberWithCommas(activeIds.length)} units</div>
+				<div className="fixed-title">{numberWithCommas(activeIds.length)} blockgroups</div>
 				<div className="population">{numberWithCommas(popTotal.number)}</div>
 				<div className="chart">
 					<div className="demographics">

@@ -7,9 +7,14 @@ const renderScore = score => {
 	if (score) {
 		return <div data-rh="Polsby-Popper score">{Math.round(score * 100)}%</div>;
 	}
-	return <div data-rh="Empty district">–</div>;
+	return <div data-rh="Empty district" />;
 };
 
 export function DistrictCompactnessScore(props) {
-	return <div className="district-compactness-score">{renderScore(props.score)}</div>;
+	const style = props.haschanged ? { opacity: 0.5 } : {};
+	return (
+		<div style={style} className="district-compactness-score">
+			{renderScore(props.score)}
+		</div>
+	);
 }

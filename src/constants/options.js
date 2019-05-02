@@ -14,9 +14,12 @@ export const optionsDrawMode = [
 	{
 		value: 'paintbrush',
 		text: <i className="icon-paint-brush" />,
-		tooltip: 'Use brush tool',
+		tooltip: 'Use brush draw tool',
 	},
 ];
+
+export const optionDrawCountyLimit = { value: false, text: 'Limit drawing within starting county' };
+export const optionDrawUnassigned = { value: false, text: 'Limit drawing to unassigned' };
 
 export const optionsSelectionLevel = [
 	{ value: 'county', text: 'Counties', tooltip: 'Select counties' },
@@ -81,11 +84,11 @@ export const optionsMapLabels = [
 		text: 'Places',
 	},
 	{
-		text: 'city names',
+		text: 'cities',
 		value: 'city',
 	},
 	{
-		text: 'county names',
+		text: 'counties',
 		value: 'county',
 	},
 	{
@@ -99,7 +102,7 @@ export const optionsMapLabels = [
 	},
 	{
 		text: 'total',
-		value: 'pop',
+		value: 'pop-population',
 	},
 	{
 		text: 'white',

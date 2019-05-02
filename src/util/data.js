@@ -33,3 +33,7 @@ export const abbreviateNumber = value => {
 	}
 	return newValue;
 };
+
+export const booleanToOnOff = bool => {
+	return bool ? 'ON' : 'OFF';
+};

@@ -21,6 +21,8 @@ import { generateAssignedDistricts } from './actions';
 import MapDownloadHandler from './components/MapDownloadHandler';
 import MapUndoHandler from './components/MapUndoHandler';
 import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
+import { ToastContainer, cssTransition } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const ReactHint = ReactHintFactory(React);
 
@@ -45,6 +47,18 @@ class Builder extends Component {
     return (
       <div className="builder">
         <KeyboardShortcuts />
+        <div>
+          <ToastContainer
+            transition={cssTransition({
+              enter: 'zoomIn',
+              exit: 'zoomOut',
+            })}
+            pauseOnHover={false}
+            hideProgressBar={true}
+            autoClose={5000}
+            position="bottom-center"
+          />
+        </div>
         <ReactHint autoPosition events={{ hover: true }} delay={{ show: 500, hide: 0 }} />
         <header>
           <div className="header-logo">

@@ -48,6 +48,8 @@ class DistrictsSidebar extends Component {
 						? diffColors.decrease
 						: diffColors.nochange;
 				const deviation = districtOld.population + districtNew.population - idealNumber;
+				const hasPopChanged = districtNew.population > 0;
+				const isZeroDistrict = index === 0;
 				return (
 					<div
 						className={'item ' + districtStatus}
@@ -79,10 +81,17 @@ class DistrictsSidebar extends Component {
 							)}
 						</div>
 						<div className="district-property">
-							{index !== 0 && districtNew.population === 0 && compactnessScores ? (
-								<DistrictCompactnessScore score={compactnessScores[index]} />
+							{!isZeroDistrict ? (
+								compactnessScores ? (
+									<DistrictCompactnessScore
+										haschanged={hasPopChanged}
+										score={compactnessScores[index]}
+									/>
+								) : (
+									<span />
+								)
 							) : (
-								<div data-rh="In progress">–</div>
+								<span>—</span>
 							)}
 						</div>
 						<div className="district-property no-padding-right">

@@ -5,11 +5,11 @@ import memoize from 'memoizee';
 
 import { withMap } from './Context';
 import { rectTooltipHtml, pointerTooltipHtml } from '../util/tooltip';
+import { changeActiveCounty } from '../actions';
 
 class MapTooltip extends Component {
   state = {
     hover: 0,
-    isDrawing: 0,
     point: {
       x: 0,
       y: 0,
@@ -29,22 +29,25 @@ class MapTooltip extends Component {
     },
   };
   onMouseMoveThrottled = throttle(e => {
-    e.features &&
+    if (e.features) {
+      const feature = e.features[0];
+      const county = feature.properties.countyfp;
+      const { activeCounty, clickDown, onChangeActiveCounty, rectangleInProgress } = this.props;
+      // If the user is not drawing and the county they are hovering on has changed, set the new
+      // as the active county
+      if (!clickDown && activeCounty !== county && !rectangleInProgress) {
+        onChangeActiveCounty(county);
+      }
       this.setState({
-        feature: e.features[0],
+        feature: feature,
         hover: 1,
         x: e.originalEvent.clientX,
         y: e.originalEvent.clientY,
       });
+    }
   }, 5);
   componentDidMount() {
     this.setEvents();
-    this.props.map.on('draw.create', () => {
-      this.setState({ isDrawing: 0 });
-    });
-    this.props.map.on('draw.start', () => {
-      this.setState({ isDrawing: 1 });
-    });
     this.props.map.on('drag', e => {
       this.setState({ x: e.originalEvent.clientX, y: e.originalEvent.clientY });
     });
@@ -93,11 +96,10 @@ class MapTooltip extends Component {
   }
   render() {
     let html;
-    if (this.state.isDrawing || this.props.clickDown) {
+    if (this.props.rectangleInProgress || this.props.clickDown) {
       html = this.memoizeRectTooltipHtml(this.props.activeIds);
-    } else if (this.props.drawMode === 'paintbrush' && this.props.hoverIds.length > 1) {
+    } else if (this.props.drawMode === 'paintbrush') {
       html = this.memoizeRectTooltipHtml(this.props.hoverIds);
-    } else if (this.props.drawMode === 'paintbrush' && this.props.hoverIds.length > 1) {
     } else {
       html = this.memoizePointerTooltipHtml(
         this.state.feature.id,
@@ -105,7 +107,7 @@ class MapTooltip extends Component {
         this.props.selectionLevel
       );
     }
-    const showPopup = this.state.isDrawing || this.state.hover;
+    const showPopup = this.props.rectangleInProgress || this.state.hover;
     const style = {
       transform: `translate3d(${this.state.x}px, ${this.state.y}px, 0)`,
       display: showPopup ? 'block' : 'none',
@@ -125,7 +127,21 @@ const mapStateToProps = state => {
     activeIds: state.activatedIds,
     hoverIds: state.hoveredIds,
     clickDown: state.clickDown,
+    activeCounty: state.activeCounty,
+    clickDown: state.clickDown,
+    rectangleInProgress: state.rectangleInProgress,
   };
 };
 
-export default withMap(connect(mapStateToProps)(MapTooltip));
+const mapDispatchToProps = dispatch => {
+  return {
+    onChangeActiveCounty: e => dispatch(changeActiveCounty(e)),
+  };
+};
+
+export default withMap(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(MapTooltip)
+);

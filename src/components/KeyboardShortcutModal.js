@@ -7,7 +7,7 @@ class MapDownloadHandler extends Component {
   render() {
     return (
       <Modal
-        size="mini"
+        size="tiny"
         trigger={
           <button>
             <i className="icon-keyboard-solid" />
