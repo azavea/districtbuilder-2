@@ -25,9 +25,12 @@ import {
 	CHANGE_OPTION_MAP_COUNTY_NAME,
 	CHANGE_OPTION_MAP_LABELS,
 	CHANGE_OPTION_MAP_BASEMAP,
-	CHANGE_OPTIONS_MENU,
 	CLICK_DOWN,
 	SPACE_DOWN,
+	CHANGE_ACTIVE_COUNTY,
+	CHANGE_RECTANGLE_IN_PROGRESS,
+	CHANGE_OPTION_DRAW_COUNTY_LIMIT,
+	CHANGE_OPTION_DRAW_UNASSIGNED,
 } from '../actions';
 
 import { districtColors, lockedIdsTemplate } from '../constants';
@@ -169,6 +172,15 @@ const lockedIdsReducer = (lockedIds = lockedIdsTemplate, { type, payload }) => {
 	}
 };
 
+const activeCountyReducer = (activeCounty = null, { type, payload }) => {
+	switch (type) {
+		case CHANGE_ACTIVE_COUNTY:
+			return payload;
+		default:
+			return activeCounty;
+	}
+};
+
 const createOptionReducer = (defaultOption, reducerName) => {
 	return (mode = defaultOption, { type, payload }) => {
 		switch (type) {
@@ -223,12 +235,15 @@ export default combineReducers({
 	geometry: geometryReducer,
 	districtColors: districtColorsReducer,
 	rectangleStartId: rectangleStartIdReducer,
+	activeCounty: activeCountyReducer,
+	hasActive: hasActiveReducer,
+	optionDrawCountyLimit: createOptionReducer(false, CHANGE_OPTION_DRAW_COUNTY_LIMIT),
+	optionDrawUnassigned: createOptionReducer(false, CHANGE_OPTION_DRAW_UNASSIGNED),
 	drawMode: createOptionReducer(optionsDrawMode[0].value, CHANGE_OPTION_DRAW_MODE),
 	selectionLevel: createOptionReducer(
 		optionsSelectionLevel[0].value,
 		CHANGE_OPTION_SELECTION_LEVEL
 	),
-	optionsMenu: createOptionReducer(false, CHANGE_OPTIONS_MENU),
 	mapNumber: createOptionReducer(optionsMapNumber[0].value, CHANGE_OPTION_MAP_NUMBER),
 	sidebarRaceDisplay: createOptionReducer('chart', CHANGE_OPTION_SIDEBAR_RACE),
 	sidebarPoliticsDisplay: createOptionReducer('off', CHANGE_OPTION_SIDEBAR_POLITICS),
@@ -238,5 +253,5 @@ export default combineReducers({
 	mapBasemap: createOptionReducer(optionsMapBasemap[0].value, CHANGE_OPTION_MAP_BASEMAP),
 	clickDown: createOptionReducer(false, CLICK_DOWN),
 	spaceDown: createOptionReducer(false, SPACE_DOWN),
-	hasActive: hasActiveReducer,
+	rectangleInProgress: createOptionReducer(false, CHANGE_RECTANGLE_IN_PROGRESS),
 });

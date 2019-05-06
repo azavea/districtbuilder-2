@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  font-weight: 400;
+  font-weight: 500;
   height: 100%;
   font-size: 15px;
   background: #ebf1f5;
@@ -639,7 +639,7 @@ button[disabled] {
 
 .district-name {
   display: inline-block;
-  width: 32px;
+  // width: 32px;
   opacity: 0.8;
 }
 
@@ -748,4 +748,62 @@ button[disabled] {
 
 .painting {
   cursor: url('/images/paint.png') 0 14, default !important;
+}
+
+.options-menu {
+  label {
+    display: flex;
+    &:not(:last-child) {
+      margin-bottom: 6px;
+    }
+  }
+  input {
+    margin-right: 8px;
+    position: relative;
+    top: 1px;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.zoomIn {
+  animation-name: zoomIn;
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.zoomOut {
+  animation-name: zoomOut;
+}
+
+.builder {
+  .Toastify__close-button--default {
+    color: #fff;
+  }
+  .Toastify__toast--default {
+    color: #fff;
+    background: #031321;
+    min-height: 46px;
+    padding: 6px 8px;
+  }
 }

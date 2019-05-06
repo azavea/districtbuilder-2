@@ -6,12 +6,10 @@ import flat from 'array.prototype.flat';
 import { hoverResults, activatePaintResults } from '../actions';
 import { withMap } from './Context';
 import { geounitLayerName, countyLayerName } from '../constants';
+import { assignedFilter, lockedFilter, countyFilter } from '../util/drawfilter';
 
 class MapDrawPaint extends Component {
   active = [];
-  lockedFilter = (lockedIds, districts, id) => {
-    return !lockedIds[districts[id]];
-  };
 
   removeHover = (active, sourceLayer) => {
     active.forEach(id => {
@@ -34,7 +32,15 @@ class MapDrawPaint extends Component {
   };
 
   onRectangleActivate = (bbox, action, type) => {
-    const { lockedIds, districts, map, selectionLevel } = this.props;
+    const {
+      lockedIds,
+      districts,
+      map,
+      selectionLevel,
+      optionDrawCountyLimit,
+      optionDrawUnassigned,
+      selectedDistrict,
+    } = this.props;
     const southWest = [bbox[0], bbox[1]];
     const northEast = [bbox[2], bbox[3]];
     const southWestPointPixel = this.props.map.project(southWest);
@@ -48,16 +54,23 @@ class MapDrawPaint extends Component {
             layers: ['geounits-fill'],
           })
           .filter(feature => {
-            return this.lockedFilter(lockedIds, districts, feature.properties.id);
+            return (
+              lockedFilter(lockedIds, districts, feature.properties.id) &&
+              (!optionDrawUnassigned ||
+                assignedFilter(districts, selectedDistrict, feature.properties.id)) &&
+              (!optionDrawCountyLimit ||
+                countyFilter(this.props.activeCounty, feature.properties.id))
+            );
           });
         this.active = hovered.map(feature => feature.id);
-        this.props.onHoverResults(this.active);
-        this.active.forEach(id => {
+        const activePropIds = hovered.map(feature => feature.properties.id);
+        this.props.onHoverResults(activePropIds);
+        hovered.forEach(feature => {
           this.props.map.setFeatureState(
             {
               source: 'blockgroups',
               sourceLayer: geounitLayerName,
-              id: id,
+              id: feature.id,
             },
             { hover: true }
           );
@@ -100,7 +113,7 @@ class MapDrawPaint extends Component {
         if (!this.props.spaceDown && (this.props.clickDown || type === 'mousedown')) {
           action(
             geounitIds.filter(id => {
-              return this.lockedFilter(lockedIds, districts, id);
+              return lockedFilter(lockedIds, districts, id) && assignedFilter(districts, id);
             })
           );
         }
@@ -111,7 +124,7 @@ class MapDrawPaint extends Component {
     }
   };
 
-  onPaintStrokeThrottled = throttle(this.onPaintStroke, 25);
+  onPaintStrokeThrottled = throttle(this.onPaintStroke, 10);
 
   componentDidUpdate(prevProps) {
     if (prevProps.selectionLevel !== this.props.selectionLevel) {
@@ -146,8 +159,12 @@ const mapStateToProps = state => {
     districts: state.historyState.present.districts,
     drawMode: state.drawMode,
     selectionLevel: state.selectionLevel,
+    selectedDistrict: state.historyState.present.selectedDistrict,
     clickDown: state.clickDown,
     spaceDown: state.spaceDown,
+    activeCounty: state.activeCounty,
+    optionDrawCountyLimit: state.optionDrawCountyLimit,
+    optionDrawUnassigned: state.optionDrawUnassigned,
   };
 };
 

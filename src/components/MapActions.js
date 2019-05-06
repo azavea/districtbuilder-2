@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Dropdown, Popup } from 'semantic-ui-react';
 
 import { OptionButtons } from './OptionButtons';
-import { Dropdown } from 'semantic-ui-react';
+import OptionsMenu from './OptionsMenu';
 
 import {
   changeOptionDrawMode,
@@ -41,6 +42,16 @@ class MapActions extends Component {
             action={this.props.onChangeOptionDrawMode}
             options={optionsDrawMode}
             selectedOption={this.props.drawMode}
+          />
+          <Popup
+            trigger={
+              <button>
+                <i className="icon-cog" />
+              </button>
+            }
+            content={<OptionsMenu />}
+            on="click"
+            position="bottom right"
           />
           <div className="header-divider" />
           <OptionButtons

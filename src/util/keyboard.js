@@ -45,6 +45,18 @@ export const keymap = {
 		key: 'shift+command+z',
 		alt: 'shift+ctrl+z',
 	},
+	pan: {
+		description: 'Hold to pan map when using brush tool',
+		key: 'space',
+	},
+	toggleDrawCounty: {
+		description: 'Limit draw to initial county',
+		key: 'c',
+	},
+	toggleDrawUnassigned: {
+		description: 'Limit draw to unassigned',
+		key: 'x',
+	},
 };
 
 export const keymapList = [
@@ -92,4 +104,13 @@ export const keymapList = [
 		description: keymap.redo.description,
 		keys: ['shift', '⌘', 'z'],
 	},
+	{
+		description: keymap.toggleDrawCounty.description,
+		keys: [keymap.toggleDrawCounty.key],
+	},
+	{
+		description: keymap.toggleDrawUnassigned.description,
+		keys: [keymap.toggleDrawUnassigned.key],
+	},
+	{ description: keymap.pan.description, keys: ['space'] },
 ];

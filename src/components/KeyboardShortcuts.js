@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
+import { toast } from 'react-toastify';
 
 import { keymap } from '../util/keyboard';
+import { booleanToOnOff } from '../util/data';
 
 import {
   undo,
@@ -12,7 +14,10 @@ import {
   acceptChanges,
   rejectChanges,
   selectDistrict,
+  changeOptionDrawCountyLimit,
+  changeOptionDrawUnassigned,
 } from '../actions';
+
 import { districtNum } from '../constants';
 import { optionsSelectionLevel } from '../constants/options';
 
@@ -29,6 +34,8 @@ class KeyboardShortcuts extends Component {
         keymap.reject.key,
         keymap.counties.key,
         keymap.geounit.key,
+        keymap.toggleDrawCounty.key,
+        keymap.toggleDrawUnassigned.key,
         keymap.undo.key,
         keymap.undo.alt,
         keymap.redo.key,
@@ -53,6 +60,24 @@ class KeyboardShortcuts extends Component {
             this.props.selectedDistrict < districtNum &&
               this.props.onSelectDistrict(this.props.selectedDistrict + 1);
             break;
+
+          case keymap.toggleDrawCounty.key:
+            this.props.onChangeOptionDrawCountyLimit(!this.props.optionDrawCountyLimit);
+            toast(
+              `${booleanToOnOff(this.props.optionDrawCountyLimit)}: ${
+                keymap.toggleDrawCounty.description
+              }`
+            );
+            break;
+          case keymap.toggleDrawUnassigned.key:
+            this.props.onChangeOptionDrawUnassigned(!this.props.optionDrawUnassigned);
+            toast(
+              `${booleanToOnOff(this.props.optionDrawUnassigned)}: ${
+                keymap.toggleDrawUnassigned.description
+              }`
+            );
+            break;
+
           case keymap.accept.key:
             this.props.onAcceptChanges();
             break;
@@ -90,6 +115,8 @@ const mapStateToProps = state => {
   return {
     selectedDistrict: state.historyState.present.selectedDistrict,
     selectionLevel: state.selectionLevel,
+    optionDrawCountyLimit: state.optionDrawCountyLimit,
+    optionDrawUnassigned: state.optionDrawUnassigned,
   };
 };
 
@@ -98,6 +125,8 @@ const mapDispatchToProps = dispatch => {
     onChangeOptionSelectionLevel: option => dispatch(changeOptionSelectionLevel(option)),
     onChangeOptionDrawMode: option => dispatch(changeOptionDrawMode(option)),
     onSelectDistrict: districtId => dispatch(selectDistrict(districtId)),
+    onChangeOptionDrawCountyLimit: option => dispatch(changeOptionDrawCountyLimit(option)),
+    onChangeOptionDrawUnassigned: option => dispatch(changeOptionDrawUnassigned(option)),
     onAcceptChanges: () => dispatch(acceptChanges()),
     onRejectChanges: () => dispatch(rejectChanges()),
     onUndo: () => dispatch(undo()),
