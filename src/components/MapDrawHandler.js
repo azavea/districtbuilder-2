@@ -12,7 +12,7 @@ import { withMap } from './Context';
 class MapDrawHandler extends Component {
   mouseDown = false;
   spaceDown = false;
-  handleMouseDown = e => {
+  handleMouseEvents = e => {
     if (e.type === 'mousedown') {
       this.props.onClickDown(true);
     } else if (e.type === 'mouseup') {
@@ -47,19 +47,19 @@ class MapDrawHandler extends Component {
       setTimeout(() => {
         this.props.map.dragPan.disable();
       }, 0);
-      document.body.addEventListener('mousedown', this.handleMouseDown);
-      document.body.addEventListener('mouseup', this.handleMouseDown);
       document.body.addEventListener('keydown', this.onKeyInteraction);
       document.body.addEventListener('keyup', this.onKeyInteraction);
+      this.props.map.on('mousedown', this.handleMouseEvents);
+      this.props.map.on('mouseup', this.handleMouseEvents);
       this.props.map.on('mousemove', this.onPaint);
       this.props.map.on('mousedown', this.onPaint);
     } else {
       this.props.map.getCanvas().classList.remove('painting');
       this.props.map.dragPan.enable();
-      document.body.removeEventListener('mousedown', this.handleMouseDown);
-      document.body.removeEventListener('mouseup', this.handleMouseDown);
       document.body.removeEventListener('keydown', this.onKeyInteraction);
       document.body.removeEventListener('keyup', this.onKeyInteraction);
+      this.props.map.on('mousedown', this.handleMouseEvents);
+      this.props.map.on('mouseup', this.handleMouseEvents);
       this.props.map.off('mousemove', this.onPaint);
       this.props.map.off('mousedown', this.onPaint);
     }
