@@ -58,8 +58,8 @@ class MapDrawHandler extends Component {
       this.props.map.dragPan.enable();
       document.body.removeEventListener('keydown', this.onKeyInteraction);
       document.body.removeEventListener('keyup', this.onKeyInteraction);
-      this.props.map.on('mousedown', this.handleMouseEvents);
-      this.props.map.on('mouseup', this.handleMouseEvents);
+      this.props.map.off('mousedown', this.handleMouseEvents);
+      this.props.map.off('mouseup', this.handleMouseEvents);
       this.props.map.off('mousemove', this.onPaint);
       this.props.map.off('mousedown', this.onPaint);
     }
