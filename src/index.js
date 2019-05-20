@@ -10,15 +10,19 @@ import Builder from './Builder';
 import About from './About';
 import reducers from './reducers';
 
-let store = createStore(
-	reducers,
-	compose(
-		applyMiddleware(thunk),
-		process.env.NODE_ENV === 'development' &&
-			window.__REDUX_DEVTOOLS_EXTENSION__ &&
-			window.__REDUX_DEVTOOLS_EXTENSION__()
-	)
-);
+let store;
+
+if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+	store = createStore(
+		reducers,
+		compose(
+			applyMiddleware(thunk),
+			window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+		)
+	);
+} else {
+	store = createStore(reducers, compose(applyMiddleware(thunk)));
+}
 
 const routing = (
 	<Provider store={store}>
