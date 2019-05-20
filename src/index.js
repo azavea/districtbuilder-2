@@ -12,7 +12,7 @@ import reducers from './reducers';
 
 let store;
 
-if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+if (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') {
 	store = createStore(
 		reducers,
 		compose(
