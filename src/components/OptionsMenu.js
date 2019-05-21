@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import geobuf from 'geobuf';
-import Pbf from 'pbf';
 
 import { OptionToggle } from './OptionToggle';
 import { changeOptionDrawCountyLimit, changeOptionDrawUnassigned } from '../actions';
-
 import { optionDrawCountyLimit, optionDrawUnassigned } from '../constants/options';
 
 class OptionsMenu extends Component {
-  componentDidMount() {}
-  componentDidUpdate() {}
   render() {
     return (
-      // changeOptionDrawCountyLimit
-      // changeOptionDrawUnassigned
       <div className="options-menu">
         <OptionToggle
           action={this.props.onChangeOptionDrawCountyLimit}

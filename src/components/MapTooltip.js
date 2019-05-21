@@ -128,7 +128,6 @@ const mapStateToProps = state => {
     hoverIds: state.hoveredIds,
     clickDown: state.clickDown,
     activeCounty: state.activeCounty,
-    clickDown: state.clickDown,
     rectangleInProgress: state.rectangleInProgress,
   };
 };

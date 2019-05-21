@@ -11,7 +11,6 @@ import {
   activateResults,
   selectResults,
   changeActiveCounty,
-  rectangleInProgress,
   changeRectangleInProgress,
 } from '../actions';
 
@@ -19,8 +18,6 @@ class MapDrawHandler extends Component {
   componentDidMount() {
     this.onRectangleActivate = (rectangle, action) => {
       const {
-        drawLimit,
-        rectangleStartId,
         lockedIds,
         districts,
         map,
