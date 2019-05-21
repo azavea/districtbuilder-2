@@ -49,7 +49,7 @@ class MapDrawPaint extends Component {
     switch (selectionLevel) {
       case 'geounit': {
         this.removeHover(this.active, geounitLayerName);
-        var hovered = map
+        const hovered = map
           .queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
             layers: ['geounits-fill'],
           })
@@ -88,7 +88,7 @@ class MapDrawPaint extends Component {
       }
       case 'county': {
         this.removeHover(this.active, countyLayerName);
-        var hovered = map.queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
+        const hovered = map.queryRenderedFeatures([southWestPointPixel, northEastPointPixel], {
           layers: ['counties-fill'],
         });
         this.active = hovered.map(feature => feature.id);
@@ -113,7 +113,7 @@ class MapDrawPaint extends Component {
         if (!this.props.spaceDown && (this.props.clickDown || type === 'mousedown')) {
           action(
             geounitIds.filter(id => {
-              return lockedFilter(lockedIds, districts, id) && assignedFilter(districts, id);
+              return lockedFilter(lockedIds, districts, id);
             })
           );
         }

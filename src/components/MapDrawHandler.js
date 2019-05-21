@@ -38,7 +38,10 @@ class MapDrawHandler extends Component {
           this.props.map.dragPan.disable();
           this.props.map.getCanvas().classList.add('painting');
         }
+        break;
       }
+      default:
+        break;
     }
   };
   changeMapDrawTool = () => {
