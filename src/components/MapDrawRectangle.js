@@ -65,7 +65,7 @@ class MapDrawHandler extends Component {
               ).filter(id => {
                 return (
                   lockedFilter(lockedIds, districts, id) &&
-                  assignedFilter(districts, selectedDistrict, id)
+                  (!optionDrawUnassigned || assignedFilter(districts, selectedDistrict, id))
                 );
               })
             ),
