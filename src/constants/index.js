@@ -10,7 +10,7 @@ export const countyLayerName = 'countylines';
 
 export const demographicTypes = ['white', 'black', 'asian', 'native', 'other'];
 export const populationTypes = ['population', ...demographicTypes];
-export const districtNum = 23;
+export const districtNum = 18;
 export const bucketNum = districtNum + 1;
 export const districtIds = [...Array(bucketNum).keys()];
 export const lockedIdsTemplate = [...Array(bucketNum)];
