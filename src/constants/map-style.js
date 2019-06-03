@@ -313,12 +313,12 @@ export const mapboxStyle = {
       type: 'symbol',
       minzoom: 8.5,
       source: 'blockgroups',
-      'source-layer': 'geounitlabels',
+      'source-layer': 'bglabels',
       layout: {
         'text-size': 12,
         'symbol-spacing': 1,
         'text-padding': 3,
-        'text-field': '{native}',
+        'text-field': '{hispanic}',
         'text-max-width': 7,
         'text-font': ['GR'],
         visibility: 'none',
@@ -376,8 +376,8 @@ export const mapboxStyle = {
       },
     },
   ],
-  sprite: window.location.origin + '/data/sprites/sprite',
-  glyphs: window.location.origin + '/data/fonts/{fontstack}/{range}.pbf',
+  sprite: window.location.origin + '/sprites/sprite',
+  glyphs: window.location.origin + '/fonts/{fontstack}/{range}.pbf',
 };
 
 export const drawStyle = [

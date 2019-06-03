@@ -32,7 +32,7 @@ export const optionsMapChoropleth = [
 	{ value: 'white', text: 'White' },
 	{ value: 'black', text: 'Black' },
 	{ value: 'asian', text: 'Asian' },
-	{ value: 'native', text: 'Native' },
+	{ value: 'hispanic', text: 'Hispanic' },
 	{ value: 'other', text: 'Other' },
 ];
 
@@ -42,7 +42,7 @@ export const optionsMapNumber = [
 	{ value: 'white', text: 'White' },
 	{ value: 'black', text: 'Black' },
 	{ value: 'asian', text: 'Asian' },
-	{ value: 'native', text: 'Native' },
+	{ value: 'hispanic', text: 'Hispanic' },
 	{ value: 'other', text: 'Other' },
 ];
 
@@ -117,8 +117,8 @@ export const optionsMapLabels = [
 		value: 'pop-asian',
 	},
 	{
-		text: 'native',
-		value: 'pop-native',
+		text: 'hispanic',
+		value: 'pop-hispanic',
 	},
 	{
 		text: 'other',
@@ -190,8 +190,8 @@ export const optionsMapBasemap = [
 		type: 'choropleth',
 	},
 	{
-		text: 'native',
-		value: 'native',
+		text: 'hispanic',
+		value: 'hispanic',
 		type: 'choropleth',
 	},
 	{

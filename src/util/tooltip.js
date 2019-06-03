@@ -8,7 +8,7 @@ export const rectTooltipHtml = activeIds => {
 			{ name: 'white', number: 0, percent: undefined },
 			{ name: 'black', number: 0, percent: undefined },
 			{ name: 'asian', number: 0, percent: undefined },
-			{ name: 'native', number: 0, percent: undefined },
+			{ name: 'hispanic', number: 0, percent: undefined },
 			{ name: 'other', number: 0, percent: undefined },
 		],
 	};
@@ -60,7 +60,7 @@ export const rectTooltipHtml = activeIds => {
 							</div>
 						</div>
 						<div className="demographic-item">
-							<div className="demographic-label">Native</div>
+							<div className="demographic-label">Hispanic</div>
 							<div className="demographic-bar">
 								<div
 									className="demographic demographic-3"
@@ -93,7 +93,7 @@ export const pointerTooltipHtml = (id, feature, selectionLevel) => {
 	const popWhitePercent = (properties.white / properties.population) * 100;
 	const popBlackPercent = (properties.black / properties.population) * 100;
 	const popAsianPercent = (properties.asian / properties.population) * 100;
-	const popNativePercent = (properties.native / properties.population) * 100;
+	const popHispanicPercent = (properties.hispanic / properties.population) * 100;
 	const popOtherPercent = (properties.other / properties.population) * 100;
 	if (properties.population > 0) {
 		let title;
@@ -136,11 +136,11 @@ export const pointerTooltipHtml = (id, feature, selectionLevel) => {
 							</div>
 						</div>
 						<div className="demographic-item">
-							<div className="demographic-label">Native</div>
+							<div className="demographic-label">Hispanic</div>
 							<div className="demographic-bar">
 								<div
 									className="demographic demographic-3"
-									style={{ width: `${popNativePercent}%` }}
+									style={{ width: `${popHispanicPercent}%` }}
 								/>
 							</div>
 						</div>

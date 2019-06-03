@@ -6,6 +6,7 @@ import flat from 'array.prototype.flat';
 import { topoObjectName, districtIds } from '../constants';
 
 export const updateHighlight = (selectedIds, activatedIds, topoJSON) => {
+	console.log(topoJSON);
 	const allGeometries = topoJSON.objects[topoObjectName].geometries;
 	const allHighlightedIds = [...new Set([...selectedIds, ...activatedIds])];
 	const allHighlightedGeometries = allHighlightedIds.map(id => allGeometries[id]);

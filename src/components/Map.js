@@ -21,6 +21,8 @@ class Map extends Component {
       maxZoom: 15,
     });
 
+    this.map.dragRotate.disable();
+    this.map.touchZoomRotate.disableRotation();
     this.map.doubleClickZoom.disable();
 
     this.map.on('load', () => {

@@ -1,39 +1,18 @@
-# Function that returns abbreviated numbers for populations
-# You need to list all of the different types of populations in the `demographicsNames` and `demographics` arrays.
-abbreviateNumbers='
-	var demographicsNames = ["population", "white", "black", "asian", "native", "other"];
-	var demographics = [population, white, black, asian, native, other];
-	demographics.forEach((demo, key) => {
-		var value = demo; var newValue = value;
-		if (value >= 1000) {
-			var suffixes = ["", "k", "m", "b", "t"];
-			var suffixNum = Math.floor(("" + value).length / 3);
-			var shortValue = "";
-			for (var precision = 2; precision >= 1; precision--) {
-				shortValue = parseFloat(
-					(suffixNum != 0 ? value / Math.pow(1000, suffixNum) : value).toPrecision(precision)
-				);
-				var dotLessShortValue = (shortValue + "").replace(/[^a-zA-Z 0-9]+/g, "");
-				if (dotLessShortValue.length <= 2) {
-					break;
-				}
-			}
-			if (shortValue % 1 != 0) shortNum = shortValue.toFixed(1);
-			newValue = shortValue + suffixes[suffixNum];
-		}
-		this.properties = Object.assign({[demographicsNames[key]+"abbr"]: newValue}, this.properties);
-	})
-'
-abbrRemoveFields=fields=dotLessShortValue,suffixes,value,precision,suffixNum,shortValue,shortNum,newValue,demographics,demo,demographicsNames
-
 rm -rf _output
 
-mkdir _output _output/county _output/geounit _output/location _output/mbtiles
+mkdir _output _output/county _output/bg _output/precinct _output/location _output/mbtiles _output/upload
 
 # Export to GeoJSON
-mapshaper -i input/pa-bg.geojson -simplify 0.4 -o _output/geounit/geounit-lines.geojson format=geojson
-mapshaper -i input/us-counties.geojson -simplify 0.4 -filter 'statefp==="42"' -o _output/county/county-lines.geojson format=geojson
+mapshaper -i input/pa-bg.geojson -o _output/bg/bg-lines.geojson format=geojson
+mapshaper -i input/pa-counties.geojson -o _output/county/county-lines.geojson format=geojson
 
+node generateDataFeaturesJson.js -i _output/bg/bg-lines.geojson -o _output/upload/bg-features.json
+node generateCountyIndex.js -c _output/county/county-lines.geojson -g _output/bg/bg-lines.geojson -o _output/upload/county-index.json
+node generateAssignedDistricts.js -i _output/bg/bg-lines.geojson -o _output/upload/assigned-districts.json
+node abbreviatePopulationValues.js -i _output/bg/bg-lines.geojson -o _output/bg/bg-lines.geojson
+node abbreviatePopulationValues.js -i _output/county/county-lines.geojson -o _output/county/county-lines.geojson
+
+# Filter location labels to county
 mapshaper -i input/city-l.geojson -filter 'statefp==="42"' -o _output/location/city-l.geojson format=geojson
 mapshaper -i input/city-m.geojson -filter 'statefp==="42"' -o _output/location/city-m.geojson format=geojson
 mapshaper -i input/city-s.geojson -filter 'statefp==="42"' -o _output/location/city-s.geojson format=geojson
@@ -42,22 +21,17 @@ mapshaper -i input/town-m.geojson -filter 'statefp==="42"' -o _output/location/t
 mapshaper -i input/town-s.geojson -filter 'statefp==="42"' -o _output/location/town-s.geojson format=geojson
 
 # Generate Labels
-geojson-polygon-labels _output/geounit/geounit-lines.geojson > _output/geounit/geounit-labels.geojson
+geojson-polygon-labels _output/bg/bg-lines.geojson > _output/bg/bg-labels.geojson
 geojson-polygon-labels _output/county/county-lines.geojson > _output/county/county-labels.geojson
 
-# Abbreviate population numbers
-mapshaper _output/geounit/geounit-labels.geojson -each "$abbreviateNumbers" -drop $abbrRemoveFields -o force _output/geounit/geounit-labels.geojson
-mapshaper _output/county/county-labels.geojson -each "$abbreviateNumbers" -drop $abbrRemoveFields -o force _output/county/county-labels.geojson
-
 # Export to TopoJSON
-mapshaper -i input/pa-bg.geojson -simplify 0.4 -o _output/geounit/geounit-lines.topojson format=topojson
-mapshaper -i input/us-counties.geojson -simplify 0.4 -filter 'statefp==="42"' -o _output/county/county-lines.topojson format=topojson
+mapshaper -i _output/bg/bg-lines.geojson -simplify 0.5 -o _output/bg/bg-lines.topojson format=topojson drop-table
 
 # Generate vector tiles
-tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/geounit.mbtiles --generate-ids --detect-shared-borders --maximum-zoom=10 --minimum-zoom=4 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/geounit/geounit-lines.geojson
+tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/bg.mbtiles --generate-ids --detect-shared-borders --maximum-zoom=10 --minimum-zoom=4 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/bg/bg-lines.geojson
 tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/county.mbtiles --generate-ids --detect-shared-borders --maximum-zoom=10 --minimum-zoom=4 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/county/county-lines.geojson
 
-tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/geounit-labels.mbtiles --maximum-zoom=10 --minimum-zoom=4 -r1 _output/geounit/geounit-labels.geojson
+tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/bg-labels.mbtiles --maximum-zoom=10 --minimum-zoom=4 -r1 _output/bg/bg-labels.geojson
 tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/county-labels.mbtiles --maximum-zoom=10 --minimum-zoom=4 -r1 _output/county/county-labels.geojson
 
 tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/city-l.mbtiles --maximum-zoom=10 --minimum-zoom=4  _output/location/city-l.geojson
@@ -67,6 +41,8 @@ tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/town-l.mbtiles --maxi
 tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/town-m.mbtiles --maximum-zoom=10 --minimum-zoom=7 --drop-densest-as-needed  _output/location/town-m.geojson
 tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/town-s.mbtiles --maximum-zoom=10 --minimum-zoom=8 --drop-densest-as-needed  _output/location/town-s.geojson
 
-tile-join -pk --no-tile-compression -o _output/mbtiles/combined.mbtiles _output/mbtiles/geounit.mbtiles _output/mbtiles/county.mbtiles _output/mbtiles/city-l.mbtiles _output/mbtiles/city-m.mbtiles _output/mbtiles/city-s.mbtiles _output/mbtiles/town-l.mbtiles _output/mbtiles/town-m.mbtiles _output/mbtiles/town-s.mbtiles _output/mbtiles/geounit-labels.mbtiles _output/mbtiles/county-labels.mbtiles
+tile-join -pk --no-tile-compression -o _output/mbtiles/combined.mbtiles _output/mbtiles/bg.mbtiles _output/mbtiles/county.mbtiles _output/mbtiles/city-l.mbtiles _output/mbtiles/city-m.mbtiles _output/mbtiles/city-s.mbtiles _output/mbtiles/town-l.mbtiles _output/mbtiles/town-m.mbtiles _output/mbtiles/town-s.mbtiles _output/mbtiles/bg-labels.mbtiles _output/mbtiles/county-labels.mbtiles
 
-mb-util --image_format=pbf _output/mbtiles/combined.mbtiles _output/tiles
+mb-util --image_format=pbf _output/mbtiles/combined.mbtiles _output/upload/tiles
+
+cp _output/bg/bg-lines.topojson _output/upload/bg-lines.topojson

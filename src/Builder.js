@@ -32,8 +32,8 @@ class Builder extends Component {
   }
 
   componentDidMount() {
-    const featureRequest = fetch('data/pa-bg.json').then(res => res.json());
-    const countyIndexRequest = fetch('data/pa-county-index.json').then(res => res.json());
+    const featureRequest = fetch('data/bg-features.json').then(res => res.json());
+    const countyIndexRequest = fetch('data/county-index.json').then(res => res.json());
     const assignedDistricts = fetch('data/assigned-districts.json').then(res => res.json());
 
     Promise.all([featureRequest, countyIndexRequest, assignedDistricts]).then(responses => {

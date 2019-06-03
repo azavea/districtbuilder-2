@@ -48,8 +48,8 @@ class MapBasemapHandler extends Component {
         map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('asianw'));
         map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
         break;
-      case 'native':
-        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('nativew'));
+      case 'hispanic':
+        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('hispanicw'));
         map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
         break;
       case 'other':

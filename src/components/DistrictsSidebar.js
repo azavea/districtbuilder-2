@@ -27,6 +27,7 @@ class DistrictsSidebar extends Component {
 				window.dataFeatures,
 				districtsTemplate
 			);
+			console.log(districtsBaseData);
 			const districtsChangeData = calculatePopulationsNew(
 				this.props.selectedIds,
 				this.props.activatedIds,
@@ -47,9 +48,11 @@ class DistrictsSidebar extends Component {
 						: districtNew.population < 0
 						? diffColors.decrease
 						: diffColors.nochange;
-				const deviation = districtOld.population + districtNew.population - idealNumber;
-				const hasPopChanged = districtNew.population > 0;
 				const isZeroDistrict = index === 0;
+				const deviation = isZeroDistrict
+					? districtOld.population + districtNew.population
+					: districtOld.population + districtNew.population - idealNumber;
+				const hasPopChanged = districtNew.population > 0;
 				return (
 					<div
 						className={'item ' + districtStatus}

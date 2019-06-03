@@ -1,14 +1,13 @@
 import { colorOptionsSmall, colorOptionsLarge } from './colors';
 
-export const topoObjectName = 'pa-bg';
+export const topoObjectName = 'bg-lines';
 
-export const topoUrl = 'data/pa-bg.topojson';
-export const geoUrl = 'data/pa-bg.geojson';
+export const topoUrl = 'data/bg-lines.topojson';
 
-export const geounitLayerName = 'geounitlines';
+export const geounitLayerName = 'bglines';
 export const countyLayerName = 'countylines';
 
-export const demographicTypes = ['white', 'black', 'asian', 'native', 'other'];
+export const demographicTypes = ['white', 'black', 'asian', 'hispanic', 'other'];
 export const populationTypes = ['population', ...demographicTypes];
 export const districtNum = 18;
 export const bucketNum = districtNum + 1;
@@ -20,7 +19,7 @@ export const districtColors = districtIds.map(key => {
     : colorOptionsLarge[key];
 });
 
-export const idealNumber = 705687;
+export const idealNumber = 710583;
 
 export const districtsTemplate = districtIds.map(key => {
   const name = key > 0 ? key : '∅';
@@ -31,7 +30,7 @@ export const districtsTemplate = districtIds.map(key => {
     white: 0,
     black: 0,
     asian: 0,
-    native: 0,
+    hispanic: 0,
     other: 0,
   };
 });

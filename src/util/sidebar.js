@@ -1,12 +1,14 @@
 import { populationTypes } from '../constants';
 
 export const calculatePopulationsOld = (assignedDistricts, features, oldDistricts) => {
+
 	const newDistricts = JSON.parse(JSON.stringify(oldDistricts));
 	assignedDistricts.forEach((assignedDistrict, index) => {
 		populationTypes.forEach(type => {
 			newDistricts[assignedDistrict][type] += features[index][type];
 		});
 	});
+	console.log(newDistricts);
 	return newDistricts;
 };
 
