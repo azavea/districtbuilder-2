@@ -6,7 +6,7 @@ import { getOpacityExpress } from '../util/map';
 import { withMap } from './Context';
 
 class MapBasemapHandler extends Component {
-  componentDidUpdate() {
+  updateBasemap = () => {
     const { map, mapBasemap } = this.props;
     if (map.getSource('raster-basemap')) {
       map.removeLayer('raster-basemap').removeSource('raster-basemap');
@@ -59,6 +59,12 @@ class MapBasemapHandler extends Component {
       default:
         break;
     }
+  };
+  componentDidMount() {
+    this.updateBasemap();
+  }
+  componentDidUpdate() {
+    this.updateBasemap();
   }
   render() {
     return <div className="map-label-handler" />;

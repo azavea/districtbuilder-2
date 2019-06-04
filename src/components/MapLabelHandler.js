@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withMap } from './Context';
 
 class MapLabelHandler extends Component {
-  componentDidUpdate() {
+  displayLabels = () => {
     const { mapLabels, selectionLevel, map } = this.props;
     const cities = [
       'town-small',
@@ -39,6 +39,14 @@ class MapLabelHandler extends Component {
       map.setLayoutProperty('geounit-population-labels', 'visibility', 'none');
       map.setLayoutProperty('county-population-labels', 'visibility', 'none');
     }
+  };
+
+  componentDidMount() {
+    this.displayLabels();
+  }
+
+  componentDidUpdate() {
+    this.displayLabels();
   }
   render() {
     return <div className="map-label-handler" />;
