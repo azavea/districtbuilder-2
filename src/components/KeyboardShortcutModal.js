@@ -10,7 +10,7 @@ class MapDownloadHandler extends Component {
         size="tiny"
         trigger={
           <button>
-            <i className="icon-keyboard-solid" />
+            <i data-rh="Keyboard shortcuts" className="icon-keyboard-solid" />
           </button>
         }
       >

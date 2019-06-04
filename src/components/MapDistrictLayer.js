@@ -11,6 +11,16 @@ class MapDistrictLayer extends Component {
     this.props.onUpdatedDistricts(collection);
   };
 
+  drawDistricts = () => {
+    if (this.props.districts) {
+      window.spatialWorker.postMessage({
+        type: 'DISTRICTS',
+        assignedDistricts: this.props.districts,
+        lockedDistricts: this.props.lockedDistricts,
+      });
+    }
+  };
+
   componentDidMount() {
     window.spatialWorker.addEventListener('message', m => {
       switch (m.data.type) {
@@ -25,16 +35,11 @@ class MapDistrictLayer extends Component {
       }
       m = null;
     });
+    this.drawDistricts();
   }
 
   componentDidUpdate() {
-    if (this.props.districts) {
-      window.spatialWorker.postMessage({
-        type: 'DISTRICTS',
-        assignedDistricts: this.props.districts,
-        lockedDistricts: this.props.lockedDistricts,
-      });
-    }
+    this.drawDistricts();
   }
 
   render() {

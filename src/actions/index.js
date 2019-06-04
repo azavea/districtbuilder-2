@@ -39,6 +39,17 @@ export const CHANGE_ACTIVE_COUNTY = 'CHANGE_ACTIVE_COUNTY';
 export const CHANGE_RECTANGLE_IN_PROGRESS = 'CHANGE_RECTANGLE_IN_PROGRESS';
 export const CHANGE_OPTION_DRAW_COUNTY_LIMIT = 'CHANGE_OPTION_DRAW_COUNTY_LIMIT';
 export const CHANGE_OPTION_DRAW_UNASSIGNED = 'CHANGE_OPTION_DRAW_UNASSIGNED';
+export const RESET_ASSIGNMENT_AND_SELECTION = 'RESET_ASSIGNMENT_AND_SELECTION';
+
+export const resetAssignmentAndSelection = assignedDistricts => {
+	return (dispatch, getState) => {
+		const { districts } = getState().historyState.present;
+		dispatch({
+			type: RESET_ASSIGNMENT_AND_SELECTION,
+			payload: { districts },
+		});
+	};
+};
 
 export const generateAssignedDistricts = assignedDistricts => {
 	return (dispatch, getState) => {
@@ -61,7 +72,7 @@ export const generateSpatialIndex = geoJSON => ({ type: GENERATE_SPATIAL_INDEX, 
 export const generateCountyIndex = geoJSON => ({ type: GENERATE_COUNTY_INDEX, payload: geoJSON });
 
 export const pointerSelect = e => (dispatch, getState) => {
-	const id = e.features[0].properties.id;
+	const id = e.features[0].properties.blockgroup_id;
 	const countyfp = e.features[0].properties.countyfp;
 	const { historyState, selectionLevel } = getState();
 	const assignedDistricts = historyState.present.districts;

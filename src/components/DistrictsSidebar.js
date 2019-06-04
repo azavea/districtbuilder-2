@@ -27,7 +27,6 @@ class DistrictsSidebar extends Component {
 				window.dataFeatures,
 				districtsTemplate
 			);
-			console.log(districtsBaseData);
 			const districtsChangeData = calculatePopulationsNew(
 				this.props.selectedIds,
 				this.props.activatedIds,

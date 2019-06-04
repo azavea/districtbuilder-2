@@ -14,7 +14,7 @@ fs.readFile(args['c'], 'utf-8', function(err, countyGeojson) {
 			countyIndex[countyFeature.properties.countyfp].geounits = [];
 		});
 		geounitFeatures.forEach(function(geounitFeature) {
-			countyIndex[geounitFeature.properties.countyfp].geounits.push(geounitFeature.properties.id);
+			countyIndex[geounitFeature.properties.countyfp].geounits.push(geounitFeature.properties.blockgroup_id);
 		});
 		fs.writeFile(args['o'], JSON.stringify(countyIndex), err => {
 			if (err) console.log(err);

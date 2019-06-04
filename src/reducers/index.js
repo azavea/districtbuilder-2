@@ -31,6 +31,7 @@ import {
 	CHANGE_RECTANGLE_IN_PROGRESS,
 	CHANGE_OPTION_DRAW_COUNTY_LIMIT,
 	CHANGE_OPTION_DRAW_UNASSIGNED,
+	RESET_ASSIGNMENT_AND_SELECTION,
 } from '../actions';
 
 import { districtColors, lockedIdsTemplate } from '../constants';
@@ -82,6 +83,12 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 					draft[id] = payload.selectedDistrict;
 				});
 			});
+		case RESET_ASSIGNMENT_AND_SELECTION:
+			const foo = payload.districts.map(() => {
+				return 0;
+			});
+			console.log(foo);
+			return foo;
 		default:
 			return districts;
 	}
@@ -143,6 +150,8 @@ const hasActiveReducer = (selectedIds = false, { type, payload }) => {
 
 const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 	switch (type) {
+		case RESET_ASSIGNMENT_AND_SELECTION:
+			return [];
 		case SELECT_GEOUNIT:
 			const idIndex = selectedIds.indexOf(payload.id);
 			if (idIndex === -1) {
