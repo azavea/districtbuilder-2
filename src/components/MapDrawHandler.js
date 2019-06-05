@@ -6,10 +6,13 @@ import DrawRectangle from '../util/mapbox-gl-draw-rectangle-mode';
 import MapDrawRectangle from './MapDrawRectangle';
 import MapDrawPaint from './MapDrawPaint';
 import { drawStyle } from '../constants/map-style';
-import { pointerSelect, rectangleStart, clickDown, spaceDown, selectActivated } from '../actions';
+import { pointerSelect, clickDown, spaceDown, selectActivated } from '../actions';
 import { withMap } from './Context';
 
 class MapDrawHandler extends Component {
+  state = {
+    draw: undefined,
+  };
   mouseDown = false;
   spaceDown = false;
   handleMouseEvents = e => {
@@ -25,6 +28,7 @@ class MapDrawHandler extends Component {
   };
   onKeyInteraction = e => {
     switch (e.keyCode) {
+      // Spacebar
       case 32: {
         if (e.type === 'keydown') {
           if (!e.repeat) {
@@ -73,12 +77,12 @@ class MapDrawHandler extends Component {
       this.props.map.off('click', 'geounits-fill', this.props.onPointerSelect);
     }
     if (this.props.drawMode === 'rectangle') {
-      this.myDrawControl = this.props.map.addControl(this.draw);
-      this.draw.changeMode('draw_rectangle');
+      this.myDrawControl = this.props.map.addControl(this.state.draw);
+      this.state.draw.changeMode('draw_rectangle');
       this.props.map.getCanvas().style.cursor = 'crosshair';
     } else {
       if (this.myDrawControl) {
-        this.props.map.removeControl(this.draw);
+        this.props.map.removeControl(this.state.draw);
         this.myDrawControl = undefined;
       }
     }
@@ -86,13 +90,14 @@ class MapDrawHandler extends Component {
   componentDidMount() {
     this.modes = MapboxDraw.modes;
     this.modes.draw_rectangle = DrawRectangle;
-    this.draw = new MapboxDraw({
-      modes: this.modes,
-      boxSelect: false,
-      displayControlsDefault: false,
-      styles: drawStyle,
+    this.setState({
+      draw: new MapboxDraw({
+        modes: this.modes,
+        boxSelect: false,
+        displayControlsDefault: false,
+        styles: drawStyle,
+      }),
     });
-    this.changeMapDrawTool();
   }
   componentDidUpdate() {
     this.changeMapDrawTool();
@@ -100,7 +105,7 @@ class MapDrawHandler extends Component {
   render() {
     return (
       <div className="map-draw-handler">
-        <MapDrawRectangle draw={this.draw} />
+        <MapDrawRectangle draw={this.state.draw} />
         <MapDrawPaint />
       </div>
     );
@@ -116,7 +121,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onPointerSelect: e => dispatch(pointerSelect(e)),
-    onRectangleStart: e => dispatch(rectangleStart(e)),
     onClickDown: e => dispatch(clickDown(e)),
     onSpaceDown: e => dispatch(spaceDown(e)),
     onSelectActivated: e => dispatch(selectActivated()),

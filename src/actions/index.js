@@ -20,7 +20,6 @@ export const REJECT_CHANGES = 'REJECT_CHANGES';
 export const UPDATE_GEOMETRY = 'UPDATE_GEOMETRY';
 export const RECTANGLE_SELECT = 'RECTANGLE_SELECT';
 export const RECTANGLE_ACTIVATE = 'RECTANGLE_ACTIVATE';
-export const RECTANGLE_START = 'RECTANGLE_START';
 export const LOCK_DISTRICT = 'LOCK_DISTRICT';
 export const UPDATED_DISTRICTS = 'UPDATED_DISTRICTS';
 export const CHANGE_OPTION_DRAW_MODE = 'CHANGE_OPTION_DRAW_MODE';
@@ -89,12 +88,6 @@ export const pointerSelect = e => (dispatch, getState) => {
 			payload: { id, countyIds },
 		});
 	}
-};
-
-export const rectangleStart = e => (dispatch, getState) => {
-	const rectangleStartId = getState().rectangleStartId;
-	const countyfp = e.features[0].properties.countyfp;
-	dispatch({ type: RECTANGLE_START, payload: rectangleStartId ? null : countyfp });
 };
 
 export const activateResults = results => ({ type: ACTIVATE_RESULTS, payload: results });

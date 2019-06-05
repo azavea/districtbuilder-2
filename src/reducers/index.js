@@ -13,7 +13,6 @@ import {
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
 	REJECT_CHANGES,
-	RECTANGLE_START,
 	LOCK_DISTRICT,
 	CHANGE_OPTION_DRAW_MODE,
 	CHANGE_OPTION_MAP_NUMBER,
@@ -91,17 +90,6 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 			return foo;
 		default:
 			return districts;
-	}
-};
-
-const rectangleStartIdReducer = (countyfp = null, { type, payload }) => {
-	switch (type) {
-		case RECTANGLE_START:
-			return payload;
-		case CHANGE_OPTION_DRAW_MODE:
-			return null;
-		default:
-			return countyfp;
 	}
 };
 
@@ -242,7 +230,6 @@ export default combineReducers({
 	hoveredIds: hoveredIdsReducer,
 	geometry: geometryReducer,
 	districtColors: districtColorsReducer,
-	rectangleStartId: rectangleStartIdReducer,
 	activeCounty: activeCountyReducer,
 	hasActive: hasActiveReducer,
 	optionDrawCountyLimit: createOptionReducer(false, CHANGE_OPTION_DRAW_COUNTY_LIMIT),

@@ -18,7 +18,15 @@ const persistConfig = {
 	key: 'root',
 	storage,
 	stateReconciler: hardSet,
-	blacklist: ['activatedIds', 'geometry', 'rectangleStartId'],
+	whitelist: [
+		'historyState',
+		'optionDrawCountyLimit',
+		'optionDrawUnassigned',
+		'mapLabels',
+		'mapBasemap',
+		'selectionLevel',
+		'drawMode',
+	],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -41,14 +49,14 @@ let persistor = persistStore(store);
 
 const routing = (
 	<Provider store={store}>
-		<PersistGate loading={null} persistor={persistor}>
-			<Router>
+		<Router>
+			<PersistGate loading={null} persistor={persistor}>
 				<div className="app">
 					<Route exact path="/" component={Builder} />
 					<Route path="/about" component={About} />
 				</div>
-			</Router>
-		</PersistGate>
+			</PersistGate>
+		</Router>
 	</Provider>
 );
 ReactDOM.render(routing, document.getElementById('root'));
