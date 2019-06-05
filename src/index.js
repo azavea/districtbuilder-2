@@ -24,8 +24,8 @@ const persistConfig = {
 		'optionDrawUnassigned',
 		'mapLabels',
 		'mapBasemap',
-		'selectionLevel',
 		'drawMode',
+		'selectionLevel',
 	],
 };
 
