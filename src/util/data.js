@@ -4,7 +4,7 @@ export const generateIdIndex = topoJSON => {
 	const geometries = topoJSON.objects[topoObjectName].geometries;
 	let obj = {};
 	geometries.forEach((geometry, index) => {
-		obj[geometry.properties.id] = index;
+		obj[geometry.properties.blockgroup_id] = index;
 	});
 	return obj;
 };

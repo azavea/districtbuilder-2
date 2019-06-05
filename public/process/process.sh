@@ -25,11 +25,11 @@ geojson-polygon-labels _output/bg/bg-lines.geojson > _output/bg/bg-labels.geojso
 geojson-polygon-labels _output/county/county-lines.geojson > _output/county/county-labels.geojson
 
 # Export to TopoJSON
-mapshaper -i _output/bg/bg-lines.geojson -simplify 0.5 -o _output/bg/bg-lines.topojson format=topojson drop-table
+mapshaper -i _output/bg/bg-lines.geojson -simplify 0.4 -o _output/bg/bg-lines.topojson format=topojson drop-table
 
 # Generate vector tiles
-tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/bg.mbtiles --generate-ids --detect-shared-borders --maximum-zoom=10 --minimum-zoom=4 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/bg/bg-lines.geojson
-tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/county.mbtiles --generate-ids --detect-shared-borders --maximum-zoom=10 --minimum-zoom=4 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/county/county-lines.geojson
+tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/bg.mbtiles --simplification=15 --generate-ids --detect-shared-borders --maximum-zoom=10 --minimum-zoom=4 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/bg/bg-lines.geojson
+tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/county.mbtiles --simplification=15 --generate-ids --detect-shared-borders --maximum-zoom=10 --minimum-zoom=4 --simplify-only-low-zooms --no-tiny-polygon-reduction _output/county/county-lines.geojson
 
 tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/bg-labels.mbtiles --maximum-zoom=10 --minimum-zoom=4 -r1 _output/bg/bg-labels.geojson
 tippecanoe -f -pk --no-tile-compression -o _output/mbtiles/county-labels.mbtiles --maximum-zoom=10 --minimum-zoom=4 -r1 _output/county/county-labels.geojson

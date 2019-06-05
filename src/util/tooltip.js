@@ -100,7 +100,7 @@ export const pointerTooltipHtml = (id, feature, selectionLevel) => {
 		if (selectionLevel === 'county') {
 			title = `${properties.name} County`;
 		} else {
-			title = `Block Group #${properties.id}`;
+			title = `Block Group #${properties.blockgroup_id}`;
 		}
 		return (
 			<div>

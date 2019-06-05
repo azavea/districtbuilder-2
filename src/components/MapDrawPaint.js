@@ -55,15 +55,15 @@ class MapDrawPaint extends Component {
           })
           .filter(feature => {
             return (
-              lockedFilter(lockedIds, districts, feature.properties.id) &&
+              lockedFilter(lockedIds, districts, feature.properties.blockgroup_id) &&
               (!optionDrawUnassigned ||
-                assignedFilter(districts, selectedDistrict, feature.properties.id)) &&
+                assignedFilter(districts, selectedDistrict, feature.properties.blockgroup_id)) &&
               (!optionDrawCountyLimit ||
-                countyFilter(this.props.activeCounty, feature.properties.id))
+                countyFilter(this.props.activeCounty, feature.properties.blockgroup_id))
             );
           });
         this.active = hovered.map(feature => feature.id);
-        const activePropIds = hovered.map(feature => feature.properties.id);
+        const activePropIds = hovered.map(feature => feature.properties.blockgroup_id);
         this.props.onHoverResults(activePropIds);
         hovered.forEach(feature => {
           this.props.map.setFeatureState(
@@ -79,7 +79,7 @@ class MapDrawPaint extends Component {
           action([
             ...new Set(
               hovered.map(feature => {
-                return feature.properties.id;
+                return feature.properties.blockgroup_id;
               })
             ),
           ]);

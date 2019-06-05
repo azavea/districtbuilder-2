@@ -42,14 +42,18 @@ class MapDrawHandler extends Component {
                 })
                 .filter(feature => {
                   return (
-                    lockedFilter(lockedIds, districts, feature.properties.id) &&
+                    lockedFilter(lockedIds, districts, feature.properties.blockgroup_id) &&
                     (!optionDrawUnassigned ||
-                      assignedFilter(districts, selectedDistrict, feature.properties.id)) &&
+                      assignedFilter(
+                        districts,
+                        selectedDistrict,
+                        feature.properties.blockgroup_id
+                      )) &&
                     (!optionDrawCountyLimit ||
-                      countyFilter(this.props.activeCounty, feature.properties.id))
+                      countyFilter(this.props.activeCounty, feature.properties.blockgroup_id))
                   );
                 })
-                .map(feature => feature.properties.id)
+                .map(feature => feature.properties.blockgroup_id)
             ),
           ]);
           break;
