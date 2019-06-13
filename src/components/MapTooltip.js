@@ -105,7 +105,9 @@ class MapTooltip extends Component {
       html = this.memoizePointerTooltipHtml(
         this.state.feature.id,
         this.state.feature,
-        this.props.selectionLevel
+        this.props.selectionLevel,
+        this.props.selectedDistrict,
+        this.props.districtColors
       );
     }
     const showPopup = this.props.rectangleInProgress || this.state.hover;
@@ -123,6 +125,8 @@ class MapTooltip extends Component {
 
 const mapStateToProps = state => {
   return {
+    districtColors: state.districtColors,
+    selectedDistrict: state.historyState.present.selectedDistrict,
     selectionLevel: state.selectionLevel,
     drawMode: state.drawMode,
     activeIds: state.activatedIds,

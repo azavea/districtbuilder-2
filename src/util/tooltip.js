@@ -1,5 +1,6 @@
 import React from 'react';
 import { numberWithCommas } from '../util/data';
+import { DistrictColorSymbol } from '../components/DistrictColorSymbol';
 
 export const rectTooltipHtml = activeIds => {
 	let popTotal = {
@@ -87,7 +88,7 @@ export const rectTooltipHtml = activeIds => {
 	return html;
 };
 
-export const pointerTooltipHtml = (id, feature, selectionLevel) => {
+export const pointerTooltipHtml = (id, feature, selectionLevel, district, color) => {
 	const properties = feature.properties;
 	const popTotal = properties.population;
 	const popWhitePercent = (properties.white / properties.population) * 100;
@@ -154,6 +155,10 @@ export const pointerTooltipHtml = (id, feature, selectionLevel) => {
 							</div>
 						</div>
 					</div>
+				</div>
+				<div className="label">
+					<DistrictColorSymbol color={color[district]} />
+					<div className="number">{district}</div>
 				</div>
 			</div>
 		);
