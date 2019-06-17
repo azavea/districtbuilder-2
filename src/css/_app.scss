@@ -189,6 +189,22 @@ button[disabled] {
   background: #051c2e;
 }
 
+.sidebar-district-tooltip .table {
+  line-height: 1.25;
+  border-spacing: 0;
+  padding: 2px;
+  width: 100%;
+}
+
+.sidebar-district-tooltip td,
+.sidebar-district-tooltip th {
+  padding: 1px 3px;
+}
+
+.sidebar-district-tooltip th {
+  font-weight: 600;
+}
+
 .map-tooltip .table {
   line-height: 1.25;
   border-spacing: 0;
@@ -228,9 +244,21 @@ button[disabled] {
   text-align: right;
 }
 
+.sidebar-district-tooltip .chart {
+  margin-top: -3px;
+  margin-bottom: -10px;
+}
+
 .map-tooltip .chart {
   margin-top: -3px;
   margin-bottom: -10px;
+}
+
+.sidebar-district-tooltip .demographic {
+  /*transition: 0.2s width ease-in-out;*/
+  height: 7px;
+  position: relative;
+  top: 0px;
 }
 
 .map-tooltip .demographic {
@@ -256,16 +284,35 @@ button[disabled] {
   display: inline-block;
 }
 
+.sidebar-district-tooltip .label {
+  width: 45px;
+  display: inline-block;
+  font-weight: 500;
+}
+
 .map-tooltip .label {
   width: 45px;
   display: inline-block;
   font-weight: 500;
 }
 
+.sidebar-district-tooltip .number {
+  width: 35px;
+  display: inline-block;
+  text-align: right;
+}
+
 .map-tooltip .number {
   width: 35px;
   display: inline-block;
   text-align: right;
+}
+
+.sidebar-district-tooltip .demographics {
+  height: auto;
+  display: block;
+  width: 100%;
+  margin: 10px 0 0;
 }
 
 .map-tooltip .demographics {
@@ -283,6 +330,13 @@ button[disabled] {
 .map-tooltip .count {
   font-size: 13px;
   font-weight: 900;
+}
+
+.sidebar-district-tooltip h2 {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+  margin-top: 0;
 }
 
 .map-tooltip h2 {
@@ -578,6 +632,22 @@ button[disabled] {
   bottom: 0;
   background: #efefef;
 }
+
+.sidebar-district-tooltip {
+  font-size: 13px;
+  position: absolute;
+  top: 20px;
+  left: 15px;
+  will-change: transform;
+  pointer-events: none;
+  background: #051c2e;
+  z-index: 20000;
+  color: #fff;
+  font-feature-settings: normal;
+  padding: 4px 4px 9px;
+  border-radius: 2px;
+}
+
 
 .map-tooltip {
   font-size: 13px;
