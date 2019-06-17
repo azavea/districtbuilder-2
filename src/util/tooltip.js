@@ -166,3 +166,69 @@ export const pointerTooltipHtml = (id, feature, selectionLevel, district, color)
 		return <div className="popup-zero-population">This area has zero population</div>;
 	}
 };
+
+export const sidebarChartTooltipHtml = (target) => {
+
+	const popWhitePercent = target.getAttribute("pw") || 0;
+	const popBlackPercent = target.getAttribute("pb") || 0;
+	const popAsianPercent = target.getAttribute("pa") || 0;
+	const popHispanicPercent = target.getAttribute("ph") || 0;
+	const popOtherPercent = target.getAttribute("po") || 0;
+
+	if (target.getAttribute("pw") > 0) {
+		return ( 
+		<div className="sidebar-district-tooltip">
+			<div className="chart">
+				<div className="demographics">
+					<div className="demographic-item">
+						<div className="demographic-label">White</div>
+						<div className="demographic-bar">
+							<div
+								className="demographic demographic-0"
+								style={{ width: `${popWhitePercent}%` }}
+							/>
+						</div>
+					</div>
+					<div className="demographic-item">
+						<div className="demographic-label">Black</div>
+						<div className="demographic-bar">
+							<div
+								className="demographic demographic-1"
+								style={{ width: `${popBlackPercent}%` }}
+							/>
+						</div>
+					</div>
+					<div className="demographic-item">
+						<div className="demographic-label">Asian</div>
+						<div className="demographic-bar">
+							<div
+								className="demographic demographic-2"
+								style={{ width: `${popAsianPercent}%` }}
+							/>
+						</div>
+					</div>
+					<div className="demographic-item">
+						<div className="demographic-label">Hispanic</div>
+						<div className="demographic-bar">
+							<div
+								className="demographic demographic-3"
+								style={{ width: `${popHispanicPercent}%` }}
+							/>
+						</div>
+					</div>
+					<div className="demographic-item">
+						<div className="demographic-label">Other</div>
+						<div className="demographic-bar">
+							<div
+								className="demographic demographic-4"
+								style={{ width: `${popOtherPercent}%` }}
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>)
+	} else {
+		return (<div className="popup-zero-population">This district has zero population</div>)
+	}
+}

@@ -10,7 +10,12 @@ import { selectDistrict, acceptChanges, rejectChanges, lockDistrict } from '../a
 import { diffColors } from '../constants/colors';
 import { districtsTemplate, idealNumber } from '../constants';
 import { numberWithCommas } from '../util/data';
+import { sidebarChartTooltipHtml } from '../util/tooltip.js'
 import { calculatePopulationsOld, calculatePopulationsNew } from '../util/sidebar';
+import { demographicTypes } from '../constants';
+import ReactHintFactory from 'react-hint';
+
+const ReactHint = ReactHintFactory(React);
 
 class DistrictsSidebar extends Component {
 	componentDidMount() {
@@ -20,6 +25,8 @@ class DistrictsSidebar extends Component {
 			length: 1,
 		});
 	}
+
+
 	renderList() {
 		if (this.props.districts && window.dataFeatures) {
 			const districtsBaseData = this.calculatePopulationsOldMemoized(
@@ -36,6 +43,7 @@ class DistrictsSidebar extends Component {
 				window.dataFeatures,
 				districtsTemplate
 			);
+
 			return districtsChangeData.map((districtNew, index) => {
 				const districtOld = districtsBaseData[index];
 				const color = this.props.districtColors[index];
@@ -53,6 +61,19 @@ class DistrictsSidebar extends Component {
 					? districtOld.population + districtNew.population
 					: districtOld.population + districtNew.population - idealNumber;
 				const hasPopChanged = districtNew.population > 0;
+
+				const racePct = [] ;
+				const totalPopulation = districtNew.population + districtOld.population;
+				demographicTypes.forEach(function(type) {
+					  racePct[type] = (totalPopulation > 0) ? districtNew[type] + districtOld[type] / totalPopulation *100 : null;
+					});
+				const pctWhite = racePct['white']
+				const pctBlack = racePct['black']
+				const pctAsian = racePct['asian']
+				const pctHispanic = racePct['hispanic']
+				const pctOther= racePct['other']
+
+
 				return (
 					<div
 						className={'item ' + districtStatus}
@@ -78,7 +99,8 @@ class DistrictsSidebar extends Component {
 								{numberWithCommas(deviation)}
 							</div>
 						</div>
-						<div className="district-property">
+						<div className="district-property" data-sidebar-tooltip 
+							 pw={pctWhite} pb={pctBlack} pa={pctAsian} ph={pctHispanic} po={pctOther}  >
 							{(districtNew.population > 0 || districtOld.population > 0) && (
 								<DataChart districtNew={districtNew} districtOld={districtOld} />
 							)}
@@ -130,6 +152,15 @@ class DistrictsSidebar extends Component {
 		const hasChanged = this.props.selectedIds.length > 0 ? 'changed' : '';
 		return (
 			<div className="sidebar">
+				
+				<ReactHint 
+		          attribute="data-sidebar-tooltip"
+		          autoPosition
+		          events={{ hover: true }}
+		          persist
+		          onRenderContent={(target) => sidebarChartTooltipHtml(target, demographicTypes)}
+		          />
+
 				<h2>Districts</h2>
 				<div className={'button-group ' + hasChanged}>
 					<button className="button-reject" onClick={() => this.onRejectChanges()}>
