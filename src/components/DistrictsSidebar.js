@@ -62,16 +62,24 @@ class DistrictsSidebar extends Component {
 					: districtOld.population + districtNew.population - idealNumber;
 				const hasPopChanged = districtNew.population > 0;
 
-				const racePct = [] ;
+				const racePct = [];
+				const racePop = [];
 				const totalPopulation = districtNew.population + districtOld.population;
 				demographicTypes.forEach(function(type) {
 					  racePct[type] = (totalPopulation > 0) ? districtNew[type] + districtOld[type] / totalPopulation *100 : null;
+					  racePop[type] = (totalPopulation > 0) ? numberWithCommas(districtNew[type] + districtOld[type]) : null;
 					});
-				const pctWhite = racePct['white']
-				const pctBlack = racePct['black']
-				const pctAsian = racePct['asian']
-				const pctHispanic = racePct['hispanic']
-				const pctOther= racePct['other']
+				const pctWhite = racePct['white'];
+				const pctBlack = racePct['black'];
+				const pctAsian = racePct['asian'];
+				const pctHispanic = racePct['hispanic'];
+				const pctOther= racePct['other'];
+
+				const popWhite = racePop['white'];
+				const popBlack = racePop['black'];
+				const popAsian = racePop['asian'];
+				const popHispanic = racePop['hispanic'];
+				const popOther= racePop['other'];
 
 
 				return (
@@ -100,7 +108,8 @@ class DistrictsSidebar extends Component {
 							</div>
 						</div>
 						<div className="district-property" data-sidebar-tooltip 
-							 pw={pctWhite} pb={pctBlack} pa={pctAsian} ph={pctHispanic} po={pctOther}  >
+							 pw={pctWhite} pb={pctBlack} pa={pctAsian} ph={pctHispanic} po={pctOther}
+							 tw={popWhite} tb={popBlack} ta={popAsian} th={popHispanic} to={popOther}  >
 							{(districtNew.population > 0 || districtOld.population > 0) && (
 								<DataChart districtNew={districtNew} districtOld={districtOld} />
 							)}

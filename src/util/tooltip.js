@@ -175,6 +175,12 @@ export const sidebarChartTooltipHtml = (target) => {
 	const popHispanicPercent = target.getAttribute("ph") || 0;
 	const popOtherPercent = target.getAttribute("po") || 0;
 
+	const popWhite = target.getAttribute("tw") || 0;
+	const popBlack = target.getAttribute("tb") || 0;
+	const popAsian = target.getAttribute("ta") || 0;
+	const popHispanic = target.getAttribute("th") || 0;
+	const popOther = target.getAttribute("to") || 0;
+
 	if (target.getAttribute("pw") > 0) {
 		return ( 
 		<div className="sidebar-district-tooltip">
@@ -182,6 +188,7 @@ export const sidebarChartTooltipHtml = (target) => {
 				<div className="demographics">
 					<div className="demographic-item">
 						<div className="demographic-label">White</div>
+						<div className="demographic-label">{popWhite}</div>
 						<div className="demographic-bar">
 							<div
 								className="demographic demographic-0"
@@ -191,6 +198,7 @@ export const sidebarChartTooltipHtml = (target) => {
 					</div>
 					<div className="demographic-item">
 						<div className="demographic-label">Black</div>
+						<div className="demographic-label">{popBlack}</div>
 						<div className="demographic-bar">
 							<div
 								className="demographic demographic-1"
@@ -200,6 +208,7 @@ export const sidebarChartTooltipHtml = (target) => {
 					</div>
 					<div className="demographic-item">
 						<div className="demographic-label">Asian</div>
+						<div className="demographic-label">{popAsian}</div>
 						<div className="demographic-bar">
 							<div
 								className="demographic demographic-2"
@@ -209,6 +218,7 @@ export const sidebarChartTooltipHtml = (target) => {
 					</div>
 					<div className="demographic-item">
 						<div className="demographic-label">Hispanic</div>
+						<div className="demographic-label">{popHispanic}</div>
 						<div className="demographic-bar">
 							<div
 								className="demographic demographic-3"
@@ -218,6 +228,7 @@ export const sidebarChartTooltipHtml = (target) => {
 					</div>
 					<div className="demographic-item">
 						<div className="demographic-label">Other</div>
+						<div className="demographic-label">{popOther}</div>
 						<div className="demographic-bar">
 							<div
 								className="demographic demographic-4"
