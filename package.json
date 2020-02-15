@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@babel/plugin-syntax-async-generators": "^7.8.4",
     "@mapbox/mapbox-gl-draw": "^1.1.1",
     "@primer/components": "^11.0.0",
     "@turf/flatten": "^5.1.5",
