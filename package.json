@@ -34,8 +34,8 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "redux-undo": "^1.0.0-beta9-9-7",
-    "semantic-ui-react": "^0.84.0",
-    "semantic-ui-sass": "^2.4.1",
+    "semantic-ui-react": "0.84.0",
+    "semantic-ui-sass": "2.4.1",
     "topojson": "^3.0.2"
   },
   "scripts": {
