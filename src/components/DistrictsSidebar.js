@@ -42,20 +42,21 @@ class DistrictsSidebar extends Component {
 				const districtStatus = index === this.props.selectedDistrict ? 'selected' : '';
 				const lockedStatus = this.props.lockedIds[index] ? '-locked' : '-unlocked';
 				const compactnessScores = this.props.geometry;
-				const diff =
-					districtNew.population > 0
-						? diffColors.increase
-						: districtNew.population < 0
-						? diffColors.decrease
-						: diffColors.nochange;
+				const diff = districtNew.population !== 0;
 				const isZeroDistrict = index === 0;
 				const deviation = isZeroDistrict
 					? districtOld.population + districtNew.population
 					: districtOld.population + districtNew.population - idealNumber;
+				const devChartDegree = isZeroDistrict
+					? (districtOld.population + districtNew.population / idealNumber) * 90
+					: ((districtOld.population + districtNew.population - idealNumber) / idealNumber) * 90;
 				const hasPopChanged = districtNew.population > 0;
+				const isNearIdeal =
+					Math.abs(idealNumber - (districtOld.population + districtNew.population)) < 10000;
+
 				return (
 					<div
-						className={'item ' + districtStatus}
+						className={`item ${districtStatus} diff-${diff} ideal-${isNearIdeal}`}
 						key={index}
 						tabIndex="0"
 						onClick={() => this.onSelectDistrict(index)}
@@ -68,14 +69,22 @@ class DistrictsSidebar extends Component {
 							<div className="district-name">{districtNew.name}</div>
 						</div>
 						<div className="district-property">
-							<div className="district-population" style={{ color: diff }}>
+							<div className="district-population">
 								{numberWithCommas(districtOld.population + districtNew.population)}
 							</div>
 						</div>
 						<div className="district-property">
-							<div className="district-deviation" style={{ color: diff }}>
+							<div className="district-deviation">
 								{deviation > 0 && '+'}
 								{numberWithCommas(deviation)}
+							</div>
+						</div>
+						<div className="district-property">
+							<div className="devchart">
+								<div
+									className="devchart-pointer"
+									style={{ transform: `rotate(${Math.min(devChartDegree, 90)}deg)` }}
+								></div>
 							</div>
 						</div>
 						<div className="district-property">
@@ -156,6 +165,12 @@ class DistrictsSidebar extends Component {
 							data-rh="Deviation from target population"
 						>
 							Deviation
+						</div>
+						<div
+							className="district-property text-right"
+							data-rh="Deviation from target population"
+						>
+							Chart
 						</div>
 						<div className="district-property" data-rh="Population by race">
 							Race

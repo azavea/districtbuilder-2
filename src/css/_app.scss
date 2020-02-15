@@ -807,3 +807,57 @@ button[disabled] {
     padding: 6px 8px;
   }
 }
+
+.item {
+  color: #777;
+}
+
+.item.selected,
+.item.diff-true {
+  color: #222;
+  .devchart {
+    opacity: 1;
+  }
+}
+
+.devchart {
+  background-color: #ddd;
+  height: 11px;
+  width: 28px;
+  position: relative;
+  border-top-left-radius: 140px;
+  border-top-right-radius: 140px;
+  margin: 0 10px;
+  opacity: 0.4;
+  transition: 250ms ease-in-out;
+  .ideal-true & {
+    background-color: #a0c0de;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 12px;
+    background-color: #222;
+    border-radius: 10px;
+    height: 4px;
+    width: 4px;
+    z-index: 1;
+  }
+}
+
+.devchart-pointer {
+  height: 20px;
+  width: 2px;
+  background-color: #666;
+  position: absolute;
+  left: 13px;
+  border-radius: 10px;
+  bottom: 0px;
+  transform-origin: left bottom;
+  transition: 250ms ease-in-out;
+
+  .ideal-true & {
+    background-color: #4192e5;
+  }
+}

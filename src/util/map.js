@@ -25,7 +25,12 @@ const mapGeometriesToDistricts = (geometries, assignedDistricts) => {
 
 const getGeoJSONForEachDistrict = (assignedDistricts, topoJSON) => {
 	const geometriesByDistrict = mapGeometriesToDistricts(getGeometries(topoJSON), assignedDistricts);
-	return geometriesByDistrict.map(geometries => flatten(merge(topoJSON, geometries)));
+	return geometriesByDistrict.map(geometries => {
+		console.time('merge');
+		var geo = flatten(merge(topoJSON, geometries));
+		console.timeEnd('merge');
+		return geo;
+	});
 };
 
 const calculateCompactnessAndContiguity = geoJSON => {
