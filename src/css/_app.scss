@@ -835,8 +835,8 @@ button[disabled] {
   }
   &:after {
     content: '';
-    position: absolute;
     bottom: -1px;
+    position: absolute;
     left: 12px;
     background-color: #222;
     border-radius: 10px;
