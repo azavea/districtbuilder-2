@@ -47,9 +47,9 @@ class DistrictsSidebar extends Component {
 				const deviation = isZeroDistrict
 					? districtOld.population + districtNew.population
 					: districtOld.population + districtNew.population - idealNumber;
-				const devChartDegree = isZeroDistrict
-					? (districtOld.population + districtNew.population / idealNumber) * 90
-					: ((districtOld.population + districtNew.population - idealNumber) / idealNumber) * 90;
+				const devChartWidth = isZeroDistrict
+					? ((districtOld.population + districtNew.population) / idealNumber) * 30
+					: ((districtOld.population + districtNew.population - idealNumber) / idealNumber) * 30;
 				const hasPopChanged = districtNew.population > 0;
 				const isNearIdeal =
 					Math.abs(idealNumber - (districtOld.population + districtNew.population)) < 10000;
@@ -80,10 +80,14 @@ class DistrictsSidebar extends Component {
 							</div>
 						</div>
 						<div className="district-property">
-							<div className="devchart">
+							<div className={`devchart positive-${devChartWidth > 0}`}>
 								<div
-									className="devchart-pointer"
-									style={{ transform: `rotate(${Math.min(devChartDegree, 90)}deg)` }}
+									className="devchart-pointer-left"
+									style={{ width: `${Math.min(Math.abs(devChartWidth), 30)}px` }}
+								></div>
+								<div
+									className="devchart-pointer-right"
+									style={{ width: `${Math.min(Math.abs(devChartWidth), 30)}px` }}
 								></div>
 							</div>
 						</div>

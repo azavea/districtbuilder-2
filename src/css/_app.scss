@@ -821,43 +821,60 @@ button[disabled] {
 }
 
 .devchart {
-  background-color: #ddd;
-  height: 11px;
-  width: 28px;
+  height: 3px;
+  width: 60px;
   position: relative;
-  border-top-left-radius: 140px;
-  border-top-right-radius: 140px;
-  margin: 0 10px;
   opacity: 0.4;
   transition: 250ms ease-in-out;
-  .ideal-true & {
-    background-color: #a0c0de;
-  }
   &:after {
-    content: '';
-    bottom: -1px;
     position: absolute;
-    left: 12px;
-    background-color: #222;
-    border-radius: 10px;
-    height: 4px;
-    width: 4px;
-    z-index: 1;
+    height: 3px;
+    width: 1px;
+    left: 29px;
+    background-color: #000;
+    content: '';
+    top: 0;
+    z-index: 2000;
+    transition: 250ms ease-in-out;
+  }
+  .ideal-true & {
+    &:after {
+      position: absolute;
+      height: 7px;
+      width: 7px;
+      left: 26px;
+      border-radius: 100px;
+      background-color: #000;
+      content: '';
+      top: -3px;
+      z-index: 2000;
+      background-color: #4192e5;
+    }
   }
 }
 
-.devchart-pointer {
-  height: 20px;
-  width: 2px;
+.devchart-pointer-left {
+  height: 3px;
+  width: 0;
   background-color: #666;
-  position: absolute;
-  left: 13px;
-  border-radius: 10px;
-  bottom: 0px;
-  transform-origin: left bottom;
   transition: 250ms ease-in-out;
+  position: absolute;
+  right: 30px;
 
-  .ideal-true & {
-    background-color: #4192e5;
+  .positive-true & {
+    width: 0 !important;
+  }
+}
+
+.devchart-pointer-right {
+  height: 3px;
+  width: 0;
+  background-color: #666;
+  left: 30px;
+  transition: 250ms ease-in-out;
+  position: absolute;
+
+  .positive-false & {
+    width: 0 !important;
   }
 }
