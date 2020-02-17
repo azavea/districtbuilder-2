@@ -821,23 +821,30 @@ button[disabled] {
 }
 
 .devchart {
-  height: 3px;
-  width: 40px;
+  height: 18px;
+  width: 18px;
   opacity: 0.4;
   transition: 250ms ease-in-out;
-  background-color: #ddd;
+  border: 1px solid #999;
   position: relative;
-  top: -4px;
+  top: 3px;
+  border-radius: 200px;
 }
 
-.devchart-pointer-left {
-  height: 3px;
-  width: 0;
-  background-color: #444;
+.devchart-pointer {
+  height: 18px;
+  width: 18px;
+  border-radius: 200px;
+  background-color: #222;
   transition: 250ms ease-in-out;
   position: absolute;
-  left: 0;
-  z-index: 2;
+  left: -1px;
+  top: -1px;
+  z-index: -2;
+
+  .positive-true & {
+    background-color: #d55b4a;
+  }
 
   .ideal-true & {
     background-color: #4192e5;
@@ -846,22 +853,4 @@ button[disabled] {
   // .positive-true & {
   //   width: 0 !important;
   // }
-}
-
-.devchart-pointer-right {
-  height: 3px;
-  width: 0;
-  background-color: #e55141;
-  right: 0;
-  transition: 250ms ease-in-out;
-  position: absolute;
-  z-index: 2000;
-
-  .ideal-true & {
-    background-color: #4192e5;
-  }
-
-  .positive-false & {
-    width: 0 !important;
-  }
 }
