@@ -842,10 +842,6 @@ button[disabled] {
   .ideal-true & {
     background-color: #4192e5;
   }
-
-  // .positive-true & {
-  //   width: 0 !important;
-  // }
 }
 
 .devchart-pointer-right {
@@ -863,5 +859,30 @@ button[disabled] {
 
   .positive-false & {
     width: 0 !important;
+  }
+}
+
+.devchart-arrow {
+  transition: 250ms ease-in-out;
+  position: absolute;
+  height: 7px;
+  width: 7px;
+  z-index: 2500;
+  border: 2px solid #444444;
+  border-width: 0 2px 2px 0;
+  transform: translate(-6px, -2px) rotate(-45deg);
+
+  .above-true & {
+    transform: translate(0px, -2px) rotate(135deg);
+    border-color: #e55141;
+  }
+
+  .ideal-true & {
+    border-color: #4192e5 !important;
+    background-color: #4192e5 !important;
+    border-radius: 100px !important;
+    border-width: 2px !important;
+    left: 40px !important;
+    transform: translate(-6px, -2px) rotate(45deg);
   }
 }

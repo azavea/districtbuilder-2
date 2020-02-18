@@ -81,7 +81,7 @@ class DistrictsSidebar extends Component {
 							</div>
 						</div>
 						<div className="district-property">
-							<div className={`devchart positive-${devChartWidth > 0}`}>
+							<div className={`devchart above-${devChartWidth > 40}`}>
 								<div
 									className="devchart-pointer-left"
 									style={{ width: `${Math.min(Math.abs(devChartWidth), 40)}px` }}
@@ -89,6 +89,19 @@ class DistrictsSidebar extends Component {
 								<div
 									className="devchart-pointer-right"
 									style={{ width: `${Math.min(Math.abs(devChartWidth2), 40)}px` }}
+								></div>
+								<div
+									className="devchart-arrow"
+									style={{
+										left: `${Math.min(
+											Math.abs(
+												devChartWidth > 40
+													? Math.max(devChartWidth2 + 40, 0)
+													: Math.min(Math.abs(devChartWidth), 40)
+											),
+											40
+										)}px`,
+									}}
 								></div>
 							</div>
 						</div>
