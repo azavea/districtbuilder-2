@@ -3,8 +3,8 @@ rm -rf _output
 mkdir _output _output/county _output/bg _output/precinct _output/location _output/mbtiles _output/upload
 
 # Export to GeoJSON
-mapshaper -i input/pa-bg.geojson -o _output/bg/bg-lines.geojson format=geojson
-mapshaper -i input/pa-counties.geojson -o _output/county/county-lines.geojson format=geojson
+mapshaper -i input/nc-bg.geojson -o _output/bg/bg-lines.geojson format=geojson
+mapshaper -i input/nc-counties.geojson -o _output/county/county-lines.geojson format=geojson
 
 node generateDataFeaturesJson.js -i _output/bg/bg-lines.geojson -o _output/upload/bg-features.json
 node generateCountyIndex.js -c _output/county/county-lines.geojson -g _output/bg/bg-lines.geojson -o _output/upload/county-index.json
@@ -13,12 +13,12 @@ node abbreviatePopulationValues.js -i _output/bg/bg-lines.geojson -o _output/bg/
 node abbreviatePopulationValues.js -i _output/county/county-lines.geojson -o _output/county/county-lines.geojson
 
 # Filter location labels to county
-mapshaper -i input/city-l.geojson -filter 'statefp==="42"' -o _output/location/city-l.geojson format=geojson
-mapshaper -i input/city-m.geojson -filter 'statefp==="42"' -o _output/location/city-m.geojson format=geojson
-mapshaper -i input/city-s.geojson -filter 'statefp==="42"' -o _output/location/city-s.geojson format=geojson
-mapshaper -i input/town-l.geojson -filter 'statefp==="42"' -o _output/location/town-l.geojson format=geojson
-mapshaper -i input/town-m.geojson -filter 'statefp==="42"' -o _output/location/town-m.geojson format=geojson
-mapshaper -i input/town-s.geojson -filter 'statefp==="42"' -o _output/location/town-s.geojson format=geojson
+mapshaper -i input/city-l.geojson -filter 'statefp==="37"' -o _output/location/city-l.geojson format=geojson
+mapshaper -i input/city-m.geojson -filter 'statefp==="37"' -o _output/location/city-m.geojson format=geojson
+mapshaper -i input/city-s.geojson -filter 'statefp==="37"' -o _output/location/city-s.geojson format=geojson
+mapshaper -i input/town-l.geojson -filter 'statefp==="37"' -o _output/location/town-l.geojson format=geojson
+mapshaper -i input/town-m.geojson -filter 'statefp==="37"' -o _output/location/town-m.geojson format=geojson
+mapshaper -i input/town-s.geojson -filter 'statefp==="37"' -o _output/location/town-s.geojson format=geojson
 
 # Generate Labels
 geojson-polygon-labels _output/bg/bg-lines.geojson > _output/bg/bg-labels.geojson
