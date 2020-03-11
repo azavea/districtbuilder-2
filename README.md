@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Run `npm install` and `npm start`.
+Run `npm install` and `npm start`. 
 
 ## Available Scripts
 
