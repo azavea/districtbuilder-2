@@ -10,6 +10,7 @@ import {
 	SELECT_ACTIVATED,
 	DISTRICT_SELECTED,
 	GENERATE_ASSIGNED_DISTRICTS,
+	CLEAR_ASSIGNED_DISTRICTS,
 	SELECT_GEOUNIT,
 	ACCEPT_CHANGES,
 	REJECT_CHANGES,
@@ -78,6 +79,9 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 			const toReturn = districts !== null ? districts : payload.assignedDistricts;
 			console.log(toReturn, districts, type, payload);
 			return toReturn;
+		case CLEAR_ASSIGNED_DISTRICTS:
+			console.log('clear', districts, payload.assignedDistricts);
+			return payload.assignedDistricts;
 		case ACCEPT_CHANGES:
 			return produce(districts, draft => {
 				payload.selectedIds.forEach(id => {
@@ -110,6 +114,7 @@ const activatedIdsReducer = (activatedIds = [], { type, payload }) => {
 		case ACCEPT_CHANGES:
 		case REJECT_CHANGES:
 		case SELECT_ACTIVATED:
+		case CLEAR_ASSIGNED_DISTRICTS:
 			return [];
 		default:
 			return activatedIds;
@@ -124,6 +129,7 @@ const hoveredIdsReducer = (hoveredIds = [], { type, payload }) => {
 		case SELECT_RESULTS:
 		case ACCEPT_CHANGES:
 		case REJECT_CHANGES:
+		case CLEAR_ASSIGNED_DISTRICTS:
 			return [];
 		default:
 			return hoveredIds;
@@ -158,6 +164,7 @@ const selectedIdsReducer = (selectedIds = [], { type, payload }) => {
 			return [...new Set([...selectedIds, ...payload])];
 		case ACCEPT_CHANGES:
 		case REJECT_CHANGES:
+		case CLEAR_ASSIGNED_DISTRICTS:
 			return [];
 		default:
 			return selectedIds;
