@@ -7,7 +7,6 @@ export const calculatePopulationsOld = (assignedDistricts, features, oldDistrict
 			newDistricts[assignedDistrict][type] += features[index][type];
 		});
 	});
-	console.log(newDistricts);
 	return newDistricts;
 };
 

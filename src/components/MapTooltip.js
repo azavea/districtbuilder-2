@@ -30,7 +30,6 @@ class MapTooltip extends Component {
   };
   onMouseMoveThrottled = throttle(e => {
     if (e.features) {
-      console.log(e.features, e.features[0]);
       const feature = e.features[0];
       const county = feature.properties.countyfp;
       const { activeCounty, clickDown, onChangeActiveCounty, rectangleInProgress } = this.props;

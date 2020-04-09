@@ -8,7 +8,6 @@ const renderList = (districtNew, districtOld) => {
 		const typePopulation = districtNew[type] + districtOld[type];
 		const percent = (typePopulation / totalPopulation) * 100 + '%';
 		const myStyle = { width: percent };
-		console.log(type, typePopulation, totalPopulation);
 		return <div className={`demographic demographic-${index}`} style={myStyle} key={index} />;
 	});
 };

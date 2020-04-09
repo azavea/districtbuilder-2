@@ -28,6 +28,7 @@ class MapDistrictLayer extends Component {
   }
 
   componentDidUpdate() {
+    console.log('district update');
     if (this.props.districts) {
       window.spatialWorker.postMessage({
         type: 'DISTRICTS',

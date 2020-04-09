@@ -75,7 +75,9 @@ const districtColorsReducer = (colors = districtColors, { type, payload }) => {
 const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
-			return districts ? districts : payload.assignedDistricts;
+			const toReturn = districts !== null ? districts : payload.assignedDistricts;
+			console.log(toReturn, districts, type, payload);
+			return toReturn;
 		case ACCEPT_CHANGES:
 			return produce(districts, draft => {
 				payload.selectedIds.forEach(id => {
