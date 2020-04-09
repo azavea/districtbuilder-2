@@ -12,6 +12,9 @@ class MapLayerHandler extends Component {
       this.props.map.setLayoutProperty('blockgroups-outline', 'visibility', 'visible');
     }
   }
+  componentDidMount() {
+    this.forceUpdate();
+  }
   render() {
     return <div className="map-layer-handler" />;
   }

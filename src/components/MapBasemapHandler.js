@@ -60,6 +60,9 @@ class MapBasemapHandler extends Component {
         break;
     }
   }
+  componentDidMount() {
+    this.forceUpdate();
+  }
   render() {
     return <div className="map-label-handler" />;
   }

@@ -40,6 +40,9 @@ class MapLabelHandler extends Component {
       map.setLayoutProperty('county-population-labels', 'visibility', 'none');
     }
   }
+  componentDidMount() {
+    this.forceUpdate();
+  }
   render() {
     return <div className="map-label-handler" />;
   }

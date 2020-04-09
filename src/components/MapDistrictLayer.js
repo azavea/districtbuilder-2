@@ -25,9 +25,10 @@ class MapDistrictLayer extends Component {
       }
       m = null;
     });
+    this.forceUpdate();
   }
 
-  render() {
+  componentDidUpdate() {
     if (this.props.districts) {
       window.spatialWorker.postMessage({
         type: 'DISTRICTS',
@@ -35,6 +36,9 @@ class MapDistrictLayer extends Component {
         lockedDistricts: this.props.lockedDistricts,
       });
     }
+  }
+
+  render() {
     return <div className="map-district-layer" />;
   }
 }

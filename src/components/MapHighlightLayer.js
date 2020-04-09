@@ -24,6 +24,7 @@ class MapHighlightLayer extends Component {
       }
       m = null;
     });
+    this.forceUpdate();
   }
   componentDidUpdate() {
     const { selectedIds, activatedIds } = this.props;
