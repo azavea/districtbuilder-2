@@ -26,7 +26,6 @@ class MapHighlightLayer extends Component {
     });
   }
   componentDidUpdate() {
-    console.log('highlight update');
     const { selectedIds, activatedIds } = this.props;
     if (selectedIds) {
       window.spatialWorker.postMessage({

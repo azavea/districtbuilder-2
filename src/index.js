@@ -31,8 +31,6 @@ const persistConfig = {
 		'optionDrawCountyLimit',
 		'hasActive',
 		'activeCounty',
-		// 'mapBasemap',
-		// 'mapLabels',
 		'mapCountyName',
 		'drawLimit',
 		'spaceDown',
@@ -43,17 +41,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-if (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') {
-	store = createStore(
-		persistedReducer,
-		compose(
-			applyMiddleware(thunk),
-			window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-		)
-	);
-} else {
-	store = createStore(reducers, compose(applyMiddleware(thunk)));
-}
+store = createStore(persistedReducer, compose(applyMiddleware(thunk)));
 
 let persistor = persistStore(store);
 

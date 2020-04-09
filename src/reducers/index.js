@@ -77,10 +77,8 @@ const assignedDistrictsReducer = (districts = null, { type, payload }) => {
 	switch (type) {
 		case GENERATE_ASSIGNED_DISTRICTS:
 			const toReturn = districts !== null ? districts : payload.assignedDistricts;
-			console.log(toReturn, districts, type, payload);
 			return toReturn;
 		case CLEAR_ASSIGNED_DISTRICTS:
-			console.log('clear', districts, payload.assignedDistricts);
 			return payload.assignedDistricts;
 		case ACCEPT_CHANGES:
 			return produce(districts, draft => {

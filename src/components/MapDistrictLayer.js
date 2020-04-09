@@ -27,10 +27,6 @@ class MapDistrictLayer extends Component {
     });
   }
 
-  componentDidUpdate() {
-    console.log('district update');
-  }
-
   render() {
     if (this.props.districts) {
       window.spatialWorker.postMessage({
