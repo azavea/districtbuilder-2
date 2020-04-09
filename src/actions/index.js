@@ -10,6 +10,7 @@ export const FETCH_SPATIAL_INDEX = 'FETCH_SPATIAL_INDEX';
 export const GENERATE_GEOMETRIES = 'GENERATE_GEOMETRIES';
 export const GENERATE_GEOJSON = 'GENERATE_GEOJSON';
 export const GENERATE_ASSIGNED_DISTRICTS = 'GENERATE_ASSIGNED_DISTRICTS';
+export const CLEAR_ASSIGNED_DISTRICTS = 'CLEAR_ASSIGNED_DISTRICTS';
 export const GENERATE_COUNTY_INDEX = 'GENERATE_COUNTY_INDEX';
 export const GENERATE_SPATIAL_INDEX = 'GENERATE_SPATIAL_INDEX';
 export const SELECT_GEOUNIT = 'SELECT_GEOUNIT';
@@ -46,6 +47,16 @@ export const generateAssignedDistricts = assignedDistricts => {
 		dispatch({
 			type: GENERATE_ASSIGNED_DISTRICTS,
 			payload: { lockedIds, assignedDistricts },
+		});
+	};
+};
+
+export const clearAssignedDistricts = assignedDistricts => {
+	return (dispatch, getState) => {
+		const { districts } = getState().historyState.present;
+		dispatch({
+			type: CLEAR_ASSIGNED_DISTRICTS,
+			payload: { assignedDistricts: new Array(districts.length).fill(0) },
 		});
 	};
 };

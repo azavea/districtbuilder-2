@@ -17,7 +17,7 @@ import KeyboardShortcuts from './components/KeyboardShortcuts';
 import KeyboardShortcutModal from './components/KeyboardShortcutModal';
 import MapTooltip from './components/MapTooltip';
 import MapActions from './components/MapActions';
-import { generateAssignedDistricts } from './actions';
+import { generateAssignedDistricts, clearAssignedDistricts } from './actions';
 import MapDownloadHandler from './components/MapDownloadHandler';
 import MapUndoHandler from './components/MapUndoHandler';
 import spatialWorker from 'worker-loader!./workers/worker.js'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -69,6 +69,19 @@ class Builder extends Component {
             <MapUndoHandler />
             <MapDownloadHandler />
             <KeyboardShortcutModal />
+            <button
+              style={{
+                background: '#3E4D5A',
+                padding: '8px 8px',
+                position: 'relative',
+                marginTop: '-8px',
+                borderRadius: '2px',
+                marginLeft: '20px',
+              }}
+              onClick={() => this.props.onClearAssignedDistricts()}
+            >
+              Reset map
+            </button>
           </div>
         </header>
         <main>
@@ -96,6 +109,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onGenerateAssignedDistricts: assignedDistricts =>
       dispatch(generateAssignedDistricts(assignedDistricts)),
+    onClearAssignedDistricts: () => dispatch(clearAssignedDistricts()),
   };
 };
 
