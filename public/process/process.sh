@@ -37,13 +37,13 @@ if [[ ${!state} == "" ]]; then
     error_exit "Error: State not found. Check state-lookup.conf for available states."
 fi
 
-in_dir=./input/
+in_dir=./input
 
-if [[ ! "$in_dir"/geojson/bg/"$state" ]]; then
+if [[ ! -f "$in_dir"/geojson/bg/"$state".geojson ]]; then
     error_exit "Error: Blockgroup data for state not found."
 fi
 
-if [[ ! "$in_dir"/geojson/c/"$state" ]]; then
+if [[ ! -f "$in_dir"/geojson/c/"$state".geojson ]]; then
     error_exit "Error: County data for state not found."
 fi
 
