@@ -10,7 +10,7 @@ error_exit()
 
 usage()
 {
-    echo "usage: process.sh [[[-s state ] [-d input_directory]] | [-h]]"
+    echo "usage: process.sh [[-s state ] | [-h]]"
 }
 
 lookup=./state-lookup.conf
@@ -25,17 +25,26 @@ while getopts s:d:h flag
 do
     case "${flag}" in
         s) state=${OPTARG};;
-        d) input_directory=${OPTARG};;
         h) usage; exit;;
     esac
 done
 
-if [[ ! "$state" || ! "$input_directory" ]]; then
+if [[ ! "$state" ]]; then
     error_exit "State and input directory must be specified. Use -h to see usage."
 fi
 
 if [[ ${!state} == "" ]]; then
     error_exit "Error: State not found. Check state-lookup.conf for available states."
+fi
+
+in_dir=./input/
+
+if [[ ! "$in_dir"/geojson/bg/"$state" ]]; then
+    error_exit "Error: Blockgroup data for state not found."
+fi
+
+if [[ ! "$in_dir"/geojson/c/"$state" ]]; then
+    error_exit "Error: County data for state not found."
 fi
 
 out_dir=./_output/"$state"
@@ -69,8 +78,8 @@ mkdir -p "$out_dir" "$county_dir" "$bg_dir" "$precinct_dir" "$location_dir" "$mb
 
 # Export to GeoJSON
 echo "Exporting source files to geojson."
-mapshaper -i "$input_directory"/bg/*.geojson -o "$bg_dir"/bg-lines.geojson format=geojson
-mapshaper -i "$input_directory"/c/*.geojson -o "$county_dir"/county-lines.geojson format=geojson
+mapshaper -i "$in_dir"/geojson/bg/$state.geojson -o "$bg_dir"/bg-lines.geojson format=geojson
+mapshaper -i "$in_dir"/geojson/c/$state.geojson -o "$county_dir"/county-lines.geojson format=geojson
 
 node generateDataFeaturesJson.js -i "$bg_dir"/bg-lines.geojson -o "$out_dir"/upload/bg-features.json
 node generateCountyIndex.js -c "$county_dir"/county-lines.geojson -g "$bg_dir"/bg-lines.geojson -o "$out_dir"/upload/county-index.json
@@ -80,7 +89,7 @@ node abbreviatePopulationValues.js -i "$county_dir"/county-lines.geojson -o "$co
 
 # Filter location labels to state
 echo "Filtering location labels to state."
-for f in ./input/*.geojson; do
+for f in "$in_dir"/*.geojson; do
     mapshaper -i "$f" -filter \'statefp===\"${!state}\"\' -o "$location_dir"/"$(basename "$f")" format=geojson
 done
 
