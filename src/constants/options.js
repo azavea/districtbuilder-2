@@ -167,12 +167,7 @@ export const optionsMapBasemap = [
 	{
 		type: 'title',
 		value: 'title2',
-		text: 'Population',
-	},
-	{
-		text: 'total',
-		value: 'total',
-		type: 'choropleth',
+		text: 'Demographics',
 	},
 	{
 		text: 'white',

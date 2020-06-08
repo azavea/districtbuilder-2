@@ -80,5 +80,31 @@ export const generateLockFilter = lockedIds => {
 
 export const getOpacityExpress = property => {
 	// Property must resolve to value 1, 2, or 3
-	return ['match', ['get', property], 1, 0, 2, 0.2, 3, 0.4, 0];
+	return [
+		'match',
+		['get', property],
+		0,
+		0,
+		1,
+		0.07,
+		2,
+		0.14,
+		3,
+		0.21,
+		4,
+		0.28,
+		5,
+		0.35,
+		6,
+		0.42,
+		7,
+		0.49,
+		8,
+		0.56,
+		9,
+		0.63,
+		10,
+		0.7,
+		0,
+	];
 };

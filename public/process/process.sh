@@ -11,6 +11,8 @@ node generateCountyIndex.js -c _output/county/county-lines.geojson -g _output/bg
 node generateAssignedDistricts.js -i _output/bg/bg-lines.geojson -o _output/upload/assigned-districts.json
 node abbreviatePopulationValues.js -i _output/bg/bg-lines.geojson -o _output/bg/bg-lines.geojson
 node abbreviatePopulationValues.js -i _output/county/county-lines.geojson -o _output/county/county-lines.geojson
+node calculateChoropleth.js -i _output/bg/bg-lines.geojson -o _output/bg/bg-lines.geojson
+node calculateChoropleth.js -i _output/county/county-lines.geojson -o _output/county/county-lines.geojson
 
 # Filter location labels to county
 mapshaper -i input/city-l.geojson -filter 'statefp==="42"' -o _output/location/city-l.geojson format=geojson
