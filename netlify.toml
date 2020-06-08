@@ -1,0 +1,17 @@
+[Settings]
+  ID = "district-builder"
+
+[build]
+  base    = "."
+  publish = "build"
+  command = "npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+[headers.values]
+  Basic-Auth = "azavea:d1str1ct"
