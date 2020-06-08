@@ -7,12 +7,14 @@ import { withMap } from './Context';
 
 class MapBasemapHandler extends Component {
   componentDidUpdate() {
-    const { map, mapBasemap } = this.props;
+    const { map, mapBasemap, selectionLevel } = this.props;
     if (map.getSource('raster-basemap')) {
       map.removeLayer('raster-basemap').removeSource('raster-basemap');
     }
     removeRasterLayer(map);
     map.setLayoutProperty('geounits-choropleth', 'visibility', 'none');
+    map.setLayoutProperty('county-choropleth', 'visibility', 'none');
+    var activeLayer = selectionLevel === 'geounit' ? 'geounits-choropleth' : 'county-choropleth';
     switch (mapBasemap) {
       case 'satellite':
         addRasterLayer(
@@ -33,28 +35,28 @@ class MapBasemapHandler extends Component {
         );
         break;
       case 'total':
-        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('popw'));
-        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        map.setPaintProperty(activeLayer, 'fill-opacity', getOpacityExpress('popw'));
+        map.setLayoutProperty(activeLayer, 'visibility', 'visible');
         break;
       case 'white':
-        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('whitew'));
-        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        map.setPaintProperty(activeLayer, 'fill-opacity', getOpacityExpress('whitew'));
+        map.setLayoutProperty(activeLayer, 'visibility', 'visible');
         break;
       case 'black':
-        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('blackw'));
-        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        map.setPaintProperty(activeLayer, 'fill-opacity', getOpacityExpress('blackw'));
+        map.setLayoutProperty(activeLayer, 'visibility', 'visible');
         break;
       case 'asian':
-        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('asianw'));
-        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        map.setPaintProperty(activeLayer, 'fill-opacity', getOpacityExpress('asianw'));
+        map.setLayoutProperty(activeLayer, 'visibility', 'visible');
         break;
       case 'hispanic':
-        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('hispanicw'));
-        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        map.setPaintProperty(activeLayer, 'fill-opacity', getOpacityExpress('hispanicw'));
+        map.setLayoutProperty(activeLayer, 'visibility', 'visible');
         break;
       case 'other':
-        map.setPaintProperty('geounits-choropleth', 'fill-opacity', getOpacityExpress('otherw'));
-        map.setLayoutProperty('geounits-choropleth', 'visibility', 'visible');
+        map.setPaintProperty(activeLayer, 'fill-opacity', getOpacityExpress('otherw'));
+        map.setLayoutProperty(activeLayer, 'visibility', 'visible');
         break;
       default:
         break;
@@ -71,6 +73,7 @@ class MapBasemapHandler extends Component {
 const mapStateToProps = state => {
   return {
     mapBasemap: state.mapBasemap,
+    selectionLevel: state.selectionLevel,
   };
 };
 

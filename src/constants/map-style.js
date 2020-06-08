@@ -89,6 +89,18 @@ export const mapboxStyle = {
       },
     },
     {
+      id: 'county-choropleth',
+      type: 'fill',
+      source: 'blockgroups',
+      'source-layer': countyLayerName,
+      paint: {
+        'fill-color': '#000',
+      },
+      layout: {
+        visibility: 'none',
+      },
+    },
+    {
       id: 'counties-fill',
       type: 'fill',
       source: 'blockgroups',
