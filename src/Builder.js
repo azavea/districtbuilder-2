@@ -64,7 +64,7 @@ class Builder extends Component {
           <div className="header-logo">
             <img src="/images/logo.png" alt="District Builder logo" />
           </div>
-          <div className="header-title">Utah Congressional Districts</div>
+          <div className="header-title">Virginia U.S. Congressional Districts</div>
           <div className="header-actions">
             <MapUndoHandler />
             <MapDownloadHandler />
