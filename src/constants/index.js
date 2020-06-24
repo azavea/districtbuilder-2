@@ -19,7 +19,7 @@ export const districtColors = districtIds.map(key => {
     : colorOptionsLarge[key];
 });
 
-export const idealNumber = 710583;
+export const idealNumber = 748485;
 
 export const districtsTemplate = districtIds.map(key => {
   const name = key > 0 ? key : '∅';
