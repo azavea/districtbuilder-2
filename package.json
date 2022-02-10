@@ -15,7 +15,7 @@
     "mapbox-gl": "^0.54.0",
     "memoizee": "^0.4.14",
     "mousetrap": "^1.6.3",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "pbf": "^3.1.0",
     "react": "^16.6.3",
     "react-app-polyfill": "^0.1.3",
